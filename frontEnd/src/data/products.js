@@ -1,4 +1,4 @@
-import developerImage from "../assets/stickers/developer.png";
+import developerImage from "../assets/stickers/developer.png"; // developerImage 是變數，代表從 "../assets/stickers/developer.png" 這個路徑匯入的圖片
 import breakImage from "../assets/stickers/break.png";
 import itsnotabugImage from "../assets/stickers/itsnotabug.png";
 import EatSleepCodeImage from "../assets/stickers/EatSleepCode.png";
@@ -37,7 +37,7 @@ const products = [
     description: "Code Wizard!",
     price: 5.0,
     popularity: "85",
-    imageUrl: developerImage,
+    imageUrl: developerImage, // 產品圖片網址，從上面匯入的圖片變數
   },
   {
     productId: 2,

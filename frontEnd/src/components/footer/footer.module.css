@@ -35,17 +35,3 @@
     opacity: 0.75;
   }
 }
-
-/* 全域 CSS 樣式範例 */
-.my-heading {
-  text-align: center;
-  color: blueviolet;
-}
-
-/* 全域 CSS 樣式範例 */
-.primary-color {
-  color: #2563eb;
-}
-.secondary-color {
-  color: #10b981;
-}

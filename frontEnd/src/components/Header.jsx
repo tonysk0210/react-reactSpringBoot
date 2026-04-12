@@ -4,7 +4,7 @@ import {
   faNoteSticky,
 } from "@fortawesome/free-solid-svg-icons"; // 匯入 實際的 icon 定義（資料物件; 有 @ 的 import → 來自「npm 套件（node_modules）」
 
-function Header() {
+export default function Header() {
   return (
     <header className="header">
       <div className="container">
@@ -14,8 +14,9 @@ function Header() {
           {/* 使用 React Component：FontAwesomeIcon; 傳入 props：icon={faTags} → 指定要顯示哪個 icon */}
           <span className="brand-title">React 貼紙商城</span>
         </a>
-        {/* navbar */}
-        <nav className="nav">
+
+        {/* navbar 是一個導航欄，包含多個連結，分別導向不同的頁面（"/", "/about", "/contact", "/login", "/cart"） */}
+        <nav className="myNav">
           <ul>
             <li>
               {/* home 導向（"/"） */}
@@ -54,5 +55,3 @@ function Header() {
     </header>
   );
 }
-
-export default Header;
