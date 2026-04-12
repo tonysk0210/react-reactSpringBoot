@@ -241,3 +241,8 @@ body {
   font-size: var(--font-size-lg);
   color: var(--primary-color);
 }
+
+/* btn-primary： bootstrap pre-defined 樣式； 這可以改變 bootstrap 的按鈕樣式 */
+.btn-primary {
+  background-color: black !important;
+}
