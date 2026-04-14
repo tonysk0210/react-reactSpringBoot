@@ -1,8 +1,18 @@
-@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&display=swap"); /* 引入 Google Fonts 的 Josefin Sans 字體 */
+@import "tailwindcss"; /* 引入 Tailwind CSS 的基礎樣式 */
+
+/* 定義 Tailwind CSS 變數，這些變數可以在整個應用中使用，方便統一管理顏色、字體等樣式 */
+@theme {
+  --font-primary: "Josefin Sans";
+  --color-primary: #5b21b6;
+  --color-dark: #4c1d95;
+  --color-lighter: #f5f3ff;
+  --color-light: #ddd6fe;
+}
 
 :root {
   --primary-color: #5b21b6;
-  --hover-color: #4c1d95;
+  --hover-color: #9668db;
   --bg-light: #f7fafc;
   --text-dark: #2d3748;
   --border-color: #d1d5db;
