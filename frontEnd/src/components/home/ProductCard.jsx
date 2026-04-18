@@ -6,7 +6,7 @@ export default function ProductCard({ product }) {
       <div className="product-card-image-container">
         {/* 產品圖片 */}
         <img
-          src={product.imageUrl} // 產品圖片網址
+          src={product.imageUrl} // 產品圖片網址 透過 db 存取圖片網址
           alt={product.name} // 產品名稱
           className="product-card-image"
         />
