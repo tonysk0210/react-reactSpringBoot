@@ -20,6 +20,9 @@ export default function ProductCard({ product }) {
           <div className="product-card-price">
             <Price currency="$ " price={product.price} />
           </div>
+          <div className="text-sm text-brand bg-lighter px-3 py-1 rounded-full">
+            Popularity: {product.popularity}
+          </div>
         </div>
       </div>
     </div>

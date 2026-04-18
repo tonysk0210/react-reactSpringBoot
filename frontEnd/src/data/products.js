@@ -2,7 +2,7 @@
 
 const products = [
   {
-    productId: 1,
+    id: 1,
     name: "Developer",
     description: "Code Wizard!",
     price: 5.0,
@@ -10,7 +10,7 @@ const products = [
     imageUrl: "/stickers/developer.png", // 產品圖片網址，指向 public/stickers
   },
   {
-    productId: 2,
+    id: 2,
     name: "Break",
     description: "Hey, lets take a breather and start fresh on the next line",
     price: 4.5,
@@ -18,7 +18,7 @@ const products = [
     imageUrl: "/stickers/break.png",
   },
   {
-    productId: 3,
+    id: 3,
     name: "Not a bug ",
     description: "It's a surprise functionality.",
     price: 6.0,
@@ -26,7 +26,7 @@ const products = [
     imageUrl: "/stickers/itsnotabug.png",
   },
   {
-    productId: 4,
+    id: 4,
     name: "Devster",
     description: "They exist!",
     price: 5.0,
@@ -34,7 +34,7 @@ const products = [
     imageUrl: "/stickers/EatSleepCode.png",
   },
   {
-    productId: 5,
+    id: 5,
     name: "CodeSmasher",
     description: "Fearless developer!",
     price: 7.5,
@@ -42,7 +42,7 @@ const products = [
     imageUrl: "/stickers/BreakingCode.png",
   },
   {
-    productId: 6,
+    id: 6,
     name: "CodeMate",
     description: "Without you, I'm incomplete!",
     price: 2.0,
@@ -50,7 +50,7 @@ const products = [
     imageUrl: "/stickers/youaremycss.png",
   },
   {
-    productId: 7,
+    id: 7,
     name: "Mbappé",
     description: "Phenomenal!",
     price: 8.0,
@@ -58,7 +58,7 @@ const products = [
     imageUrl: "/stickers/Mbappe.png",
   },
   {
-    productId: 8,
+    id: 8,
     name: "AstroChill",
     description: "Cool for gravity!",
     price: 3.0,
@@ -66,7 +66,7 @@ const products = [
     imageUrl: "/stickers/CoolAstraunaut.png",
   },
   {
-    productId: 9,
+    id: 9,
     name: "Ronaldo",
     description: "Legendary!",
     price: 8.0,
@@ -74,7 +74,7 @@ const products = [
     imageUrl: "/stickers/ronaldo.png",
   },
   {
-    productId: 10,
+    id: 10,
     name: "My Driving Scares Me Too",
     description: "They exist!",
     price: 5.0,
@@ -82,7 +82,7 @@ const products = [
     imageUrl: "/stickers/MyDrivingScaresMeToo.png",
   },
   {
-    productId: 11,
+    id: 11,
     name: "Three headed dragon symbol",
     description: "Targaryen dynasty strength",
     price: 9.0,
@@ -90,7 +90,7 @@ const products = [
     imageUrl: "/stickers/HouseOfTheDragonSymbol.png",
   },
   {
-    productId: 12,
+    id: 12,
     name: "Squid Game",
     description: "Lets play",
     price: 5.0,
@@ -98,7 +98,7 @@ const products = [
     imageUrl: "/stickers/SquidGame.png",
   },
   {
-    productId: 13,
+    id: 13,
     name: "Shin-Chan",
     description: "Mischievous!",
     price: 5.0,
@@ -106,7 +106,7 @@ const products = [
     imageUrl: "/stickers/Shinchan.png",
   },
   {
-    productId: 14,
+    id: 14,
     name: "Game over",
     description: "Game over!",
     price: 5.0,
@@ -114,7 +114,7 @@ const products = [
     imageUrl: "/stickers/GameOver.png",
   },
   {
-    productId: 15,
+    id: 15,
     name: "Messi",
     description: "Magical!",
     price: 10.0,
@@ -122,7 +122,7 @@ const products = [
     imageUrl: "/stickers/Messi.png",
   },
   {
-    productId: 16,
+    id: 16,
     name: "Virat Kohli",
     description: "King",
     price: 9.0,
@@ -130,7 +130,7 @@ const products = [
     imageUrl: "/stickers/Virat.png",
   },
   {
-    productId: 17,
+    id: 17,
     name: "Lazy Cat",
     description: "Not Today",
     price: 6.0,
@@ -138,7 +138,7 @@ const products = [
     imageUrl: "/stickers/LazyCat.png",
   },
   {
-    productId: 18,
+    id: 18,
     name: "Busy Brain",
     description: "Overthinker!",
     price: 4.0,
@@ -146,7 +146,7 @@ const products = [
     imageUrl: "/stickers/OverThinker.png",
   },
   {
-    productId: 19,
+    id: 19,
     name: "Naruto",
     description: "Ninja!",
     price: 6.0,
@@ -154,7 +154,7 @@ const products = [
     imageUrl: "/stickers/Naruto.png",
   },
   {
-    productId: 20,
+    id: 20,
     name: "Goku",
     description: "Warrior!",
     price: 6.0,
@@ -162,7 +162,7 @@ const products = [
     imageUrl: "/stickers/Goku.png",
   },
   {
-    productId: 21,
+    id: 21,
     name: "I am okay",
     description: "Persistent!",
     price: 6.0,
@@ -170,7 +170,7 @@ const products = [
     imageUrl: "/stickers/IamOkay.png",
   },
   {
-    productId: 22,
+    id: 22,
     name: "Boo",
     description: "Disapproval!",
     price: 6.0,
@@ -178,7 +178,7 @@ const products = [
     imageUrl: "/stickers/Boo.png",
   },
   {
-    productId: 23,
+    id: 23,
     name: "EW feeling",
     description: "Disgust!",
     price: 6.0,
@@ -186,7 +186,7 @@ const products = [
     imageUrl: "/stickers/EwFeelings.png",
   },
   {
-    productId: 24,
+    id: 24,
     name: "Be wild",
     description: "Unleashed!",
     price: 6.0,
@@ -194,7 +194,7 @@ const products = [
     imageUrl: "/stickers/BeWild.png",
   },
   {
-    productId: 25,
+    id: 25,
     name: "SummerCat",
     description: "Heatwave Whiskers",
     price: 6.0,
@@ -202,7 +202,7 @@ const products = [
     imageUrl: "/stickers/AestheticSummerCat.png",
   },
   {
-    productId: 26,
+    id: 26,
     name: "Savageness",
     description: "Your opinion means nothing",
     price: 6.0,
@@ -210,7 +210,7 @@ const products = [
     imageUrl: "/stickers/YourOpinonMeansNothing.png",
   },
   {
-    productId: 27,
+    id: 27,
     name: "Awkweird",
     description: "Awkward and Weird",
     price: 6.0,
@@ -218,7 +218,7 @@ const products = [
     imageUrl: "/stickers/SociallyAwkward.png",
   },
   {
-    productId: 28,
+    id: 28,
     name: "Blue Butterfly",
     description: "Gracewing",
     price: 6.0,
@@ -226,7 +226,7 @@ const products = [
     imageUrl: "/stickers/Butterfly.png",
   },
   {
-    productId: 29,
+    id: 29,
     name: "NoHesitation",
     description: "Always ready to take charge!",
     price: 6.0,
@@ -234,7 +234,7 @@ const products = [
     imageUrl: "/stickers/IWon_tHesitateSticker.png",
   },
   {
-    productId: 30,
+    id: 30,
     name: "Wardgaze",
     description: "Protective power of the evil eye",
     price: 6.0,

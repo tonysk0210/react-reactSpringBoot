@@ -13,6 +13,8 @@ import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
 
 createRoot(document.getElementById("root")).render(
+  // 使用 StrictMode 包裹 App 組件，呼叫兩次 render 是 React 18 中 StrictMode 的一個特性，
+  // 可以幫助開發者更早地發現潛在的問題，例如：不安全的生命週期方法、過時的 API 等等。
   <StrictMode>
     <App />
   </StrictMode>,
