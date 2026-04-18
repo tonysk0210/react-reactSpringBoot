@@ -8,9 +8,11 @@ export default function DropDown({
 }) {
   return (
     <div className="flex items-center gap-2 justify-end pr-12 flex-1 font-brand">
-      <label className="text-lg font-semibold text-brand">{label}</label>
+      <label className="text-lg font-semibold dark:text-light text-brand">
+        {label}
+      </label>
       <select
-        className="px-3 py-2 text-base border-2 rounded-md transition border-brand focus:ring focus:ring-dark focus:outline-none text-gray-900"
+        className="px-3 py-2 text-base border-2 rounded-md transition dark:border-light border-brand focus:ring dark:focus:ring-light focus:ring-dark focus:outline-none dark:text-gray-500 text-gray-900"
         value={selectedValue}
         // onChange 事件會在使用者選擇不同選項時觸發，並將選擇的值傳遞給 handleSort 函式，以便更新父組件中的排序狀態。
         onChange={(event) => handleSort(event.target.value)}

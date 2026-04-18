@@ -92,7 +92,9 @@ export default function ProductListing({ products }) {
           )
         ) : (
           // 如果 products 陣列是空的，顯示提示訊息
-          <p className="product-listings-empty">尚未有產品上架！</p>
+          <p className="product-listings-empty text-brand dark:text-lights">
+            尚未有產品上架！
+          </p>
         )}
       </div>
     </div>

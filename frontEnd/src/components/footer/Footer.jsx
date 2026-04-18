@@ -12,11 +12,14 @@ const Paragraph = styledComponents.p`
   text-align: center;
 `;
 
+const DarkModeClass =
+  "text-brand dark:text-light hover:text-dark dark:hover:text-lighter";
+
 export default function Footer() {
   return (
     <>
       {/* 使用 CSS Module 的 className; 注意：className={cssModule.footer} 的寫法 */}
-      <footer className={cssModule.footer}>
+      <footer className={`${cssModule.footer} ${DarkModeClass}`}>
         Built with{" "}
         <FontAwesomeIcon
           icon={faHeart}

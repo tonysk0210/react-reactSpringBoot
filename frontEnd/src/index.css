@@ -1,14 +1,25 @@
 @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&display=swap"); /* 引入 Google Fonts 的 Josefin Sans 字體 */
+
 @import "tailwindcss"; /* 引入 Tailwind CSS 的基礎樣式 */
 
 /* 自定義 Tailwind CSS 變數，這些變數可以在整個應用中使用，方便統一管理顏色、字體等樣式 */
+
 @theme {
-  --font-brand: "Josefin Sans";
-  --color-brand: #5b21b6;
-  --color-dark: #4c1d95;
-  --color-lighter: #f5f3ff;
-  --color-light: #ddd6fe;
+  --font-brand: "Josefin Sans"; /* brand = 定義一個品牌字體叫 brand，用 Josefin Sans */
+  --color-brand: #5b21b6; /* brand = 品牌主色是這個紫色 */
+  --color-dark: #4c1d95; /* dark = 深一點的紫色（可能用在 hover / 按鈕） */
+  --color-lighter: #f5f3ff; /* lighter = 比較淡的紫色（背景、卡片用） */
+  --color-light: #ddd6fe; /* light = 比較淡的紫色（背景、卡片用） */
+
+  --color-normalbg: #f3f4f6; /* normalbg = 一般背景色，這裡是淡灰色 */
+  --color-darkbg: #1e2939; /* darkbg = 深色背景，這裡是深藍灰色 */
 }
+
+/* 這是 Tailwind CSS 的自定義變體，允許在 dark 模式下應用樣式。當這個元素「在 .dark 裡面」時，dark: 樣式才會生效*/
+/* @custom-variant dark = dark: 這個前綴 
+   & = 當前這個元素
+   :where(.dark, .dark *) = 1️⃣ 元素本身有 class="dark" 2️⃣ 元素在某個 class="dark" 裡面*/
+@custom-variant dark (&:where(.dark, .dark *));
 
 /* vanilla css 全局樣式，設定字體、背景色、文字顏色等基本樣式 */
 :root {
@@ -44,7 +55,6 @@ body {
   z-index: 20;
   font-weight: var(--font-weight-bold);
   font-size: 20px;
-  background-color: var(--bg-light);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -67,13 +77,13 @@ body {
   height: 32px;
   width: 32px;
   margin-right: 8px;
-  color: var(--primary-color);
+  /* color: var(--primary-color); */
 }
 
 .brand-title {
   font-size: 20px;
   font-weight: var(--font-weight-bold);
-  color: var(--primary-color);
+  /* color: var(--primary-color); */
 }
 
 .myNav {
@@ -114,7 +124,7 @@ body {
   text-align: center;
   font-size: 18px;
   font-weight: 600;
-  color: var(--primary-color);
+  /* color: var(--primary-color); */
   text-decoration: none;
   transition: color 0.3s ease;
 }
@@ -134,7 +144,7 @@ body {
   font-size: 1.875rem;
   font-weight: 800;
   text-align: center;
-  color: var(--primary-color);
+  /* color: var(--primary-color); */
   margin-top: 1rem;
   padding: 0.5rem 0;
 }
@@ -149,7 +159,7 @@ body {
 .page-heading-paragraph {
   font-size: 1.2rem;
   line-height: 1.5;
-  color: #4b5563;
+  /* color: #4b5563; */
 }
 
 .product-card {
@@ -250,7 +260,7 @@ body {
   font-family: var(--font-family);
   font-weight: var(--font-weight-bold);
   font-size: var(--font-size-lg);
-  color: var(--primary-color);
+  /* color: var(--primary-color); */
 }
 
 /* btn-primary： bootstrap pre-defined 樣式； 這可以改變 bootstrap 的按鈕樣式 */
