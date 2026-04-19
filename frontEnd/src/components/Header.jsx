@@ -6,10 +6,21 @@ import {
   faMoon,
 } from "@fortawesome/free-solid-svg-icons"; // 匯入 實際的 icon 定義（資料物件; 有 @ 的 import → 來自「npm 套件（node_modules）」
 import { useState, useEffect } from "react";
+import { Link, NavLink } from "react-router-dom"; // 引入 Link 和 NavLink 組件；
+// 這些組件是 React Router 中用於創建導航連結的組件，Link 用於一般的連結，
+// 而 NavLink 可以根據當前路由自動添加 active 類，以便進行樣式上的區分。
 
 // Tailwind CSS 的類，用於設定導航連結在暗模式下的樣式。
 const DarkModeClass =
   "text-brand dark:text-light hover:text-dark dark:hover:text-lighter";
+
+// getNavLinkClass 函式用於根據 NavLink 的狀態（是否為當前路由）來動態生成 className 字串，
+// 這樣可以讓當前路由的連結有不同的樣式（例如：字體加粗和下劃線）。
+// NavLinkRenderProps 有兩個屬性：isActive（布林值，表示當前 NavLink 是否匹配當前路由）和 isPending（布林值，表示當前 NavLink 是否正在匹配過程中）。在這裡，我們只使用了 isActive 來決定是否添加特定的樣式類。
+const getNavLinkClass = ({ isActive }) =>
+  `navLink ${DarkModeClass} ${
+    isActive ? "underline decoration-2 underline-offset-4 font-bold" : ""
+  }`;
 
 export default function Header() {
   // 建立 theme 狀態，初始值從 localStorage 讀取，如果沒有則預設為 "light"
@@ -41,11 +52,11 @@ export default function Header() {
     <header className="header border-gray-300 dark:border-gray-600 bg-normalbg dark:bg-darkbg">
       <div className="container">
         {/* logo 是一個連結，點擊後會導向首頁（"/"） */}
-        <a href="/" className={`link ${DarkModeClass}`}>
+        <Link to="/" className={`link ${DarkModeClass}`}>
           <FontAwesomeIcon icon={faNoteSticky} className="fa-icon" />
           {/* 使用 React Component：FontAwesomeIcon; 傳入 props：icon={faTags} → 指定要顯示哪個 icon */}
           <span className="brand-title">React 貼紙商城</span>
-        </a>
+        </Link>
 
         {/* navbar 是一個導航欄，包含多個連結，分別導向不同的頁面（"/", "/about", "/contact", "/login", "/cart"） */}
         <nav className="myNav">
@@ -64,34 +75,34 @@ export default function Header() {
           <ul>
             <li>
               {/* home 導向（"/"） */}
-              <a href="/" className={`navLink ${DarkModeClass}`}>
+              <NavLink to="/" className={getNavLinkClass}>
                 首頁
-              </a>
+              </NavLink>
             </li>
             <li>
               {/* about 導向（"/about"） */}
-              <a href="/about" className={`navLink ${DarkModeClass}`}>
+              <NavLink to="/about" className={getNavLinkClass}>
                 關於我們
-              </a>
+              </NavLink>
             </li>
             <li>
               {/* contact 導向（"/contact"） */}
-              <a href="/contact" className={`navLink ${DarkModeClass}`}>
+              <NavLink to="/contact" className={getNavLinkClass}>
                 聯絡我們
-              </a>
+              </NavLink>
             </li>
             <li>
               {/* login 導向（"/login"） */}
-              <a href="/login" className={`navLink ${DarkModeClass}`}>
+              <NavLink to="/login" className={getNavLinkClass}>
                 登入
-              </a>
+              </NavLink>
             </li>
             <li>
               {/* cart 導向（"/cart"） */}
-              <a href="/cart" className={`navLink ${DarkModeClass}`}>
+              <NavLink to="/cart" className={`navLink ${DarkModeClass}`}>
                 <FontAwesomeIcon icon={faShoppingCart} size="lg" />
                 {/* 使用 FontAwesomeIcon 組件 */}
-              </a>
+              </NavLink>
             </li>
           </ul>
         </nav>

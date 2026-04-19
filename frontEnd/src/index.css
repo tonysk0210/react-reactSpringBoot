@@ -3,7 +3,6 @@
 @import "tailwindcss"; /* 引入 Tailwind CSS 的基礎樣式 */
 
 /* 自定義 Tailwind CSS 變數，這些變數可以在整個應用中使用，方便統一管理顏色、字體等樣式 */
-
 @theme {
   --font-brand: "Josefin Sans"; /* brand = 定義一個品牌字體叫 brand，用 Josefin Sans */
   --color-brand: #5b21b6; /* brand = 品牌主色是這個紫色 */
@@ -125,7 +124,7 @@ body {
   font-size: 18px;
   font-weight: 600;
   /* color: var(--primary-color); */
-  text-decoration: none;
+  /* text-decoration: none; */
   transition: color 0.3s ease;
 }
 
