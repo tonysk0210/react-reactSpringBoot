@@ -9,6 +9,9 @@ import { useState, useEffect } from "react";
 import { useLoaderData } from "react-router-dom"; // 引入 useLoaderData hook；
 // 這個 hook 是 React Router 中用於在組件中獲取由 loader 函式加載的資料的 hook，當路由匹配到 Home 組件時，會調用 productsLoader 函式來獲取產品資料，然後在 Home 組件中使用 useLoaderData 來獲取這些資料並存儲在 products 變數中。
 
+import { useLocation } from "react-router-dom"; // 引入 useLocation hook；
+// 這個 hook 是 React Router 中用於在組件中獲取當前路由的位置信息的 hook，當用戶從其他頁面導航到 Home 組件時，可以使用 useLocation 來獲取導航過程中傳遞的狀態，例如：username: "Anthony
+
 export default function Home() {
   // const [products, setProducts] = useState([]); // 定義一個狀態來存儲產品資料
   // const [loading, setLoading] = useState(true); // 定義一個狀態來表示是否正在加載資料
@@ -59,6 +62,10 @@ export default function Home() {
 
   // 從 useLoaderData 鉤子中獲取由 productsLoader 函式加載的產品資料，並存儲在 products 變數中。
   const products = useLoaderData();
+
+  const location = useLocation(); // 使用 useLocation hook 來獲取當前路由的位置信息，這個信息包含了導航過程中傳遞的狀態，例如：username: "Anthony"，可以在這裡使用 location.state 來獲取這些狀態並在 UI 上顯示出來。
+
+  console.log("Home 組件的 location:", location.state); // 在控制台輸出當前路由的位置信息，這樣你就可以看到導航過程中傳遞的狀態，例如：username: "Anthony"，從而可以確認是否成功獲取到這些狀態。
 
   // 3. 正常顯示產品列表
   return (
