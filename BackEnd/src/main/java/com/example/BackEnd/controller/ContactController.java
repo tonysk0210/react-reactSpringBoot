@@ -16,7 +16,7 @@ public class ContactController {
 
     private final ContactService contactService;
 
-    @PostMapping
+    @PostMapping("/contacts")
     public String saveContact(@RequestBody ContactPayload contactPayload) {
         // 前端送 JSON → @RequestBody 幫你變成 Java 物件
 
@@ -25,7 +25,7 @@ public class ContactController {
         if (isSaved) {
             return "請求已成功處理";
         } else {
-            return "發生錯誤，請稍後再試或聯絡開發團隊";
+            return "哎呀，出錯了！請重試一次，若問題持續請聯絡技術團隊";
         }
     }
 }

@@ -4,6 +4,7 @@ import { Form } from "react-router-dom";
 import { useActionData, useNavigation, useSubmit } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import { redirect } from "react-router-dom";
+import apiClient from "../../api/apiClient"; // 引入 apiClient 模塊，這個模塊是用來發送 HTTP 請求的，通常是使用 axios 或者 fetch 包裝的一個工具函數，用於與後端 API 進行通信。
 
 export default function Contact() {
   const labelStyle =
@@ -18,9 +19,9 @@ export default function Contact() {
       <p className="max-w-3xl mx-auto mt-8 text-gray-600 dark:text-lighter mb-8 text-center">
         對產品有任何問題或建議嗎？歡迎隨時與我們聯繫，我們非常重視您的寶貴意見。
       </p>
-
       {/* Contact Form */}
-      <form className="space-y-6 max-w-3xl mx-auto">
+      {/* 使用 React Router 的 Form 組件來創建一個表單，這個表單會在提交時觸發 contactAction 函數來處理表單數據。 */}
+      <Form method="POST" className="space-y-6 max-w-3xl mx-auto">
         {/* Name Field */}
         <div>
           <label htmlFor="name" className={labelStyle}>
@@ -28,7 +29,7 @@ export default function Contact() {
           </label>
           <input
             id="name"
-            name="name"
+            name="name" // name 屬性是表單數據的鍵，函數中會使用 data.get("name") 來獲取這個字段的值
             type="text"
             placeholder="Your Name"
             className={textFieldStyle}
@@ -47,7 +48,7 @@ export default function Contact() {
             </label>
             <input
               id="email"
-              name="email"
+              name="email" // name 屬性是表單數據的鍵，函數中會使用 data.get("email") 來獲取這個字段的值
               type="email"
               placeholder="Your Email"
               className={textFieldStyle}
@@ -62,7 +63,7 @@ export default function Contact() {
             </label>
             <input
               id="mobileNumber"
-              name="mobileNumber"
+              name="mobileNumber" // name 屬性是表單數據的鍵，函數中會使用 data.get("mobileNumber") 來獲取這個字段的值
               type="tel"
               required
               pattern="^\d{10}$"
@@ -80,7 +81,7 @@ export default function Contact() {
           </label>
           <textarea
             id="message"
-            name="message"
+            name="message" // name 屬性是表單數據的鍵，函數中會使用 data.get("message") 來獲取這個字段的值
             rows="4"
             placeholder="Your Message"
             className={textFieldStyle}
@@ -99,28 +100,37 @@ export default function Contact() {
             送出信息
           </button>
         </div>
-      </form>
+      </Form>
     </div>
   );
 }
 
-export async function contactAction({ request, params }) {
+// contactAction 是用於處理表單提交的 action 函數，當用戶提交聯絡表單時，這個函數會被調用。
+// 它從請求中提取表單數據，構建一個 contactData 對象，然後使用 apiClient 發送 POST 請求到 "/contacts" 端點。
+// 如果請求成功，它會返回一個 success 的響應；如果失敗，它會拋出一個帶有錯誤信息的 Response 對象。
+// request 來自於 React Router 的 action 函數參數，包含了表單提交的相關信息；
+// params 包含了路由參數，但在這個函數中沒有使用到。
+export async function contactAction({ request }) {
+  // 1. 從請求中提取表單數據
   const data = await request.formData();
 
-  const contactData = {
+  // 2. 構建一個 contactPayload 對象，這個對象包含了從表單數據中提取的 name、email、mobileNumber 和 message 字段，這些字段的值分別是 data.get("name")、data.get("email")、data.get("mobileNumber") 和 data.get("message")。這些鍵對應於表單中 input 和 textarea 元素的 name 屬性。
+  const contactPayload = {
     name: data.get("name"),
     email: data.get("email"),
     mobileNumber: data.get("mobileNumber"),
     message: data.get("message"),
   };
+
   try {
-    await apiClient.post("/contacts", contactData);
-    return { success: true };
+    // 3. 發送 POST 請求到 "/contacts" 端點，將 contactPayload 作為請求體
+    await apiClient.post("/contacts", contactPayload);
+    return { success: true }; // 返回一個 success 的響應，表示表單提交成功
     // return redirect("/home");
   } catch (error) {
     throw new Response(
-      error.message || "Failed to submit your message. Please try again.",
-      { status: error.status || 500 },
+      error.response?.data?.message || "無法提交聯絡信息，請稍後再試。",
+      { status: error.response?.status || 500 },
     );
   }
 }

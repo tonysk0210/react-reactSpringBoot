@@ -26,6 +26,7 @@ import ErrorPage from "./components/ErrorPage";
 
 // 從 Home 組件中匯入 productsLoader 函式；這個函式是用來在路由匹配時加載產品資料的，會在 Home 組件中使用 useLoaderData hook來獲取這些資料。
 import { productsLoader } from "./components/home/Home";
+import { contactAction } from "./components/contact/Contact"; // 從 Contact 組件中匯入 contactAction 函式；這個函式是用來在表單提交時處理表單數據的，會在 Contact 組件中使用 useActionData hook 來獲取這些數據。
 
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
@@ -39,7 +40,8 @@ const routeDefinitions = createRoutesFromElements(
     {/* loader={productsLoader} 是 React Router 中用於在路由匹配時加載資料的函式，這個函式會在路由匹配到 "/" 時被調用，用於獲取產品資料，並且在 Home 組件中使用 useLoaderData 鉤子來獲取這些資料。 */}
     <Route path="/home" element={<Home />} loader={productsLoader} />
     <Route path="/about" element={<About />} />
-    <Route path="/contact" element={<Contact />} />
+    <Route path="/contact" element={<Contact />} action={contactAction} />
+    {/* action={contactAction} 是 React Router 中用於在表單提交時處理表單數據的函式，這個函式會在 Contact 組件中的 Form 組件提交時被調用，用於處理表單數據，並且在 Contact 組件中使用 useActionData 鉤子來獲取這些數據。 */}
     <Route path="/login" element={<Login />} />
     <Route path="/cart" element={<Cart />} />
   </Route>,
