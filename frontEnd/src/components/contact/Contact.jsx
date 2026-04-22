@@ -7,6 +7,17 @@ import { redirect } from "react-router-dom";
 import apiClient from "../../api/apiClient"; // 引入 apiClient 模塊，這個模塊是用來發送 HTTP 請求的，通常是使用 axios 或者 fetch 包裝的一個工具函數，用於與後端 API 進行通信。
 
 export default function Contact() {
+  const actionData = useActionData(); // useActionData 是 React Router 提供的一個 hook，用於在組件中獲取 action 函數返回的數據。在這個組件中，當 contactAction 函數被調用並返回數據後，這些數據會被 useActionData 捕獲並存儲在 actionData 變量中。 一開始是 undefined，當 contactAction 返回 { success: true } 時，actionData 就會變成 { success: true }。
+  const formRef = useRef(null); // useRef 是 React 提供的一個 hook，用於創建一個可變的 ref 對象，這個對象在組件的整個生命周期內保持不變。在這裡，formRef 被用來引用表單元素，當表單提交成功後，可以通過 formRef.current.reset() 來重置表單。 current 屬性指向表單 DOM 元素，reset() 方法會清空表單中的所有輸入字段，恢復到初始狀態。
+  // formRef 在 mounted 後會指向表單元素，當 contactAction 返回成功的響應後， useEffect 會檢測到 actionData 的變化，並且當 actionData.success 為 true 時，會調用 formRef.current.reset() 來重置表單，並顯示一個提示框告訴用戶信息已成功提交。
+
+  useEffect(() => {
+    if (actionData?.success) {
+      formRef.current.reset(); // 重置表單
+      alert("您的信息已成功提交，我們會盡快與您聯繫！");
+    }
+  }, [actionData]); // 這個 useEffect 監聽 actionData 的變化，當 actionData 中的 success 屬性為 true 時，會重置表單並顯示一個成功提交的提示。
+
   const labelStyle =
     "block text-lg font-semibold text-brand dark:text-light mb-2";
   const textFieldStyle =
@@ -20,8 +31,9 @@ export default function Contact() {
         對產品有任何問題或建議嗎？歡迎隨時與我們聯繫，我們非常重視您的寶貴意見。
       </p>
       {/* Contact Form */}
-      {/* 使用 React Router 的 Form 組件來創建一個表單，這個表單會在提交時觸發 contactAction 函數來處理表單數據。 */}
-      <Form method="POST" className="space-y-6 max-w-3xl mx-auto">
+      {/* 使用 React Router 的 Form 組件來創建一個表單，這個表單會在提交時觸發 contactAction 函數來處理表單數據。 
+      method 屬性指定表單提交的 HTTP 方法，這裡使用 POST 方法 ; ref 屬性用於引用表單元素，以便在提交成功後重置表單 */}
+      <Form method="POST" ref={formRef} className="space-y-6 max-w-3xl mx-auto">
         {/* Name Field */}
         <div>
           <label htmlFor="name" className={labelStyle}>
@@ -125,7 +137,8 @@ export async function contactAction({ request }) {
   try {
     // 3. 發送 POST 請求到 "/contacts" 端點，將 contactPayload 作為請求體
     await apiClient.post("/contacts", contactPayload);
-    return { success: true }; // 返回一個 success 的響應，表示表單提交成功
+    return { success: true }; // 返回一個 success 的響應，表示表單提交成功。
+    // useActionData 可以捕獲這個響應並在組件中使用它來顯示成功消息或者進行其他操作。
     // return redirect("/home");
   } catch (error) {
     throw new Response(
