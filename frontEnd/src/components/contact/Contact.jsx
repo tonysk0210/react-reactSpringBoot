@@ -1,20 +1,30 @@
-import React from "react";
 import PageTitle from "../home/PageTitle";
-import { Form } from "react-router-dom";
-import { useActionData, useNavigation, useSubmit } from "react-router-dom";
-import { useEffect, useRef } from "react";
-import { redirect } from "react-router-dom";
 import apiClient from "../../api/apiClient"; // 引入 apiClient 模塊，這個模塊是用來發送 HTTP 請求的，通常是使用 axios 或者 fetch 包裝的一個工具函數，用於與後端 API 進行通信。
+import {
+  Form,
+  useActionData,
+  useNavigation,
+  redirect,
+  useSubmit,
+} from "react-router-dom";
+import { useEffect, useRef } from "react";
+import { toast } from "react-toastify"; // 引入 react-toastify 的 toast 函數；這個函數是用來顯示 toast 通知的，可以用來在表單提交成功或者失敗時給用戶一個提示。
 
 export default function Contact() {
   const actionData = useActionData(); // useActionData 是 React Router 提供的一個 hook，用於在組件中獲取 action 函數返回的數據。在這個組件中，當 contactAction 函數被調用並返回數據後，這些數據會被 useActionData 捕獲並存儲在 actionData 變量中。 一開始是 undefined，當 contactAction 返回 { success: true } 時，actionData 就會變成 { success: true }。
   const formRef = useRef(null); // useRef 是 React 提供的一個 hook，用於創建一個可變的 ref 對象，這個對象在組件的整個生命周期內保持不變。在這裡，formRef 被用來引用表單元素，當表單提交成功後，可以通過 formRef.current.reset() 來重置表單。 current 屬性指向表單 DOM 元素，reset() 方法會清空表單中的所有輸入字段，恢復到初始狀態。
   // formRef 在 mounted 後會指向表單元素，當 contactAction 返回成功的響應後， useEffect 會檢測到 actionData 的變化，並且當 actionData.success 為 true 時，會調用 formRef.current.reset() 來重置表單，並顯示一個提示框告訴用戶信息已成功提交。
+  // formRef 用來在元件掛載後取得該 form 的 DOM 節點，方便進行原生 DOM 操作，例如 reset()。
 
+  const navigation = useNavigation(); // useNavigation 是 React Router 提供的一個 hook，用於獲取當前導航狀態的 hook，可以用來判斷當前是否正在進行導航，例如：正在加載新頁面、正在提交表單等等，從而可以在 UI 上顯示相應的加載指示器或者禁用某些按鈕等等。在這個組件中，當表單提交時，navigation.state 會變為 "submitting"，當提交完成後，navigation.state 會變為 "idle"。
+  const isSubmitting = navigation.state === "submitting"; // 定義一個變量 isSubmitting，用於判斷當前是否正在提交表單，這個變量會在 UI 上用來禁用提交按鈕，防止用戶在提交過程中重複點擊。 useNavigation的state 改變時，會觸發組件rerendering，從而更新 isSubmitting 的值。
+
+  // submit 後的 side effect
   useEffect(() => {
     if (actionData?.success) {
       formRef.current.reset(); // 重置表單
-      alert("您的信息已成功提交，我們會盡快與您聯繫！");
+      // alert("您的信息已成功提交，我們會盡快與您聯繫！");
+      toast.success("您的信息已成功提交，我們會盡快與您聯繫！"); // 使用 react-toastify 的 toast 函數來顯示一個成功提交的提示，這樣用戶就會看到一個彈出通知，告訴他們信息已成功提交，而不是使用 alert 彈窗。
     }
   }, [actionData]); // 這個 useEffect 監聽 actionData 的變化，當 actionData 中的 success 屬性為 true 時，會重置表單並顯示一個成功提交的提示。
 
@@ -107,9 +117,11 @@ export default function Contact() {
         <div className="text-center">
           <button
             type="submit"
+            disabled={isSubmitting} // 當 isSubmitting 為 true 時，禁用提交按鈕，防止用戶在提交過程中重複點擊
             className="px-6 py-2 text-white dark:text-black text-xl rounded-md transition duration-200 bg-brand dark:bg-light hover:bg-dark dark:hover:bg-lighter"
           >
-            送出信息
+            {isSubmitting ? "提交中..." : "送出信息"}{" "}
+            {/* 根據 isSubmitting 的值來動態顯示按鈕文本，當正在提交時顯示 "提交中..."，否則顯示 "送出信息" */}
           </button>
         </div>
       </Form>

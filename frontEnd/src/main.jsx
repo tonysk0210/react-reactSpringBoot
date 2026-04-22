@@ -28,6 +28,10 @@ import ErrorPage from "./components/ErrorPage";
 import { productsLoader } from "./components/home/Home";
 import { contactAction } from "./components/contact/Contact"; // 從 Contact 組件中匯入 contactAction 函式；這個函式是用來在表單提交時處理表單數據的，會在 Contact 組件中使用 useActionData hook 來獲取這些數據。
 
+// 引入 react-toastify 的 ToastContainer 組件和 Bounce 動畫效果；ToastContainer 是用來顯示 toast 通知的組件，Bounce 是一種動畫效果，可以讓 toast 通知以彈跳的方式出現和消失。
+import { ToastContainer, Bounce } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // 引入 react-toastify 的 CSS；這樣才能讓 toast 通知顯示出來並且有樣式
+
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
@@ -88,7 +92,18 @@ createRoot(document.getElementById("root")).render(
   // 使用 StrictMode 包裹 App 組件，呼叫兩次 render 是 React 18 中 StrictMode 的一個特性，
   // 可以幫助開發者更早地發現潛在的問題，例如：不安全的生命週期方法、過時的 API 等等。
   <StrictMode>
-    <RouterProvider router={appRouter} />{" "}
+    <RouterProvider router={appRouter} />
     {/* 使用 RouterProvider 組件，將 appRouter 傳入 router 屬性，讓整個應用程式都能夠使用 React Router 的功能 */}
+    <ToastContainer
+      // ToastContainer 是用來顯示 toast 通知的組件，這裡配置了一些屬性來定義 toast 通知的行為和樣式，例如：position 定義了通知出現的位置，autoClose 定義了通知自動關閉的時間，theme 定義了通知的主題等等。
+      position="top-center"
+      autoClose={3000} // autoClose={3000} 表示通知會在 3000 毫秒（也就是 3 秒）後自動關閉
+      hideProgressBar={false} // hideProgressBar={false} 表示通知會顯示一個進度條，這個進度條會隨著 autoClose 的時間逐漸減少，直到通知自動關閉
+      newestOnTop={false} // newestOnTop={false} 表示新的通知會出現在舊的通知下面，如果設置為 true，則新的通知會出現在舊的通知上面
+      draggable // draggable 表示通知可以被拖動，這樣用戶就可以通過拖動來關閉通知或者重新排列通知的位置
+      pauseOnHover // pauseOnHover 表示當用戶將鼠標懸停在通知上時，autoClose 的計時會暫停，這樣用戶就有更多的時間來閱讀通知內容；當鼠標離開通知後，autoClose 的計時會繼續，直到通知自動關閉
+      theme={localStorage.getItem("theme") === "dark" ? "dark" : "light"}
+      transition={Bounce}
+    />
   </StrictMode>,
 );
