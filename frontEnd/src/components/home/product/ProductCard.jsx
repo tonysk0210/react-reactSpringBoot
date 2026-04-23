@@ -1,8 +1,9 @@
 import Price from "./Price";
+import { Link } from "react-router-dom";
 
 export default function ProductCard({ product }) {
   return (
-    <div className="product-card">
+    <Link to={`/products/${product.id}`} className="product-card">
       <div className="product-card-image-container">
         {/* 產品圖片 */}
         <img
@@ -25,6 +26,6 @@ export default function ProductCard({ product }) {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
