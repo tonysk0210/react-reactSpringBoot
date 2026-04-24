@@ -83,7 +83,7 @@ export default function Home() {
 }
 
 // 定義一個 loader 函數，這個函數會在路由匹配到 Home 組件時被調用，用來預先獲取產品資料
-export async function productsLoader() {
+export async function productsLoader({ params, request }) {
   try {
     const response = await apiClient.get("/products"); // Axios GET Request
     return response.data;
