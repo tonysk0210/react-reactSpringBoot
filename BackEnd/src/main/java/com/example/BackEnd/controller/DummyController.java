@@ -1,8 +1,10 @@
 package com.example.BackEnd.controller;
 
 import com.example.BackEnd.payload.ContactPayload;
+import jakarta.validation.constraints.Size;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.RequestEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -11,14 +13,17 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/dummy")
+@Validated // (@Validated = 啟動「方法驗證」) 啟用 Spring 的 Method Validation（方法級驗證，這讓 @RequestParam , @PathVariable 上的 @Size 這類驗證註解生效
 public class DummyController {
 
     // 1. @RequestParam 是用來從 HTTP 請求中獲取參數的註解。它可以用在方法的參數上，告訴 Spring 框架從請求中提取對應的參數值。
     @GetMapping("/param")
-    public String param(@RequestParam(name = "q") String q, @RequestParam(required = false, defaultValue = "param", name = "p") String p) {
+    public String param(@Size(min = 5, max = 30, message = "q 長度必須介於 5 到 30 個字元") @RequestParam(name = "q") String q, @RequestParam(required = false, defaultValue = "param", name = "p") String p) {
         // @RequestParam 是用來從 HTTP 請求中獲取參數的註解。它可以用在方法的參數上，告訴 Spring 框架從請求中提取對應的參數值。
         // 在這個例子中，@RequestParam(name = "q") String q 表示從請求中獲取名為 "q" 的參數值，並將其賦值給方法參數 q。這個參數是必須的，如果請求中沒有提供 "q" 參數，則會返回錯誤。
         // @RequestParam(required = false, defaultValue = "param", name = "p") String p 表示從請求中獲取名為 "p" 的參數值，這個參數是可選的，如果請求中沒有提供 "p" 參數，則使用默認值 1。
+
+        // @Size 代表對參數 q 的值進行驗證，要求其長度必須在 5 到 30 個字符之間。如果請求中提供的 q 參數的值不符合這個條件，則會觸發驗證失敗，並返回相應的錯誤訊息給前端。
         return "你搜尋了: " + q + "，頁碼是: " + p;
     }
 

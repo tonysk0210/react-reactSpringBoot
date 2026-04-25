@@ -21,7 +21,7 @@ public class ContactController {
 
     @PostMapping("/contacts")
     public ResponseEntity<String> saveContact(@Valid @RequestBody ContactPayload contactPayload) {
-        // 前端送 JSON → @RequestBody 幫你變成 Java 物件; @Valid 會幫你驗證這個 Java 物件裡面的資料是否符合 ContactPayload 裡面定義的驗證規則，如果不符合，Spring 會自動返回一個包含錯誤訊息的 JSON 格式的響應給前端。
+        // (@Valid = 驗證「物件」) 前端送 JSON → @RequestBody 幫你變成 Java 物件; @Valid 會幫你驗證這個 Java 物件裡面的資料是否符合 ContactPayload 裡面定義的驗證規則，如果不符合，Spring 會自動返回一個包含錯誤訊息的 JSON 格式的響應給前端。
 
         boolean isSaved = contactService.saveContact(contactPayload); // 這行的作用是調用 contactService 的 saveContact 方法，並將 contactPayload 作為參數傳遞給該方法。
         // 這個方法的返回值是一個 boolean 類型的變量 isSaved，用於表示保存聯繫信息是否成功。
