@@ -11,7 +11,7 @@ import { useEffect, useRef } from "react";
 import { toast } from "react-toastify"; // 引入 react-toastify 的 toast 函數；這個函數是用來顯示 toast 通知的，可以用來在表單提交成功或者失敗時給用戶一個提示。
 
 export default function Contact() {
-  const actionData = useActionData(); // useActionData 是 React Router 提供的一個 hook，用於在組件中獲取 action 函數返回的數據。在這個組件中，當 contactAction 函數被調用並返回數據後，這些數據會被 useActionData 捕獲並存儲在 actionData 變量中。 一開始是 undefined，當 contactAction 返回 { success: true } 時，actionData 就會變成 { success: true }。
+  const actionData = useActionData(); // useActionData 是 React Router 提供的一個 hook，用於在組件中獲取 action 函數返回的數據。在這個組件中，當 contactAction 函數被調用並返回數據後，這些數據會被 useActionData 捕獲並存儲在 actionData 變量中。 一開始是 undefined，當 contactAction 返回 { success: true } 時，actionData 就會變成 { success: true }。當 contactAction 返回 { success: false, error: ... } 時，actionData 就會變成 { success: false, error: ... }。這些數據可以在組件中用來顯示成功消息或者錯誤信息給用戶。actionData 改變時會觸發組件重新渲染，從而更新 UI 上顯示的消息。
   const formRef = useRef(null); // useRef 是 React 提供的一個 hook，用於創建一個可變的 ref 對象，這個對象在組件的整個生命周期內保持不變。在這裡，formRef 被用來引用表單元素，當表單提交成功後，可以通過 formRef.current.reset() 來重置表單。 current 屬性指向表單 DOM 元素，reset() 方法會清空表單中的所有輸入字段，恢復到初始狀態。
   // formRef 在 mounted 後會指向表單元素，當 contactAction 返回成功的響應後， useEffect 會檢測到 actionData 的變化，並且當 actionData.success 為 true 時，會調用 formRef.current.reset() 來重置表單，並顯示一個提示框告訴用戶信息已成功提交。
   // formRef 用來在元件掛載後取得該 form 的 DOM 節點，方便進行原生 DOM 操作，例如 reset()。
@@ -81,9 +81,15 @@ export default function Contact() {
             placeholder="Your Name"
             className={textFieldStyle}
             required
-            minLength={5}
+            minLength={2}
             maxLength={30}
           />
+          {actionData?.error?.name && (
+            <p className="text-red-500 text-sm mt-1">
+              {actionData.error.name.join(", ")}
+              {/* 從 actionData 中獲取 name 字段的錯誤信息，並且使用 join(", ") 將錯誤信息列表轉換成一個以逗號分隔的字符串，這樣就可以在 UI 上顯示具體的錯誤信息給用戶，而不是顯示一個通用的錯誤消息。 */}
+            </p>
+          )}
         </div>
 
         {/* Email and mobile Row */}
@@ -101,6 +107,12 @@ export default function Contact() {
               className={textFieldStyle}
               required
             />
+            {actionData?.error?.email && (
+              <p className="text-red-500 text-sm mt-1">
+                {actionData.error.email.join(", ")}
+                {/* 從 actionData 中獲取 email 字段的錯誤信息，並且使用 join(", ") 將錯誤信息列表轉換成一個以逗號分隔的字符串，這樣就可以在 UI 上顯示具體的錯誤信息給用戶，而不是顯示一個通用的錯誤消息。 */}
+              </p>
+            )}
           </div>
 
           {/* Mobile Field */}
@@ -118,6 +130,12 @@ export default function Contact() {
               placeholder="Your Mobile Number"
               className={textFieldStyle}
             />
+            {actionData?.error?.mobileNumber && (
+              <p className="text-red-500 text-sm mt-1">
+                {actionData.error.mobileNumber.join(", ")}
+                {/* 從 actionData 中獲取 mobileNumber 字段的錯誤信息，並且使用 join(", ") 將錯誤信息列表轉換成一個以逗號分隔的字符串，這樣就可以在 UI 上顯示具體的錯誤信息給用戶，而不是顯示一個通用的錯誤消息。 */}
+              </p>
+            )}
           </div>
         </div>
 
@@ -136,6 +154,12 @@ export default function Contact() {
             minLength={5}
             maxLength={500}
           ></textarea>
+          {actionData?.error?.message && (
+            <p className="text-red-500 text-sm mt-1">
+              {actionData.error.message.join(", ")}
+              {/* 從 actionData 中獲取 message 字段的錯誤信息，並且使用 join(", ") 將錯誤信息列表轉換成一個以逗號分隔的字符串，這樣就可以在 UI 上顯示具體的錯誤信息給用戶，而不是顯示一個通用的錯誤消息。 */}
+            </p>
+          )}
         </div>
 
         {/* Submit Button */}
@@ -179,6 +203,9 @@ export async function contactAction({ request, params }) {
     // useActionData hook 可以捕獲這個響應並在組件中使用它來顯示成功消息或者進行其他操作。
     // return redirect("/home");
   } catch (error) {
+    if (error.response?.status === 400) {
+      return { success: false, error: error.response?.data }; // 如果後端返回 400 錯誤 (Backend Validation fails)，表示表單數據驗證失敗，這時候我們不拋出錯誤，而是返回一個包含 success: false 和 error 信息的對象 (Backend Map<欄位名稱, 錯誤訊息列表>)，這樣 useActionData 就可以捕獲到這個對象，並且在組件中使用它來顯示具體的錯誤信息給用戶，而不是顯示一個通用的錯誤消息。
+    }
     const backendMessage =
       error.response?.data?.errorMessage || // 從後端錯誤響應中提取錯誤消息，如果沒有則使用 Axios error 物件中的 message 屬性，如果還沒有，則會使用一個默認的錯誤消息 "無法提交聯絡信息，請稍後再試。"。
       error.message ||
