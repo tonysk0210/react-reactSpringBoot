@@ -9,8 +9,8 @@ export default function Cart() {
 
   const handleClick = () => {
     navigate("/home", { state: { username: "Anthony" } });
-    // option: { replace: true" } 「不要記住現在這一頁」
-    // 當用戶點擊返回商品按鈕時，使用 navigate 函式來導航到 "/home" 路由，並且傳遞一個狀態object { username: "madan" }，這些狀態可以在目標路由的組件中使用 useLocation hook 來獲取和使用。
+    // navigate(path, options) option: { replace: true" } 「不要記住現在這一頁」
+    // 當用戶點擊返回商品按鈕時，使用 navigate 函式來導航到 "/home" 路由，並且傳遞一個狀態object { username: "Anthony" }，這些狀態可以在目標路由的組件以及他的子組件中使用 useLocation hook 來獲取和使用。
   };
 
   return (

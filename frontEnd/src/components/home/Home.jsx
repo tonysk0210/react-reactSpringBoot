@@ -64,6 +64,13 @@ export default function Home() {
   const products = useLoaderData();
 
   const location = useLocation(); // 使用 useLocation hook 來獲取當前路由的位置信息，這個信息包含了導航過程中傳遞的狀態，例如：username: "Anthony"，可以在這裡使用 location.state 來獲取這些狀態並在 UI 上顯示出來。
+  // location = {
+  //   pathname: "/home",   // 路徑
+  //   search: "?q=abc",    // query string
+  //   hash: "#section1",   // hash
+  //   state: {...},        // 👈 你傳的東西
+  //   key: "abc123"        // 每次導航的唯一 id
+  // }
 
   console.log("Home 組件的 location:", location.state); // 在控制台輸出當前路由的位置信息，這樣你就可以看到導航過程中傳遞的狀態，例如：username: "Anthony"，從而可以確認是否成功獲取到這些狀態。
 
@@ -91,7 +98,7 @@ export async function productsLoader({ params, request }) {
     throw new Response(
       error.response?.data?.message || "無法獲取產品資料，請稍後再試。",
       { status: error.response?.status || 500 },
-    );
+    ); // useRouterError 會接住這個 Response，並將其轉換成 routeError，然後在 ErrorPage 組件中使用 useRouteError 來獲取這些錯誤信息並顯示給用戶。
   }
 }
 

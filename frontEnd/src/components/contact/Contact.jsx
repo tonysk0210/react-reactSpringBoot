@@ -155,7 +155,8 @@ export default function Contact() {
 // params 包含了路由參數，但在這個函數中沒有使用到。
 
 export async function contactAction({ request, params }) {
-  const data = await request.formData();
+  const data = await request.formData(); // 從 request 中提取表單數據，這個數據是由 React Router 在表單提交時自動構建的 FormData 對象，可以使用 data.get("fieldName") 來獲取表單中對應字段的值，例如：data.get("name") 來獲取 name 字段的值，這些字段對應於表單中 input 和 textarea 元素的 name 屬性。
+  // 對應的是FORM的 name 屬性，例如：<input name="name" /> 對應 data.get("name")，<input name="email" /> 對應 data.get("email")，以此類推。
 
   // 2. 構建一個 contactPayload 對象，這個對象包含了從表單數據中提取的 name、email、mobileNumber 和 message 字段，這些字段的值分別是 data.get("name")、data.get("email")、data.get("mobileNumber") 和 data.get("message")。這些鍵對應於表單中 input 和 textarea 元素的 name 屬性。
   const contactPayload = {
@@ -169,7 +170,7 @@ export async function contactAction({ request, params }) {
     // 3. 發送 POST 請求到 "/contacts" 端點，將 contactPayload 作為請求體
     await apiClient.post("/contacts", contactPayload);
     return { success: true }; // 返回一個 success 的響應，表示表單提交成功。
-    // useActionData 可以捕獲這個響應並在組件中使用它來顯示成功消息或者進行其他操作。
+    // useActionData hook 可以捕獲這個響應並在組件中使用它來顯示成功消息或者進行其他操作。
     // return redirect("/home");
   } catch (error) {
     throw new Response(
