@@ -4,6 +4,8 @@ import com.example.BackEnd.payload.ContactPayload;
 import com.example.BackEnd.service.ContactService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,15 +19,15 @@ public class ContactController {
     private final ContactService contactService;
 
     @PostMapping("/contacts")
-    public String saveContact(@RequestBody ContactPayload contactPayload) {
+    public ResponseEntity<String> saveContact(@RequestBody ContactPayload contactPayload) {
         // 前端送 JSON → @RequestBody 幫你變成 Java 物件
 
         boolean isSaved = contactService.saveContact(contactPayload); // 這行的作用是調用 contactService 的 saveContact 方法，並將 contactPayload 作為參數傳遞給該方法。
         // 這個方法的返回值是一個 boolean 類型的變量 isSaved，用於表示保存聯繫信息是否成功。
         if (isSaved) {
-            return "請求已成功處理";
+            return ResponseEntity.status(HttpStatus.CREATED).body("聯繫信息已成功保存! from API");
         } else {
-            return "哎呀，出錯了！請重試一次，若問題持續請聯絡技術團隊";
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("哎呀，出錯了！請重試一次，若問題持續請聯絡技術團隊 from API");
         }
     }
 }

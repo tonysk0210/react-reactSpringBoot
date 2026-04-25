@@ -96,7 +96,7 @@ export async function productsLoader({ params, request }) {
     return response.data;
   } catch (error) {
     throw new Response(
-      error.response?.data?.message || "無法獲取產品資料，請稍後再試。",
+      error.response?.data || "無法獲取產品資料，請稍後再試。",
       { status: error.response?.status || 500 },
     ); // useRouterError 會接住這個 Response，並將其轉換成 routeError，然後在 ErrorPage 組件中使用 useRouteError 來獲取這些錯誤信息並顯示給用戶。
   }
@@ -148,9 +148,9 @@ export async function productsLoader({ params, request }) {
 // new Response(body, { status })
 // ↓
 // Response {
-//   body: body                  ← 你給的
-//   status: status              ← 你給的
-//   statusText: 自動補           ← 瀏覽器
+//   body: error.response?.data || "無法獲取產品資料，請稍後再試。"                ← 你給的
+//   status: error.response?.status || 500                                      ← 你給的
+//   statusText: 自動補                                                         ← 瀏覽器
 // }
 // ↓
 // routeError {
@@ -162,9 +162,9 @@ export async function productsLoader({ params, request }) {
 
 // 4. React Router：接住 Response，轉成 routeError
 // routeError = {
-//   status: 500,
+//   status: error.response?.status || 500,
 //   statusText: "Internal Server Error",
-//   data: "無法獲取產品資料，請稍後再試。"
+//   data: error.response?.data || "無法獲取產品資料，請稍後再試。"
 // }
 
 // Response.body → routeError.data

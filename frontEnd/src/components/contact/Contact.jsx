@@ -38,7 +38,13 @@ export default function Contact() {
     if (actionData?.success) {
       formRef.current.reset(); // 重置表單 ; formRef.current 指向表單DOM元素，reset() 方法會清空表單中的所有輸入字段，恢復到初始狀態。
       // alert("您的信息已成功提交，我們會盡快與您聯繫！");
-      toast.success("您的信息已成功提交，我們會盡快與您聯繫！"); // 使用 react-toastify 的 toast 函數來顯示一個成功提交的提示，這樣用戶就會看到一個彈出通知，告訴他們信息已成功提交，而不是使用 alert 彈窗。
+      toast.success("您的信息已成功提交，我們會盡快與您聯繫！", {
+        style: {
+          width: "450px",
+          maxWidth: "90vw",
+          whiteSpace: "nowrap", // 防止文本換行，保持在一行內顯示
+        },
+      }); // 使用 react-toastify 的 toast 函數來顯示一個成功提交的提示，這樣用戶就會看到一個彈出通知，告訴他們信息已成功提交，而不是使用 alert 彈窗。
     }
   }, [actionData]); // 這個 useEffect 監聽 actionData 的變化，當 actionData 中的 success 屬性為 true 時，會重置表單並顯示一個成功提交的提示。
 
@@ -173,9 +179,13 @@ export async function contactAction({ request, params }) {
     // useActionData hook 可以捕獲這個響應並在組件中使用它來顯示成功消息或者進行其他操作。
     // return redirect("/home");
   } catch (error) {
-    throw new Response(
-      error.response?.data?.message || "無法提交聯絡信息，請稍後再試。",
-      { status: error.response?.status || 500 },
-    );
+    const backendMessage =
+      typeof error.response?.data === "string"
+        ? error.response.data // 如果後端返回的錯誤信息是字符串，直接使用這個字符串作為錯誤消息
+        : error.response?.data?.message; // 如果後端返回的錯誤信息是對象，則嘗試從這個對象中提取 message 屬性作為錯誤消息；如果都沒有，則默認為 "無法提交聯絡信息，請稍後再試。"
+
+    throw new Response(backendMessage || "無法提交聯絡信息，請稍後再試。", {
+      status: error.response?.status || 500, // 使用後端返回的錯誤狀態碼，如果沒有則默認為 500
+    });
   }
 }
