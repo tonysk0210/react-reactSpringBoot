@@ -96,7 +96,9 @@ export async function productsLoader({ params, request }) {
     return response.data;
   } catch (error) {
     throw new Response(
-      error.response?.data || "無法獲取產品資料，請稍後再試。",
+      error.response?.data?.errorMessage || // 從後端錯誤響應中提取錯誤消息，如果沒有則使用 Axios error 物件中的 message 屬性，如果還沒有則使用一個默認的錯誤消息 "無法獲取產品資料，請稍後再試。"
+        error.message ||
+        "無法獲取產品資料，請稍後再試。",
       { status: error.response?.status || 500 },
     ); // useRouterError 會接住這個 Response，並將其轉換成 routeError，然後在 ErrorPage 組件中使用 useRouteError 來獲取這些錯誤信息並顯示給用戶。
   }

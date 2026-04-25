@@ -20,7 +20,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDto> getProducts() {
         List<Product> all = productRepo.findAll(); // findAll() 是 Spring Data JPA 提供的方法，用於從資料庫中檢索所有 Product 實體的列表。它會返回一個包含所有 Product 實體的 List<Product>。
-
         return all.stream()
                 .map(product -> {
                     ProductDto productDto = new ProductDto();

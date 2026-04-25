@@ -27,7 +27,8 @@ public class ContactController {
         if (isSaved) {
             return ResponseEntity.status(HttpStatus.CREATED).body("聯繫信息已成功保存! from API");
         } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("哎呀，出錯了！請重試一次，若問題持續請聯絡技術團隊 from API");
+            // return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("哎呀，出錯了！請重試一次，若問題持續請聯絡技術團隊 from API");
+            throw new RuntimeException("哎呀，出錯了！請重試一次，若問題持續請聯絡技術團隊 from API"); // 這會給到全局異常處理器，然後全局異常處理器會捕獲到這個 RuntimeException，並返回一個包含錯誤訊息的 JSON 格式的響應給前端。
         }
     }
 }
