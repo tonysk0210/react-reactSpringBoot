@@ -21,7 +21,7 @@ const DarkModeClass =
 // 這樣可以讓當前路由的連結有不同的樣式（例如：字體加粗和下劃線）。
 // NavLinkRenderProps 有兩個屬性：isActive（布林值，表示當前 NavLink 是否匹配當前路由）和 isPending（布林值，表示當前 NavLink 是否正在匹配過程中）。在這裡，我們只使用了 isActive 來決定是否添加特定的樣式類。
 const getNavLinkClass = ({ isActive }) =>
-  `navLink ${DarkModeClass} ${
+  `navLink ${DarkModeClass} py-2 ${
     isActive ? "underline decoration-2 underline-offset-4 font-bold" : ""
   }`;
 
@@ -66,16 +66,18 @@ export default function Header() {
         {/* navbar 是一個導航欄，包含多個連結，分別導向不同的頁面（"/", "/about", "/contact", "/login", "/cart"） */}
         <nav className="myNav">
           {/* Theme 切換按鈕，點擊後會觸發 toggleTheme 函式來切換主題（暗模式和亮模式） */}
-          <button
-            className="flex items-center justify-center mx-3 w-7 h-7 rounded-full border border-brand dark:border-light transition duration-300 hover:bg-gray-300 dark:hover:bg-gray-600"
-            aria-label="Toggle theme"
-            onClick={toggleMode} // 帶入切換主題的函式
-          >
-            <FontAwesomeIcon
-              icon={mode === "light" ? faSun : faMoon} // 根據 mode 的 state 來決定顯示月亮圖示（暗模式）還是太陽圖示（亮模式）
-              className="w-4 h-4 dark:text-light text-brand"
-            />
-          </button>
+          <div className="py-1.5 mx-3">
+            <button
+              className="flex items-center justify-center mx-3 w-7 h-7 rounded-full border border-brand dark:border-light transition duration-300 hover:bg-gray-300 dark:hover:bg-gray-600"
+              aria-label="Toggle theme"
+              onClick={toggleMode} // 帶入切換主題的函式
+            >
+              <FontAwesomeIcon
+                icon={mode === "light" ? faSun : faMoon} // 根據 mode 的 state 來決定顯示月亮圖示（暗模式）還是太陽圖示（亮模式）
+                className="w-4 h-4 dark:text-light text-brand"
+              />
+            </button>
+          </div>
 
           <ul>
             <li>
