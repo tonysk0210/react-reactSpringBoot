@@ -475,3 +475,4 @@
 2026-04-26T16:12:44.057+08:00  INFO 30760 --- [BackEnd] [http-nio-8080-exec-1] c.e.BackEnd.scope.ApplicationScopedBean  : ApplicationScopedBean 初始化
 2026-04-26T16:13:56.987+08:00 ERROR 30760 --- [BackEnd] [http-nio-8080-exec-1] c.e.B.exception.GlobalExceptionHandler   : Global Exception Handler: Exception 發生異常: No static resource favicon.ico.
 2026-04-26T16:13:57.003+08:00  WARN 30760 --- [BackEnd] [http-nio-8080-exec-1] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-04-26T16:48:36.882+08:00  WARN 30760 --- [BackEnd] [HikariPool-9:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-9 - Thread starvation or clock leap detected (housekeeper delta=6m9s271ms173µs700ns).

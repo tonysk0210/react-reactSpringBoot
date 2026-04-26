@@ -33,6 +33,9 @@ import { contactAction } from "./components/contact/Contact"; // 從 Contact 組
 import { ToastContainer, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // 引入 react-toastify 的 CSS；這樣才能讓 toast 通知顯示出來並且有樣式
 
+// 引入 CartContext；這個 Context 是用來在組件之間共享購物車狀態的，這樣就不需要通過 props 一層一層地傳遞購物車數據了。
+import { CartContext } from "./store/cart-context.jsx";
+
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
@@ -91,11 +94,23 @@ const appRouter = createBrowserRouter(routeDefinitions); // 使用 createBrowser
 //   },
 // ]);
 
+// 定義購物車上下文的初始值，這裡是一個空對象，可以根據需要添加購物車的狀態和方法，例如：items、addItem、removeItem 等等
+const initialCartContext = {
+  cart: [],
+  setCart: () => {},
+  addToCart: () => {},
+  removeFromtCart: () => {},
+  totalQuantity: 0,
+};
+
 createRoot(document.getElementById("root")).render(
   // 使用 StrictMode 包裹 App 組件，呼叫兩次 render 是 React 18 中 StrictMode 的一個特性，
   // 可以幫助開發者更早地發現潛在的問題，例如：不安全的生命週期方法、過時的 API 等等。
   <StrictMode>
-    <RouterProvider router={appRouter} />
+    <CartContext.Provider value={initialCartContext}>
+      {/* 使用 CartContext 組件來包裹 RouterProvider 組件，這樣整個應用程式都能夠使用 CartContext 來訪問和修改購物車的狀態了。 */}
+      <RouterProvider router={appRouter} />
+    </CartContext.Provider>
     {/* 使用 RouterProvider 組件，將 appRouter 傳入 router 屬性，讓整個應用程式都能夠使用 React Router 的功能 */}
     <ToastContainer
       // ToastContainer 是用來顯示 toast 通知的組件，這裡配置了一些屬性來定義 toast 通知的行為和樣式，例如：position 定義了通知出現的位置，autoClose 定義了通知自動關閉的時間，theme 定義了通知的主題等等。
