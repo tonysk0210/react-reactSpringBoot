@@ -98,7 +98,9 @@ const appRouter = createBrowserRouter(routeDefinitions); // 使用 createBrowser
 const initialCartContext = {
   cart: [],
   setCart: () => {},
-  addToCart: () => {},
+  addToCart: () => {
+    console.log("addToCart function is not implemented yet.");
+  },
   removeFromtCart: () => {},
   totalQuantity: 0,
 };
