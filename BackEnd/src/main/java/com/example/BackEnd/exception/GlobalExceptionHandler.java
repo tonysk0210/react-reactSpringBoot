@@ -18,11 +18,11 @@ import java.util.*;
 @Slf4j // 這個註解來自 Lombok 庫，用於在類中自動生成一個名為 log 的日誌記錄器對象，這樣你就可以直接使用 log 來記錄日誌，而不需要手動創建日誌記錄器實例。
 public class GlobalExceptionHandler {
 
-
     @ExceptionHandler(Exception.class) // 這個註解表示當控制器方法中拋出任何類型的異常時，該方法將被調用來處理這些異常。Exception.class 表示捕獲所有類型的異常，這樣你就可以在這個方法中統一處理所有未被其他特定異常處理器捕獲的異常。
     public ResponseEntity<ExceptionResponseDto> handleGlobalException(Exception e, WebRequest webRequest) {
         // WebRequest 可以讓你獲取有關當前請求的詳細信息，例如請求的 URL、HTTP 方法、請求參數等。這些信息可以幫助你在處理異常時提供更有用的錯誤訊息給前端。
 
+        log.error("Global Exception Handler: Exception 發生異常: {}", e.getMessage());
         // webRequest.getDescription(false) 這個方法會返回URI的路徑，這樣你就可以知道是哪個API路徑引發了異常。uri=/api/products
         var responseDto = new ExceptionResponseDto(
                 webRequest.getDescription(false),
@@ -38,6 +38,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, List<String>>> handleValidationExceptions(MethodArgumentNotValidException e) {
 
+        log.error("Global Exception Handler: MethodArgumentNotValidException 發生異常: {}", e.getMessage());
         Map<String, List<String>> validationErrors = new HashMap<>(); // 這行的作用是創建一個新的 HashMap 對象，用於存儲驗證錯誤信息。這個 Map 的 key 是字段名稱，值是一個包含該字段所有錯誤訊息的 List。這樣你就可以將同一字段的多個錯誤訊息組織在一起，方便最後返回給前端。
 
         // 這行的作用是從 MethodArgumentNotValidException 對象中獲取驗證錯誤信息，把「每個欄位的驗證錯誤」整理成 Map<欄位名稱, 錯誤訊息列表>
@@ -64,6 +65,8 @@ public class GlobalExceptionHandler {
     // 這個註解表示當控制器方法中拋出 ConstraintViolationException 類型的異常時 (@RequestParam, @PathVariable)，該方法將被調用來處理這些異常。ConstraintViolationException 是在使用 Bean Validation（例如 Hibernate Validator）進行參數驗證時，如果驗證失敗而拋出的異常類型。當前端傳遞的數據不符合後端定義的驗證規則時，就會觸發這個異常，從而調用這個方法來處理並返回相應的錯誤訊息給前端。
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<Map<String, String>> handleConstraintViolationException(ConstraintViolationException e) {
+
+        log.error("Global Exception Handler: ConstraintViolationException 發生異常: {}", e.getMessage());
         Map<String, String> validationErrors = new HashMap<>(); // 把驗證錯誤信息整理成 Map<方法名.param , 驗證失敗訊息> 的形式，這樣你就可以將每個驗證失敗的欄位名稱和對應的錯誤訊息存儲在這個 Map 中，最後返回給前端。
 
         Set<ConstraintViolation<?>> constraintViolationSet = e.getConstraintViolations(); // 這行的作用是從 ConstraintViolationException 對象中獲取所有的驗證錯誤信息，這些錯誤信息以 Set<ConstraintViolation<?>> 的形式存儲。每個 ConstraintViolation 對象都包含了有關驗證失敗的詳細信息，例如哪個字段驗證失敗、失敗的原因等。接下來，你可以遍歷這個 Set，將每個驗證錯誤的信息提取出來並存儲在一個 Map 中，以便最後返回給前端。
