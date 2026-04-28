@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react"; // 引入 createContext 函式；這個函式是 React 中用於創建一個新的 Context 對象的函式，Context 是 React 中用於在組件樹中傳遞數據的一種方式，可以讓你在組件之間共享數據，而不需要通過 props 一層一層地傳遞。
+import { createContext, useState, useEffect, useContext } from "react"; // 引入 createContext 函式；這個函式是 React 中用於創建一個新的 Context 對象的函式，Context 是 React 中用於在組件樹中傳遞數據的一種方式，可以讓你在組件之間共享數據，而不需要通過 props 一層一層地傳遞。
 
 // 定義購物車上下文的初始值，這裡是一個空對象，可以根據需要添加購物車的狀態和方法，例如：items、addItem、removeItem 等等
 // const initialCartContext = {
@@ -12,6 +12,11 @@ import { createContext, useState, useEffect } from "react"; // 引入 createCont
 // };
 
 export const CartContext = createContext(); // 使用 createContext 函式來創建一個新的 Context 對象，並且將其賦值給 CartContext 變量，這樣就可以在其他組件中使用 CartContext 來訪問和修改購物車的狀態了。
+
+// 這是一個 custom hook，用於在組件中訪問 CartContext 中的 cart 狀態，這個狀態是用來存儲購物車中的商品的，當用戶點擊「加入購物車」按鈕時，就會調用 addToCart 方法，並且將當前的產品作為參數傳入，從而將產品添加到購物車中。
+export const useCart = () => {
+  return useContext(CartContext);
+};
 
 // 定義 CartProvider 組件，這個組件用於提供購物車上下文的值，這裡我們將 initialCartContext 作為 value 傳入 CartContext.Provider 組件，這樣在整個應用程式中就可以使用 CartContext 來訪問和修改購物車的狀態了。
 export const CartProvider = ({ children }) => {
@@ -40,15 +45,13 @@ export const CartProvider = ({ children }) => {
     // 使用 setCart 方法來更新 cart 狀態，這裡我們使用了一個函式作為 setCart 的參數，這個函式會接收當前的 cart 狀態作為參數，然後返回一個新的 cart 狀態，這樣就可以確保我們在更新 cart 狀態時不會直接修改原來的 cart 狀態，而是創建一個新的 cart 狀態，這樣就符合 React 中狀態不可變的原則了。
     setCart((prevCart) => {
       // 檢查購物車中是否已經有這個產品了，如果有的話就更新它的數量，否則就將它添加到購物車中
-      const existingItem = prevCart.find(
-        (item) => item.productId === product.productId,
-      );
+      const existingItem = prevCart.find((item) => item.id === product.id);
 
       if (existingItem) {
         // 如果購物車中已經有這個產品了，就更新它的數量，這裡我們使用了 map 方法來遍歷 prevCart 中的每一個項目，如果項目的 productId 和當前要添加的產品的 productId 相同，那麼就返回一個新的項目對象，這個對象包含了原來的項目屬性，但是將 quantity 屬性的值增加了傳入的 quantity，否則就返回原來的項目對象，這樣就可以實現更新購物車中已有產品的數量了。
         return prevCart.map(
           (item) =>
-            item.productId === product.productId
+            item.id === product.id
               ? { ...item, quantity: item.quantity + quantity } // 如果項目的 productId 和當前要添加的產品的 productId 相同，那麼就返回一個新的項目對象，這個對象包含了原來的項目屬性，但是將 quantity 屬性的值增加了傳入的 quantity; ...item 展開的是「這個 item 物件裡的所有屬性（attributes）」--，然後我們在這個新的對象中覆蓋了 quantity 屬性，將它的值設置為 item.quantity + quantity，這樣就實現了更新購物車中已有產品的數量了。
               : item, // 否則就返回原來的項目對象
         );

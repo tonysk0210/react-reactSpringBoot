@@ -10,8 +10,10 @@ import { Link, NavLink } from "react-router-dom"; // 引入 Link 和 NavLink 組
 // 這些組件是 React Router 中用於創建導航連結的組件，Link 用於一般的連結，
 // 而 NavLink 可以根據當前路由自動添加 active 類，以便進行樣式上的區分。
 
-import { useContext } from "react"; // 引入 useContext hook；這個 hook 是 React 中用於在函式組件中訪問 Context 的 hook，Context 是 React 中用於在組件樹中傳遞數據的一種方式，可以讓你在組件之間共享數據，而不需要通過 props 一層一層地傳遞。
-import { CartContext } from "../store/cart-context.jsx"; // 引入 CartContext；這個 Context 是用來在組件之間共享購物車狀態的，這樣就不需要通過 props 一層一層地傳遞購物車數據了。
+// import { useContext } from "react"; // 引入 useContext hook；這個 hook 是 React 中用於在函式組件中訪問 Context 的 hook，Context 是 React 中用於在組件樹中傳遞數據的一種方式，可以讓你在組件之間共享數據，而不需要通過 props 一層一層地傳遞。
+// import { CartContext } from "../store/cart-context.jsx"; // 引入 CartContext；這個 Context 是用來在組件之間共享購物車狀態的，這樣就不需要通過 props 一層一層地傳遞購物車數據了。
+
+import { useCart } from "../store/cart-context"; // 引入 useCart custom hook；這個 hook 是用來在組件中訪問 CartContext 中的 totalQuantity 屬性，這個屬性表示購物車中商品的總數量，可以用來在購物車圖示旁邊顯示一個徽章，提示用戶購物車中有多少件商品。
 
 // Tailwind CSS 的類，用於設定導航連結在暗模式下的樣式。
 const DarkModeClass =
@@ -31,7 +33,7 @@ export default function Header() {
     return localStorage.getItem("mode") === "dark" ? "dark" : "light"; // 從 localStorage 讀取 mode 的值
   });
 
-  const { totalQuantity } = useContext(CartContext); // 使用 useContext hook 來訪問 CartContext 中的 totalQuantity 屬性，這個屬性表示購物車中商品的總數量，可以用來在購物車圖示旁邊顯示一個徽章，提示用戶購物車中有多少件商品。
+  const { totalQuantity } = useCart(); // 使用 useCart custom hook 來訪問 CartContext 中的 totalQuantity 屬性，這個屬性表示購物車中商品的總數量，可以用來在購物車圖示旁邊顯示一個徽章，提示用戶購物車中有多少件商品。
 
   // toggleMode 函式用於切換主題模式（暗模式和亮模式）。當用戶點擊切換按鈕時，這個函式會被觸發，根據當前的 mode 狀態來切換到另一個模式，並將新的模式存儲到 localStorage 中，以便在頁面重新載入後保持用戶的選擇。
   const toggleMode = () => {

@@ -1,10 +1,12 @@
 import Price from "./Price";
 import { Link } from "react-router-dom";
-import { useContext } from "react"; // 引入 useContext hook；這個 hook 是 React 中用於在函式組件中訪問 Context 的 hook，Context 是 React 中用於在組件樹中傳遞數據的一種方式，可以讓你在組件之間共享數據，而不需要通過 props 一層一層地傳遞。
-import { CartContext } from "../../../store/cart-context"; // 引入 CartContext；這個 Context 是用來在組件之間共享購物車狀態的，這樣就不需要通過 props 一層一層地傳遞購物車數據了。
+// import { useContext } from "react"; // 引入 useContext hook；這個 hook 是 React 中用於在函式組件中訪問 Context 的 hook，Context 是 React 中用於在組件樹中傳遞數據的一種方式，可以讓你在組件之間共享數據，而不需要通過 props 一層一層地傳遞。
+// import { CartContext } from "../../../store/cart-context"; // 引入 CartContext；這個 Context 是用來在組件之間共享購物車狀態的，這樣就不需要通過 props 一層一層地傳遞購物車數據了。
+
+import { useCart } from "../../../store/cart-context"; // 引入 useCart custom hook；這個 hook 是用來在組件中訪問 CartContext 中的 addToCart 方法，這個方法用於將產品添加到購物車中，當用戶點擊「加入購物車」按鈕時，就會調用這個方法，並且將當前的產品作為參數傳入，從而將產品添加到購物車中。
 
 export default function ProductCard({ product }) {
-  const { addToCart } = useContext(CartContext); // 使用 useContext hook 來訪問 CartContext 中的 addToCart 方法，這個方法用於將產品添加到購物車中，當用戶點擊「加入購物車」按鈕時，就會調用這個方法，並且將當前的產品作為參數傳入，從而將產品添加到購物車中。
+  const { addToCart } = useCart(); // 使用 useContext hook 來訪問 CartContext 中的 addToCart 方法，這個方法用於將產品添加到購物車中，當用戶點擊「加入購物車」按鈕時，就會調用這個方法，並且將當前的產品作為參數傳入，從而將產品添加到購物車中。
 
   return (
     <div className="product-card">
@@ -38,7 +40,7 @@ export default function ProductCard({ product }) {
             </div>
             <button
               type="button"
-              onClick={addToCart}
+              onClick={() => addToCart(product, 1)} // 當用戶點擊「加入購物車」按鈕時，就會調用 addToCart 方法，並且將當前的產品作為參數傳入，從而將產品添加到購物車中。
               className="text-sm font-semibold text-white bg-brand hover:bg-dark px-4 py-2 rounded-md transition"
             >
               加入購物車

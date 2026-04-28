@@ -11,6 +11,8 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRef } from "react";
 
+import { useCart } from "../../../store/cart-context"; // 引入 useCart custom hook；這個 hook 是用來在組件中訪問 CartContext 中的 addToCart 方法，這個方法用於將產品添加到購物車中，當用戶點擊「加入購物車」按鈕時，就會調用這個方法，並且將當前的產品作為參數傳入，從而將產品添加到購物車中。
+
 export default function ProductDetail() {
   const params = useParams(); // 使用 useParams Hook 獲取 URL 中的參數，並將其存儲在 params 變量中。這些參數通常是在路由定義中指定的，例如 /products/:id，其中 :id 就是一個參數。
   const location = useLocation(); // 使用 useLocation Hook 獲取當前路由的位置信息，並將其存儲在 location 變量中。這些位置信息包括 pathname、search、hash 和 state 等等，可以用來在組件中獲取導航過程中傳遞的狀態，例如：當用戶從產品列表頁面導航到產品詳細頁面時，可以使用 useLocation 來獲取傳遞過去的產品資料，從而在產品詳細頁面中顯示對應的產品資訊。
@@ -38,6 +40,16 @@ export default function ProductDetail() {
   const handleMouseLeave = () => {
     setIsHovering(false); // 當用戶將鼠標移出產品圖片時，代表不再懸停
     setBackgroundPosition("center"); // 將背景圖片的位置重置為中心
+  };
+
+  // 使用 useCart custom hook 來訪問 CartContext 中的 addToCart 方法，這個方法用於將產品添加到購物車中，當用戶點擊「加入購物車」按鈕時，就會調用這個方法，並且將當前的產品作為參數傳入，從而將產品添加到購物車中。
+  const { addToCart } = useCart();
+  // 當用戶點擊「加入購物車」按鈕時，就會調用 addToCart 方法，並且將當前的產品作為參數傳入，從而將產品添加到購物車中。
+  const handleAddToCart = () => {
+    if (quantity < 1) {
+      return; // 如果數量小於 1，則不進行任何操作
+    }
+    addToCart(product, quantity); // 調用 addToCart 方法，將當前的產品和數量作為參數傳入，從而將產品添加到購物車中。
   };
 
   return (
@@ -109,7 +121,10 @@ export default function ProductDetail() {
               </div>
 
               {/* Add to Cart Button */}
-              <button className="w-full px-4 py-2 bg-brand dark:bg-light text-white dark:text-black rounded-md text-lg font-semibold hover:bg-dark dark:hover:bg-lighter transition">
+              <button
+                onClick={handleAddToCart} // 當用戶點擊「加入購物車」按鈕時，就會調用 handleAddToCart 函式，並且將當前的產品和數量作為參數傳入，從而將產品添加到購物車中。
+                className="w-full px-4 py-2 bg-brand dark:bg-light text-white dark:text-black rounded-md text-lg font-semibold hover:bg-dark dark:hover:bg-lighter transition"
+              >
                 加到購物車
                 <FontAwesomeIcon icon={faPlus} className="ml-2" />
               </button>
