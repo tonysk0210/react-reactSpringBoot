@@ -1,11 +1,20 @@
-import React from "react";
+import React, { useMemo } from "react";
 import PageTitle from "../home/PageTitle";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom"; // 引入 useNavigate hook；這個 hook 是 React Router 中用於在組件中進行導航的 hook，當用戶點擊返回商品按鈕時，會使用 useNavigate 來導航到 "/home" 路由，並且可以傳遞一些狀態，例如：username: "madan"，這些狀態可以在目標路由的組件中使用 useLocation hook 來獲取和使用。
 import emptyCartImage from "../../assets/util/emptycart.png";
+import { useCart } from "../../store/cart-context"; // 引入 useCart custom hook；這個 hook 是用來在組件中訪問 CartContext 中的 totalQuantity 屬性，這個屬性表示購物車中商品的總數量，可以用來在購物車圖示旁邊顯示一個徽章，提示用戶購物車中有多少件商品。
+import CartTable from "./CartTable"; // 引入 CartTable 組件；這個組件是用來渲染購物車表格的，當購物車不是空的時候，會渲染購物車表格，當購物車是空的時候，會渲染空購物車提示和返回商品按鈕。
 
 export default function Cart() {
   const navigate = useNavigate(); // 使用 useNavigate hook 來獲取導航函式，這個函式可以用來在組件中進行導航，例如：當用戶點擊返回商品按鈕時，可以使用 navigate("/home") 來導航到 "/home" 路由，並且可以傳遞一些狀態，例如：navigate("/home", { state: { username: "madan" } })，這些狀態可以在目標路由的組件中使用 useLocation hook 來獲取和使用。
+
+  const { cart } = useCart(); // 使用 useCart hook 來獲取 CartContext 中的 cart 屬性，這個屬性表示購物車中商品的列表，可以用來在購物車頁面中顯示購物車中的商品列表。
+
+  const isCartEmpty = useMemo(() => {
+    return cart.length === 0;
+  }, [cart.length]); // 使用 useMemo hook 來記住 cart 屬性，這樣在 cart 屬性發生變化時，才會重新計算 isCartEmpty 的值，這樣可以避免重複計算，提高性能。
+  // 當購物車中商品的列表發生變化時，isCartEmpty 的值會變化，這樣可以避免重複計算，提高性能。
 
   const handleClick = () => {
     navigate("/home", { state: { username: "Anthony" } });
@@ -17,22 +26,43 @@ export default function Cart() {
     <div className="min-h-213 py-12 bg-normalbg dark:bg-darkbg font-brand">
       <div className="max-w-4xl mx-auto px-4">
         <PageTitle title="購物車" />
-        <div className="text-center text-gray-600 dark:text-lighter flex flex-col items-center">
-          <p className="max-w-xl px-2 mx-auto text-base mb-4">
-            喔喔！購物車是空的！繼續購物
-          </p>
-          <img
-            src={emptyCartImage}
-            alt="Empty Cart"
-            className="max-w-75 mx-auto mb-6 dark:bg-light dark:rounded-md"
-          />
-          <button
-            onClick={handleClick} // 當用戶點擊返回商品按鈕時，會觸發 handleClick 函式，這個函式會使用 navigate 函式來導航到 "/home" 路由，並且傳遞一個狀態object { username: "madan" }，這些狀態可以在目標路由的組件中使用 useLocation hook 來獲取和使用。
-            className="py-2 px-4 bg-brand dark:bg-light text-white dark:text-black text-xl font-semibold rounded-sm flex justify-center items-center hover:bg-dark dark:hover:bg-lighter transition"
-          >
-            返回商品
-          </button>
-        </div>
+        {!isCartEmpty ? ( // 如果購物車不是空的，則渲染購物車表格和結帳按鈕
+          <>
+            <CartTable />
+            {/* 渲染購物車表格 */}
+            <div className="flex justify-between mt-8 space-x-4">
+              {/* Back to Products Button */}
+              <Link
+                to="/home"
+                className="py-2 px-4 bg-brand dark:bg-light text-white dark:text-black text-xl font-semibold rounded-sm flex justify-center items-center hover:bg-dark dark:hover:bg-lighter transition"
+              >
+                返回商品
+              </Link>
+              {/* Proceed to Checkout Button */}
+              <button className="py-2 px-4 bg-brand dark:bg-light text-white dark:text-black text-xl font-semibold rounded-sm flex justify-center items-center hover:bg-dark dark:hover:bg-lighter transition">
+                結帳
+              </button>
+            </div>
+          </>
+        ) : (
+          // 如果購物車是空的，則渲染空購物車提示和返回商品按鈕
+          <div className="text-center text-gray-600 dark:text-lighter flex flex-col items-center">
+            <p className="max-w-xl px-2 mx-auto text-base mb-4">
+              喔喔！購物車是空的！繼續購物
+            </p>
+            <img
+              src={emptyCartImage}
+              alt="Empty Cart"
+              className="max-w-75 mx-auto mb-6 dark:bg-light dark:rounded-md"
+            />
+            <button
+              onClick={handleClick} // 當用戶點擊返回商品按鈕時，會觸發 handleClick 函式，這個函式會使用 navigate 函式來導航到 "/home" 路由，並且傳遞一個狀態object { username: "madan" }，這些狀態可以在目標路由的組件中使用 useLocation hook 來獲取和使用。
+              className="py-2 px-4 bg-brand dark:bg-light text-white dark:text-black text-xl font-semibold rounded-sm flex justify-center items-center hover:bg-dark dark:hover:bg-lighter transition"
+            >
+              返回商品
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
