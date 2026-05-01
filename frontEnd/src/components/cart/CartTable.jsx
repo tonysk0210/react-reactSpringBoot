@@ -79,10 +79,11 @@ export default function CartTable() {
               <td className="px-4 sm:px-6 py-4 text-base font-light">
                 {/* 價格取兩位小數 */}${item.price.toFixed(2)}
               </td>
+              {/* 移除按鈕 */}
               <td className="px-4 sm:px-6 py-4">
                 <button
                   aria-label="delete-item"
-                  onClick={() => removeFromCart(item.productId)} // 移除購物車中的商品
+                  onClick={() => removeFromCart(item.id)} // 移除購物車中的商品
                   className="text-red-400 border border-red-400 p-2 rounded hover:bg-lighter dark:hover:bg-gray-700"
                 >
                   <FontAwesomeIcon icon={faXmark} />
