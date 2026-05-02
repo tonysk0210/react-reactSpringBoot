@@ -13,7 +13,8 @@ public class PublicPathConfig {
     public List<String> publicPaths() {
         return List.of(
                 "/api/v1/products/**",
-                "/api/v1/contacts/**"
+                "/api/v1/contacts/**",
+                "/api/v1/auth/**"
         );
     }
 }

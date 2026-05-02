@@ -6,6 +6,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -63,4 +69,23 @@ public class StickerStoreSecurityConfig {
         source.registerCorsConfiguration("/**", config);
         return source;
     }
+
+    // 有哪些使用者可以登入，以及他們的帳號、密碼和角色是什麼。
+    // 自己定義的 UserDetailsService 通常會讓 (application.properties) spring.security.user.* 那組預設帳號設定失效。所以不是兩套一起並存，而是你手寫的那套會優先生效。
+    // {noop} 這個密碼是明文，不做編碼。
+    @Bean
+    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
+        UserDetails user = User.builder().username("user")
+                .password(passwordEncoder.encode("user")).roles("USER").build(); // 把原始密碼 user 先經過 passwordEncoder 編碼後再保存。
+        UserDetails admin = User.builder().username("admin")
+                .password("$2a$12$L51S8Z2JvzSN.pKQSXOgBOa6Iol5R5.dlOpFEkYO8i/J6UufT4TAa").roles("USER", "ADMIN").build(); // 把一串已經編碼好的 BCrypt 密碼寫進去。
+        return new InMemoryUserDetailsManager(user, admin); // 使用者資料只存在記憶體裡
+    }
+
+    // 當 Spring Security 系統需要 PasswordEncoder 時，請使用 BCryptPasswordEncoder (會直接影響{noop}造成衝突: Encoded password does not look like BCrypt)
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
 }

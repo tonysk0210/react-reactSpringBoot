@@ -28,6 +28,7 @@ import ProductDetail from "./components/home/product/ProductDetail";
 // 從 Home 組件中匯入 productsLoader 函式；這個函式是用來在路由匹配時加載產品資料的，會在 Home 組件中使用 useLoaderData hook來獲取這些資料。
 import { productsLoader } from "./components/home/Home";
 import { contactAction } from "./components/contact/Contact"; // 從 Contact 組件中匯入 contactAction 函式；這個函式是用來在表單提交時處理表單數據的，會在 Contact 組件中使用 useActionData hook 來獲取這些數據。
+import { loginAction } from "./components/login/Login"; // 從 Login 組件中匯入 loginAction 函式；這個函式是用來在表單提交時處理表單數據的，會在 Login 組件中使用 useActionData hook 來獲取這些數據。
 
 // 引入 react-toastify 的 ToastContainer 組件和 Bounce 動畫效果；ToastContainer 是用來顯示 toast 通知的組件，Bounce 是一種動畫效果，可以讓 toast 通知以彈跳的方式出現和消失。
 import { ToastContainer, Bounce } from "react-toastify";
@@ -53,7 +54,7 @@ const routeDefinitions = createRoutesFromElements(
     <Route path="/about" element={<About />} />
     <Route path="/contact" element={<Contact />} action={contactAction} />
     {/* action={contactAction} 是 React Router 中用於在表單提交時處理表單數據的函式，這個函式會在 Contact 組件中的 Form 組件提交時被調用，用於處理表單數據，並且在 Contact 組件中使用 useActionData 鉤子來獲取這些數據。 */}
-    <Route path="/login" element={<Login />} />
+    <Route path="/login" element={<Login />} action={loginAction} />
     <Route path="/cart" element={<Cart />} />
     <Route path="/products/:productId" element={<ProductDetail />} />
     {/* 當路由匹配到 "/products/:productId" 時，會渲染 ProductDetail 組件；:productId 是一個動態路由參數，可以在 ProductDetail 組件中使用 useParams hook 來獲取這個參數的值。 */}
