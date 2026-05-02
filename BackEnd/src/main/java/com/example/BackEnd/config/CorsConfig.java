@@ -1,3 +1,4 @@
+/*
 package com.example.BackEnd.config;
 
 import org.springframework.context.annotation.Bean;
@@ -18,12 +19,14 @@ public class CorsConfig implements WebMvcConfigurer {
 
     // CorsFilter 是 Spring Framework 提供的一個過濾器，用於處理跨域請求（CORS）。
     // 它會根據配置的 CORS 設置來處理跨域請求，並且添加相應的 CORS 頭部信息到響應中。
+    // 這些 headers 就是 CorsFilter 加上去的，告訴瀏覽器：「localhost:5173 可以讀取這個回應」。
+    // Response headers : Access-Control-Allow-Origin: http://localhost:5173
     @Bean
     public CorsFilter getCorsFilter() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowedOrigins(List.of("http://localhost:5173")); // 允許來自 http://localhost:5173/ 的跨域請求
         corsConfiguration.setAllowedMethods(List.of("*")); // 允許的 HTTP 方法，這裡使用 "*" 代表允許所有方法
-        corsConfiguration.setAllowedHeaders(List.of("Content-Type")); // 允許的 HTTP 頭部
+        corsConfiguration.setAllowedHeaders(List.of("*")); // 允許的 HTTP 頭部
         corsConfiguration.setAllowCredentials(true); // 允許攜帶憑證（如 cookie / session）
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -31,3 +34,4 @@ public class CorsConfig implements WebMvcConfigurer {
         return new CorsFilter(source); // 返回一個新的 CorsFilter 實例，在 request / response 階段自動處理 CORS
     }
 }
+*/
