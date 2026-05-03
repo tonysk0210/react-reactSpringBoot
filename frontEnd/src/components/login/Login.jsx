@@ -65,7 +65,7 @@ export default function Login() {
               placeholder="Your Password"
               autoComplete="username" // autoComplete="username" 會讓瀏覽器彈出一個下拉選單，讓使用者直接挑選要用哪個帳號登入，而不需要手動輸入長長的 Email。
               required
-              minLength={8}
+              minLength={4}
               maxLength={20}
               className={textFieldStyle}
             />
@@ -120,7 +120,9 @@ export async function loginAction({ request, params }) {
     if (error.response?.status === 401) {
       return {
         success: false,
-        error: { message: "輸入的帳號或密碼錯誤" }, // 401 狀態碼表示驗證失敗，返回錯誤信息
+        error: {
+          message: error.response?.data?.message || "輸入的帳號或密碼錯誤", // data?.message 來自 buildErrorResponse.message
+        }, // 401 狀態碼表示驗證失敗，返回錯誤信息
       };
     }
 
