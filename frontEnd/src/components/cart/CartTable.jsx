@@ -41,7 +41,7 @@ export default function CartTable() {
               className="text-sm sm:text-base text-brand dark:text-light text-center"
             >
               {/* 產品名稱和圖片 */}
-              <td className="px-4 sm:px-6 py-4 flex items-center justify-center">
+              <td className="ml-20 px-4 sm:px-6 py-4 flex items-center justify-start">
                 <Link
                   to={`/products/${item.id}`} // 導航到產品詳細頁面
                   state={{ product: item }} // 傳遞產品資料

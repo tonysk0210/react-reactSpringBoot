@@ -1,6 +1,7 @@
 package com.example.BackEnd.controller;
 
 import com.example.BackEnd.dto.LoginResponseDto;
+import com.example.BackEnd.dto.UserDto;
 import com.example.BackEnd.payload.LoginRequestPayload;
 import com.example.BackEnd.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,12 +38,16 @@ public class AuthController {
             // org.springframework.security.authentication.BadCredentialsException: 憑證錯誤
             // 這是 GlobalExceptionHandler 接管並給上 500
 
+            var loggedInUser = (User) authentication.getPrincipal(); // 「目前通過驗證的主要身份」
+            UserDto userDto = new UserDto();
+            userDto.setName(loggedInUser.getUsername());// 從登入成功的使用者物件中拿出 username
+
             // JWT 可以用來證明「這個使用者之前已經登入成功」。只要 token 還沒過期，前端就可以帶著它呼叫 API，後端驗證 token 成功後，就不用要求使用者重新登入。
             String jwtToken = jwtUtil.generateJwtToken(authentication); // JWT 內容可以被看見，但不能被隨便修改。
 
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(new LoginResponseDto(HttpStatus.OK.getReasonPhrase(), null, jwtToken));
+                    .body(new LoginResponseDto(HttpStatus.OK.getReasonPhrase(), userDto, jwtToken));
         } catch (BadCredentialsException e) {
             return buildErrorResponse(HttpStatus.UNAUTHORIZED, "帳號密碼不一致"); // 排除 global exception handler (500) 攔截防止轉向 ErrorPage.jsx
         } catch (AuthenticationException e) {

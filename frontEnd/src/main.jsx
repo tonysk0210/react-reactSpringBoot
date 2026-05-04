@@ -24,6 +24,7 @@ import Login from "./components/login/Login";
 import Cart from "./components/cart/Cart";
 import ErrorPage from "./components/ErrorPage";
 import ProductDetail from "./components/home/product/ProductDetail";
+import CheckoutForm from "./components/cart/CheckoutForm";
 
 // 從 Home 組件中匯入 productsLoader 函式；這個函式是用來在路由匹配時加載產品資料的，會在 Home 組件中使用 useLoaderData hook來獲取這些資料。
 import { productsLoader } from "./components/home/Home";
@@ -39,6 +40,7 @@ import { CartContext } from "./store/cart-context.jsx";
 
 // 引入 CartProvider；這個組件用於提供購物車上下文的值，這裡我們將 initialCartContext 作為 value 傳入 CartContext.Provider 組件，這樣在整個應用程式中就可以使用 CartContext 來訪問和修改購物車的狀態了。
 import { CartProvider } from "./store/cart-context.jsx";
+import { AuthProvider } from "./store/auth-context.jsx"; // 引入 AuthProvider；這個組件用於提供認證上下文的值，這裡我們將 initialAuthContext 作為 value 傳入 AuthContext.Provider 組件，這樣在整個應用程式中就可以使用 AuthContext 來訪問和修改認證的狀態了。
 
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
@@ -56,8 +58,9 @@ const routeDefinitions = createRoutesFromElements(
     {/* action={contactAction} 是 React Router 中用於在表單提交時處理表單數據的函式，這個函式會在 Contact 組件中的 Form 組件提交時被調用，用於處理表單數據，並且在 Contact 組件中使用 useActionData 鉤子來獲取這些數據。 */}
     <Route path="/login" element={<Login />} action={loginAction} />
     <Route path="/cart" element={<Cart />} />
-    <Route path="/products/:productId" element={<ProductDetail />} />
+    <Route path="/products/:productId" element={<CheckoutForm />} />
     {/* 當路由匹配到 "/products/:productId" 時，會渲染 ProductDetail 組件；:productId 是一個動態路由參數，可以在 ProductDetail 組件中使用 useParams hook 來獲取這個參數的值。 */}
+    <Route path="/checkout" element={<CheckoutForm />} />
   </Route>,
 );
 
@@ -113,13 +116,14 @@ createRoot(document.getElementById("root")).render(
   // 使用 StrictMode 包裹 App 組件，呼叫兩次 render 是 React 18 中 StrictMode 的一個特性，
   // 可以幫助開發者更早地發現潛在的問題，例如：不安全的生命週期方法、過時的 API 等等。
   <StrictMode>
-    {/* 使用 CartProvider 組件來包裹 RouterProvider 組件，這樣整個應用程式都能夠使用 CartContext 來訪問和修改購物車的狀態了。 */}
-    <CartProvider>
-      <RouterProvider router={appRouter} />
-      {/* 使用 RouterProvider 組件，將 appRouter 傳入 router 屬性，讓整個應用程式都能夠使用 React Router 的功能 */}
-      {/* 這是 CartProvider 的 children，RouterProvider 組件會被渲染在 CartProvider 組件內部，這樣 RouterProvider 就可以訪問到 CartContext 中的值了。*/}
-    </CartProvider>
-
+    <AuthProvider>
+      {/* 使用 CartProvider 組件來包裹 RouterProvider 組件，這樣整個應用程式都能夠使用 CartContext 來訪問和修改購物車的狀態了。 */}
+      <CartProvider>
+        <RouterProvider router={appRouter} />
+        {/* 使用 RouterProvider 組件，將 appRouter 傳入 router 屬性，讓整個應用程式都能夠使用 React Router 的功能 */}
+        {/* 這是 CartProvider 的 children，RouterProvider 組件會被渲染在 CartProvider 組件內部，這樣 RouterProvider 就可以訪問到 CartContext 中的值了。*/}
+      </CartProvider>
+    </AuthProvider>
     <ToastContainer
       // ToastContainer 是用來顯示 toast 通知的組件，這裡配置了一些屬性來定義 toast 通知的行為和樣式，例如：position 定義了通知出現的位置，autoClose 定義了通知自動關閉的時間，theme 定義了通知的主題等等。
       position="top-center"

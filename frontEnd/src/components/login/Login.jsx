@@ -10,6 +10,7 @@ import {
 
 import apiClient from "../../api/apiClient"; // 這是 axios 的封裝
 import { toast } from "react-toastify";
+import { useAuth } from "../../store/auth-context"; // 從 store 中引入 useAuth hook
 
 export default function Login() {
   const labelStyle =
@@ -21,10 +22,12 @@ export default function Login() {
   const navigation = useNavigation(); // 獲取表單提交的狀態
   const isSubmitting = navigation.state === "submitting"; // 獲取表單提交的狀態
   const navigate = useNavigate(); // 獲取導航函數
+  const { loginSuccess } = useAuth(); // 從 context 中取得 loginSuccess 函數
 
   // 處理登入成功後的導航
   useEffect(() => {
     if (actionData?.success) {
+      loginSuccess(actionData.jwtToken, actionData.user); // 將 jwtToken 和 user 存入 context
       navigate("/home");
     } else if (actionData?.error) {
       toast.error(actionData.error.message || "登入失敗");
@@ -115,7 +118,7 @@ export async function loginAction({ request, params }) {
 
     // response.data 的 data 是 後端 API 回傳的 response body，再由 Axios 包裝在 response.data 裡面。
     const { message, user, jwtToken } = response.data; // 從響應中 response 提取數據
-    return { success: true, message, user, jwtToken };
+    return { success: true, message, user, jwtToken }; // 返回成功結果 給到 actionData
   } catch (error) {
     if (error.response?.status === 401) {
       return {
