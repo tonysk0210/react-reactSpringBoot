@@ -24,11 +24,18 @@ export default function Login() {
   const navigate = useNavigate(); // 獲取導航函數
   const { loginSuccess } = useAuth(); // 從 context 中取得 loginSuccess 函數
 
+  // 獲取 sessionStorage 中的 redirectPath，如果沒有則預設為 "/home"
+  const from = sessionStorage.getItem("redirectPath") || "/home";
+
   // 處理登入成功後的導航
   useEffect(() => {
     if (actionData?.success) {
       loginSuccess(actionData.jwtToken, actionData.user); // 將 jwtToken 和 user 存入 context
-      navigate("/home");
+
+      // 清除 sessionStorage 中的 redirectPath 目的是避免下次登入時還帶有上次的路徑
+      sessionStorage.removeItem("redirectPath");
+
+      navigate(from); // 登入成功後導航到原本要前往的頁面
     } else if (actionData?.error) {
       toast.error(actionData.error.message || "登入失敗");
     }
