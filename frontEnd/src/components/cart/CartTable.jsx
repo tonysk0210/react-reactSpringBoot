@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes, faX, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { useCart } from "../../store/cart-context";
 
 export default function CartTable() {
@@ -14,9 +14,8 @@ export default function CartTable() {
 
   // 更新購物車中商品的數量
   const updateCartQuantity = (productId, quantity) => {
-    const product = cart.find((item) => item.id === productId); // 使用 find 方法來找到購物車中商品的列表，productId 是商品的 id，quantity 是商品的數量。
+    const product = cart.find((item) => item.productId === productId); // 使用 find 方法來找到購物車中商品的列表，productId 是商品的 id，quantity 是商品的數量。
     addToCart(product, quantity - (product?.quantity || 0)); // 使用 addToCart 方法來更新購物車中商品的數量，product 是商品，quantity 是商品的數量。
-    // 意思是：算出「新數量」和「舊數量」的差距，然後把差距交給 addToCart
   };
 
   return (
@@ -34,69 +33,68 @@ export default function CartTable() {
         </thead>
         {/* 表格內容 */}
         <tbody className="divide-y divide-brand dark:divide-light">
-          {/* 使用 map 方法來遍歷購物車中商品的列表，item 是當前商品。 */}
-          {cart.map((item) => (
-            <tr
-              key={item.id} // 使用 key 屬性來標識每個商品，這樣就可以確保每個商品都有唯一的標識符，從而避免重複渲染的問題。
-              className="text-sm sm:text-base text-brand dark:text-light text-center"
-            >
-              {/* 產品名稱和圖片 */}
-              <td className="ml-20 px-4 sm:px-6 py-4 flex items-center justify-start">
-                <Link
-                  to={`/products/${item.id}`} // 導航到產品詳細頁面
-                  state={{ product: item }} // 傳遞產品資料
-                  className="flex items-center"
-                >
-                  <img
-                    src={item.imageUrl} // 產品圖片
-                    alt={item.name} // 產品名稱
-                    className="w-16 h-16 rounded-md object-cover mr-5 hover:scale-110 transition-transform"
+          {cart.map(
+            (
+              item, // 使用 map 方法來遍歷購物車中商品的列表，item 是當前商品。
+            ) => (
+              <tr
+                key={item.productId} // 使用 key 屬性來標識每個商品，這樣就可以確保每個商品都有唯一的標識符，從而避免重複渲染的問題。
+                className="text-sm sm:text-base text-brand dark:text-light text-center"
+              >
+                {/* 產品名稱和圖片 */}
+                <td className="px-4 sm:px-6 py-4 flex items-center">
+                  <Link
+                    to={`/products/${item.productId}`}
+                    state={{ product: item }}
+                    className="flex items-center"
+                  >
+                    <img
+                      src={item.imageUrl}
+                      alt={item.name}
+                      className="w-16 h-16 rounded-md object-cover mr-4 hover:scale-110 transition-transform"
+                    />
+                    <span className="text-brand dark:text-light hover:underline">
+                      {item.name}
+                    </span>
+                  </Link>
+                </td>
+                {/* 數量 */}
+                <td className="px-4 sm:px-6 py-4">
+                  <input
+                    type="number"
+                    inputMode="numeric"
+                    value={item.quantity}
+                    onChange={(e) =>
+                      updateCartQuantity(
+                        item.productId,
+                        parseInt(e.target.value, 10) || 1,
+                      )
+                    }
+                    className="w-16 px-2 py-1 border rounded-md focus:ring focus:ring-light dark:focus:ring-gray-600 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                   />
-                  <span className="text-brand dark:text-light hover:underline">
-                    {/* 產品名稱 */}
-                    {item.name}
-                  </span>
-                </Link>
-              </td>
-
-              {/* 數量 */}
-              <td className="px-4 sm:px-6 py-4">
-                <input
-                  type="number"
-                  inputMode="numeric"
-                  value={item.quantity} // 商品數量
-                  onChange={(e) =>
-                    updateCartQuantity(
-                      // 更新購物車數量
-                      item.id,
-                      parseInt(e.target.value, 10) || 1, // 如果數量為 0 或者不是數字，則設置為 1
-                    )
-                  } // 當數量改變時，更新購物車數量
-                  className="w-16 px-2 py-1 border rounded-md focus:ring focus:ring-light dark:focus:ring-gray-600 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
-                />
-              </td>
-              {/* 單價 */}
-              <td className="px-4 sm:px-6 py-4 text-base font-light">
-                {/* 價格取兩位小數 */}${item.price.toFixed(2)}
-              </td>
-              {/* 移除按鈕 */}
-              <td className="px-4 sm:px-6 py-4">
-                <button
-                  aria-label="delete-item"
-                  onClick={() => removeFromCart(item.id)} // 移除購物車中的商品
-                  className="text-red-400 border border-red-400 p-2 rounded hover:bg-lighter dark:hover:bg-gray-700"
-                >
-                  <FontAwesomeIcon icon={faXmark} />
-                </button>
-              </td>
-            </tr>
-          ))}
-          {/* 總計 */}
-          {cart.length > 0 && ( // 如果購物車中有商品
+                </td>
+                {/* 單價 */}
+                <td className="px-4 sm:px-6 py-4 text-base font-light">
+                  ${item.price.toFixed(2)}
+                </td>
+                {/* 刪除按鈕 */}
+                <td className="px-4 sm:px-6 py-4">
+                  <button
+                    aria-label="delete-item"
+                    onClick={() => removeFromCart(item.productId)}
+                    className="text-red-400 border border-red-400 p-2 rounded hover:bg-lighter dark:hover:bg-gray-700"
+                  >
+                    <FontAwesomeIcon icon={faTimes} />
+                  </button>
+                </td>
+              </tr>
+            ),
+          )}
+          {cart.length > 0 && (
             <tr className="text-center">
               <td></td>
               <td className="text-base text-gray-600 dark:text-gray-300 font-semibold uppercase px-4 sm:px-6 py-4">
-                小計
+                Subtotal
               </td>
               <td className="text-lg text-brand dark:text-blue-400 font-medium px-4 sm:px-6 py-4">
                 ${subtotal}

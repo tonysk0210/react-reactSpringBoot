@@ -123,7 +123,7 @@ export default function Header() {
                 聯絡我們
               </NavLink>
             </li>
-            <li>
+            <li className="flex items-center -translate-y-0.5">
               {/* 用戶菜單（如果已登入） */}
               {isAuthenticated ? (
                 <>
@@ -132,7 +132,7 @@ export default function Header() {
                       onClick={toggleUserMenu}
                       className="relative text-brand"
                     >
-                      <span className={menuClass}>你好 John Doe</span>
+                      <span className={menuClass}>你好 Anthony </span>
                       <FontAwesomeIcon
                         icon={faAngleDown}
                         className="text-brand dark:text-light w-6 h-6"
@@ -167,7 +167,7 @@ export default function Header() {
                                       to="/admin/orders"
                                       className={dropdownLinkClass}
                                     >
-                                      Orders
+                                      單
                                     </Link>
                                   </li>
                                   <li>
@@ -175,7 +175,7 @@ export default function Header() {
                                       to="/admin/messages"
                                       className={dropdownLinkClass}
                                     >
-                                      Messages
+                                      信息
                                     </Link>
                                   </li>
                                 </ul>
