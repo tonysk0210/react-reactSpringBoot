@@ -51,13 +51,13 @@ export default function Login() {
           {/* Email Field */}
           <div>
             <label htmlFor="username" className={labelStyle}>
-              使用者名稱
+              Email
             </label>
             <input
               id="username"
               type="text"
               name="username"
-              placeholder="Your Username"
+              placeholder="Your Email"
               required
               className={textFieldStyle}
             />

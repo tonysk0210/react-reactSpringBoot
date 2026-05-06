@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.authentication.password.CompromisedPasswordChecker;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.password.HaveIBeenPwnedRestApiPasswordChecker;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -94,12 +96,29 @@ public class StickerStoreSecurityConfig {
     // authenticationManager 這個 Bean 是在告訴 Spring Security：登入時，請用我的 UserDetailsService 找使用者，再用 BCryptPasswordEncoder 檢查密碼。
     @Bean
     public AuthenticationManager authenticationManager(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
-        var daoAuthenticationProvider = new DaoAuthenticationProvider();
+        var daoAuthenticationProvider = new DaoAuthenticationProvider(); // 負責驗證帳號密碼
         daoAuthenticationProvider.setUserDetailsService(userDetailsService); // 去哪裡找使用者資料
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder); // 怎麼比對密碼
         // 建立一個 AuthenticationManager，裡面使用剛剛設定好的 DaoAuthenticationProvider 來驗證登入。
         var providerManager = new ProviderManager(daoAuthenticationProvider);
         return providerManager;
+
+        /**
+         * •
+         * AuthenticationManager = 驗證系統的總入口
+         * •
+         * ProviderManager = 調度員
+         * •
+         * DaoAuthenticationProvider = 專門處理帳密登入的驗證員
+         * •
+         * UserDetailsService = 去資料庫查使用者資料的人
+         */
+    }
+
+    // 檢查密碼是否在「被竊取的密碼清單」裡面
+    @Bean
+    public CompromisedPasswordChecker compromisedPasswordChecker() {
+        return new HaveIBeenPwnedRestApiPasswordChecker();
     }
 
 }

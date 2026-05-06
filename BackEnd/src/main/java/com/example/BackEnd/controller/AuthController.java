@@ -2,20 +2,23 @@ package com.example.BackEnd.controller;
 
 import com.example.BackEnd.dto.LoginResponseDto;
 import com.example.BackEnd.dto.UserDto;
+import com.example.BackEnd.entity.Customer;
 import com.example.BackEnd.payload.LoginRequestPayload;
 import com.example.BackEnd.payload.RegisterRequestPayload;
+import com.example.BackEnd.repository.CustomerRepo;
 import com.example.BackEnd.util.JwtUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.password.CompromisedPasswordChecker;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -35,6 +39,8 @@ public class AuthController {
     private final JwtUtil jwtUtil;
     private final InMemoryUserDetailsManager inMemoryUserDetailsManager; // 目前Spring Security 將使用者存在 InMemoryUserDetailsManager
     private final PasswordEncoder passwordEncoder; // ByCrpt hash encoder
+    private final CustomerRepo customerRepo;
+    private final CompromisedPasswordChecker compromisedPasswordChecker;
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestPayload loginRequestPayload) {
@@ -72,15 +78,42 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@Valid @RequestBody RegisterRequestPayload registerRequestpayload) {
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequestPayload registerRequestpayload) {
 
         // 新註冊的使用者加入到記憶體版的使用者管理器。
-        inMemoryUserDetailsManager.createUser(new User(
+        /*inMemoryUserDetailsManager.createUser(new User(
                 registerRequestpayload.email(),
                 passwordEncoder.encode(registerRequestpayload.password()),
-                List.of(new SimpleGrantedAuthority("USER"))));
+                List.of(new SimpleGrantedAuthority("USER"))));*/
         // email 當成 username 使用; 明文密碼先做 BCrypt hash 編碼; 指定這個新使用者擁有的權限
-        
+
+        var error = new HashMap<String, List<String>>(); // 建立一個 HashMap 來存放錯誤信息
+        // 0. 檢查密碼是否在「被竊取的密碼清單」裡面
+        /*CompromisedPasswordDecision decision = compromisedPasswordChecker.check(registerRequestpayload.password());
+        if (decision.isCompromised()) {
+            error.put("password", List.of("密碼在被竊取的密碼清單裡面，請使用其他密碼"));
+        }*/
+
+        // 1. 先檢查 email 或手機號碼是否已經註冊
+        if (customerRepo.existsByEmail(registerRequestpayload.email())) {
+            error.put("email", List.of("電子郵件已經註冊"));
+        }
+        if (customerRepo.existsByMobileNumber(registerRequestpayload.mobileNumber())) {
+            error.put("mobileNumber", List.of("手機號碼已經註冊"));
+        }
+        // 如果有錯誤，則回傳錯誤信息
+        if (!error.isEmpty()) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(error);
+        }
+
+        // 2. 建立 Customer Entity
+        var customer = new Customer(); // 建立 Customer Entity
+        BeanUtils.copyProperties(registerRequestpayload, customer); //只會複製「欄位名稱一樣」的屬性
+        customer.setPasswordHash(passwordEncoder.encode(registerRequestpayload.password())); // 將密碼做 Bcrypt hash 編碼後存入 Customer Entity
+        customerRepo.save(customer); // 將 Customer Entity 儲存到資料庫
+
         return ResponseEntity
                 .status(HttpStatus.CREATED) // status 201
                 .body("帳號註冊成功");
