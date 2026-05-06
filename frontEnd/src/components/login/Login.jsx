@@ -46,7 +46,7 @@ export default function Login() {
       <div className="bg-white dark:bg-gray-700 shadow-md rounded-lg max-w-md w-full px-8 py-6">
         {/* Title */}
         <PageTitle title="登入" />
-        {/* Form */}
+        {/* 表單 */}
         <Form method="post" className="space-y-6">
           {/* Email Field */}
           <div>
@@ -88,7 +88,7 @@ export default function Login() {
               disabled={isSubmitting} // 禁用按鈕，防止重複提交
               className="w-full px-6 py-2 text-white dark:text-black text-xl rounded-md transition duration-200 bg-brand dark:bg-light hover:bg-dark dark:hover:bg-lighter"
             >
-              {isSubmitting ? "登入資料驗證中..." : "登入"}
+              {isSubmitting ? "登入中..." : "Login"}
               {/* 按鈕顯示：登入資料驗證中... 或 登入 */}
             </button>
           </div>

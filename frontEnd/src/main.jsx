@@ -26,11 +26,17 @@ import ErrorPage from "./components/ErrorPage";
 import ProductDetail from "./components/home/product/ProductDetail";
 import CheckoutForm from "./components/cart/CheckoutForm";
 import ProtectedRoute from "./components/login/ProtectedRoute";
+import Profile from "./components/login/Profile";
+import Orders from "./components/login/Orders";
+import OrderManage from "./components/login/admin/OrderManage.jsx";
+import Message from "./components/login/admin/Message.jsx";
+import Register from "./components/login/Register.jsx";
 
 // 從 Home 組件中匯入 productsLoader 函式；這個函式是用來在路由匹配時加載產品資料的，會在 Home 組件中使用 useLoaderData hook來獲取這些資料。
 import { productsLoader } from "./components/home/Home";
 import { contactAction } from "./components/contact/Contact"; // 從 Contact 組件中匯入 contactAction 函式；這個函式是用來在表單提交時處理表單數據的，會在 Contact 組件中使用 useActionData hook 來獲取這些數據。
 import { loginAction } from "./components/login/Login"; // 從 Login 組件中匯入 loginAction 函式；這個函式是用來在表單提交時處理表單數據的，會在 Login 組件中使用 useActionData hook 來獲取這些數據。
+import { registerAction } from "./components/login/Register"; // 從 Register 組件中匯入 registerAction 函式；這個函式是用來在表單提交時處理表單數據的，會在 Register 組件中使用 useActionData hook 來獲取這些數據。
 
 // 引入 react-toastify 的 ToastContainer 組件和 Bounce 動畫效果；ToastContainer 是用來顯示 toast 通知的組件，Bounce 是一種動畫效果，可以讓 toast 通知以彈跳的方式出現和消失。
 import { ToastContainer, Bounce } from "react-toastify";
@@ -61,10 +67,15 @@ const routeDefinitions = createRoutesFromElements(
     <Route path="/cart" element={<Cart />} />
     <Route path="/products/:productId" element={<ProductDetail />} />
     {/* 當路由匹配到 "/products/:productId" 時，會渲染 ProductDetail 組件；:productId 是一個動態路由參數，可以在 ProductDetail 組件中使用 useParams hook 來獲取這個參數的值。 */}
+    <Route path="/register" element={<Register />} action={registerAction} />
 
     {/* 需要登入才能訪問的路由 */}
     <Route element={<ProtectedRoute />}>
       <Route path="/checkout" element={<CheckoutForm />} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path="/orders" element={<Orders />} />
+      <Route path="/admin/orderManage" element={<OrderManage />} />
+      <Route path="/admin/messages" element={<Message />} />
     </Route>
   </Route>,
 );

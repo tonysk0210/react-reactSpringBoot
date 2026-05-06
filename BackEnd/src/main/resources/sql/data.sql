@@ -117,3 +117,6 @@ VALUES ('NoHesitation', 'Always ready to take charge!', 6.00, 60, '/stickers/IWo
 MERGE INTO products (name, description, price, popularity, image_url, created_at, created_by, updated_at, updated_by)
 KEY(name)
 VALUES ('Wardgaze', 'Protective power of the evil eye', 6.00, 60, '/stickers/EvilEye.png', CURRENT_TIMESTAMP, 'admin', NULL, NULL);
+
+
+--

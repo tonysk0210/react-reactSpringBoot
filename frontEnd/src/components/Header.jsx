@@ -6,8 +6,10 @@ import {
   faMoon,
   faAngleDown,
 } from "@fortawesome/free-solid-svg-icons"; // 匯入 實際的 icon 定義（資料物件; 有 @ 的 import → 來自「npm 套件（node_modules）」
-import { useState, useEffect } from "react";
-import { Link, NavLink } from "react-router-dom"; // 引入 Link 和 NavLink 組件；
+import { useState, useEffect, useRef } from "react";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom"; // 引入 Link 和 NavLink 組件；
+import { toast } from "react-toastify";
+
 // 這些組件是 React Router 中用於創建導航連結的組件，Link 用於一般的連結，
 // 而 NavLink 可以根據當前路由自動添加 active 類，以便進行樣式上的區分。
 
@@ -23,7 +25,7 @@ const DarkModeClass =
 const dropdownLinkClass =
   "block w-full text-left px-4 py-2 text-lg font-brand font-semibold text-brand dark:text-light hover:bg-gray-100 dark:hover:bg-gray-600";
 const menuClass =
-  "text-center text-lg font-brand font-semibold text-brand py-2 dark:text-light hover:text-dark dark:hover:text-lighter";
+  "text-center text-lg font-brand font-semibold text-brand py-2 hover:text-dark";
 
 // getNavLinkClass 函式用於根據 NavLink 的狀態（是否為當前路由）來動態生成 className 字串，
 // 這樣可以讓當前路由的連結有不同的樣式（例如：字體加粗和下劃線）。
@@ -43,11 +45,16 @@ export default function Header() {
   const [isUserMenuOpen, setUserMenuOpen] = useState(false);
   // 管理員菜單狀態
   const [isAdminMenuOpen, setAdminMenuOpen] = useState(false);
+  // 獲取當前路由位置 告訴我們現在在哪个頁面(tells you where the app currently is in the router)
+  const location = useLocation();
+  const userMenuRef = useRef(null); // userMenuRef 用於存儲用戶菜單的 DOM 元素，以便在點擊外部時關閉菜單
+  const navigate = useNavigate(); // navigate 用於程式化導航
+
   // 是否為管理員
   const isAdmin = true;
 
   const { totalQuantity } = useCart(); // 使用 useCart custom hook 來訪問 CartContext 中的 totalQuantity 屬性，這個屬性表示購物車中商品的總數量，可以用來在購物車圖示旁邊顯示一個徽章，提示用戶購物車中有多少件商品。
-  const { isAuthenticated } = useAuth(); // 從 useAuth 鉤子中取得 isAuthenticated 狀態
+  const { isAuthenticated, logout } = useAuth(); // 從 useAuth 鉤子中取得 isAuthenticated 狀態
 
   // toggleMode 函式用於切換主題模式（暗模式和亮模式）。當用戶點擊切換按鈕時，這個函式會被觸發，根據當前的 mode 狀態來切換到另一個模式，並將新的模式存儲到 localStorage 中，以便在頁面重新載入後保持用戶的選擇。
   const toggleMode = () => {
@@ -68,6 +75,14 @@ export default function Header() {
     setUserMenuOpen(!isUserMenuOpen);
   };
 
+  // 登出處理
+  const handleLogout = () => {
+    // e.preventDefault(); // 阻止 Link 立即執行預設導航
+    logout();
+    toast.success("成功登出!");
+    navigate("/home");
+  };
+
   // 監聽 theme 狀態的變化，當 theme 改變時更新 document.documentElement 的 class 列表，以切換主題樣式。
   // 當第一次渲染組件時，useEffect 會檢查 mode 的值，如果是 "dark"，就會在 <html> 元素上添加 "dark" 類，這樣 Tailwind CSS 的暗模式樣式就會生效；如果 mode 是 "light"，則會移除 "dark" 類。
   useEffect(() => {
@@ -76,7 +91,22 @@ export default function Header() {
     } else {
       document.documentElement.classList.remove("dark");
     }
-  }, [mode]); //「只要 mode 改變，就重新執行這段 effect。」
+
+    // 當主題或路徑改變時，關閉所有菜單
+    setAdminMenuOpen(false);
+    setUserMenuOpen(false);
+
+    // 監聽鼠標點擊事件，如果點擊的元素不在用戶菜單內，則關閉菜單
+    document.addEventListener("mousedown", (event) => {
+      // 如果 userMenuRef 已經連到 DOM 元素，而且這次點擊的位置不在 user menu 裡面
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+        // userMenuRef.current：用戶菜單的 DOM 元素
+        // userMenuRef.current.contains(event.target)：userMenuRef 這個 DOM 節點裡面，有沒有包含這次被點到的元素
+        setUserMenuOpen(false);
+        setAdminMenuOpen(false);
+      }
+    });
+  }, [mode, location.pathname]); //「只要 mode 或 pathname 改變，就重新執行這段 effect。」
 
   return (
     <header className="header border-gray-300 dark:border-gray-600 bg-normalbg dark:bg-darkbg">
@@ -123,22 +153,28 @@ export default function Header() {
                 聯絡我們
               </NavLink>
             </li>
-            <li className="flex items-center -translate-y-0.5">
+            <li className="flex items-center">
               {/* 用戶菜單（如果已登入） */}
               {isAuthenticated ? (
                 <>
-                  <div className="relative">
+                  {/* userMenuRef 代表下拉選單的 DOM 元素 */}
+                  <div ref={userMenuRef} className="relative">
                     <button
                       onClick={toggleUserMenu}
                       className="relative text-brand"
                     >
-                      <span className={menuClass}>你好 Anthony </span>
+                      <span
+                        className={`${menuClass} text-purple-500 hover:text-purple-600`}
+                      >
+                        你好 Anthony
+                      </span>
                       <FontAwesomeIcon
                         icon={faAngleDown}
                         className="text-brand dark:text-light w-6 h-6"
                       />
                     </button>
-                    {isUserMenuOpen && (
+                    {/* 用戶菜單 下拉選單 */}
+                    {isUserMenuOpen && ( // isUserMenuOpen 為 true 時顯示下拉選單
                       <div className="absolute right-0 w-48 bg-normalbg dark:bg-darkbg border border-gray-300 dark:border-gray-600 rounded-md shadow-lg z-20 transition ease-in-out duration-200">
                         <ul className="py-2">
                           <li>
@@ -157,17 +193,24 @@ export default function Header() {
                                 onClick={toggleAdminMenu}
                                 className={`${dropdownLinkClass} flex items-center justify-between`}
                               >
-                                管理者
-                                <FontAwesomeIcon icon={faAngleDown} />
+                                <div className="text-green-800 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300">
+                                  管理者
+                                </div>
+                                <div>
+                                  <FontAwesomeIcon icon={faAngleDown} />
+                                </div>
                               </button>
-                              {isAdminMenuOpen && (
+                              {/* 管理者下拉選單 */}
+                              {isAdminMenuOpen && ( // isAdminMenuOpen 為 true 時顯示下拉選單
                                 <ul className="ml-4 mt-2 space-y-2">
                                   <li>
                                     <Link
-                                      to="/admin/orders"
+                                      to="/admin/orderManage"
                                       className={dropdownLinkClass}
                                     >
-                                      單
+                                      <div className="text-green-600 hover:text-green-700 dark:text-green-100 dark:hover:text-green-200">
+                                        訂單
+                                      </div>
                                     </Link>
                                   </li>
                                   <li>
@@ -175,7 +218,9 @@ export default function Header() {
                                       to="/admin/messages"
                                       className={dropdownLinkClass}
                                     >
-                                      信息
+                                      <div className="text-green-600 hover:text-green-700 dark:text-green-100 dark:hover:text-green-200">
+                                        信息
+                                      </div>
                                     </Link>
                                   </li>
                                 </ul>
@@ -184,15 +229,13 @@ export default function Header() {
                           )}
 
                           <li>
-                            <Link
-                              to="/home"
-                              onClick={() => {
-                                // TODO: 實現登出邏輯
-                              }}
-                              className={dropdownLinkClass}
+                            <button
+                              type="button"
+                              onClick={handleLogout} // 點擊後執行登出處理
+                              className={`${dropdownLinkClass}  text-red-800 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300`}
                             >
                               登出
-                            </Link>
+                            </button>
                           </li>
                         </ul>
                       </div>
@@ -203,7 +246,9 @@ export default function Header() {
                 <>
                   {/* login 導向（"/login"） */}
                   <NavLink to="/login" className={getNavLinkClass}>
-                    登入
+                    <div className="text-purple-500 hover:text-purple-600">
+                      會員登入
+                    </div>
                   </NavLink>
                 </>
               )}

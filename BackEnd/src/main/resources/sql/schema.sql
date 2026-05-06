@@ -26,3 +26,16 @@ CREATE TABLE IF NOT EXISTS contacts
     updated_at    TIMESTAMP   DEFAULT NULL,
     updated_by    VARCHAR(20) DEFAULT NULL
     );
+
+CREATE TABLE IF NOT EXISTS customers
+(
+    customer_id       BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name          VARCHAR(100)                          NOT NULL,
+    email         VARCHAR(100)                          NOT NULL UNIQUE,
+    mobile_number VARCHAR(15)                           NOT NULL UNIQUE,
+    password_hash VARCHAR(500)                          NOT NULL,
+    created_at    TIMESTAMP   DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    created_by    VARCHAR(20)                           NOT NULL,
+    updated_at    TIMESTAMP   DEFAULT NULL,
+    updated_by    VARCHAR(20) DEFAULT NULL
+    );

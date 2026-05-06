@@ -210,7 +210,6 @@ export async function contactAction({ request, params }) {
       error.response?.data?.errorMessage || // 從後端錯誤響應中提取錯誤消息，如果沒有則使用 Axios error 物件中的 message 屬性，如果還沒有，則會使用一個默認的錯誤消息 "無法提交聯絡信息，請稍後再試。"。
       error.message ||
       "無法提交聯絡信息，請稍後再試。";
-    // "哎呀，出錯了！請重試一次，若問題持續請聯絡技術團隊 from API"
 
     throw new Response(backendMessage, {
       status: error.response?.status || 500, // 使用後端返回的錯誤狀態碼，如果沒有則默認為 500
