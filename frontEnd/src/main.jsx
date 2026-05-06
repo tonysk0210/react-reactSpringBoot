@@ -59,7 +59,7 @@ const routeDefinitions = createRoutesFromElements(
     {/* action={contactAction} 是 React Router 中用於在表單提交時處理表單數據的函式，這個函式會在 Contact 組件中的 Form 組件提交時被調用，用於處理表單數據，並且在 Contact 組件中使用 useActionData 鉤子來獲取這些數據。 */}
     <Route path="/login" element={<Login />} action={loginAction} />
     <Route path="/cart" element={<Cart />} />
-    <Route path="/products/:productId" element={<CheckoutForm />} />
+    <Route path="/products/:productId" element={<ProductDetail />} />
     {/* 當路由匹配到 "/products/:productId" 時，會渲染 ProductDetail 組件；:productId 是一個動態路由參數，可以在 ProductDetail 組件中使用 useParams hook 來獲取這個參數的值。 */}
 
     {/* 需要登入才能訪問的路由 */}

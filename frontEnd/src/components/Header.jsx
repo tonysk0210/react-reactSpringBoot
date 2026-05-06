@@ -4,6 +4,7 @@ import {
   faNoteSticky,
   faSun,
   faMoon,
+  faAngleDown,
 } from "@fortawesome/free-solid-svg-icons"; // 匯入 實際的 icon 定義（資料物件; 有 @ 的 import → 來自「npm 套件（node_modules）」
 import { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom"; // 引入 Link 和 NavLink 組件；
@@ -14,10 +15,15 @@ import { Link, NavLink } from "react-router-dom"; // 引入 Link 和 NavLink 組
 // import { CartContext } from "../store/cart-context.jsx"; // 引入 CartContext；這個 Context 是用來在組件之間共享購物車狀態的，這樣就不需要通過 props 一層一層地傳遞購物車數據了。
 
 import { useCart } from "../store/cart-context"; // 引入 useCart custom hook；這個 hook 是用來在組件中訪問 CartContext 中的 totalQuantity 屬性，這個屬性表示購物車中商品的總數量，可以用來在購物車圖示旁邊顯示一個徽章，提示用戶購物車中有多少件商品。
+import { useAuth } from "../store/auth-context"; // 引入 useAuth custom hook；這個 hook 是用來在組件中訪問 AuthContext 中的 user 屬性，這個屬性表示當前登入的用戶，可以用來在導航欄中顯示用戶名稱和登出按鈕。
 
 // Tailwind CSS 的類，用於設定導航連結在暗模式下的樣式。
 const DarkModeClass =
   "text-brand dark:text-light hover:text-dark dark:hover:text-lighter";
+const dropdownLinkClass =
+  "block w-full text-left px-4 py-2 text-lg font-brand font-semibold text-brand dark:text-light hover:bg-gray-100 dark:hover:bg-gray-600";
+const menuClass =
+  "text-center text-lg font-brand font-semibold text-brand py-2 dark:text-light hover:text-dark dark:hover:text-lighter";
 
 // getNavLinkClass 函式用於根據 NavLink 的狀態（是否為當前路由）來動態生成 className 字串，
 // 這樣可以讓當前路由的連結有不同的樣式（例如：字體加粗和下劃線）。
@@ -33,7 +39,15 @@ export default function Header() {
     return localStorage.getItem("mode") === "dark" ? "dark" : "light"; // 從 localStorage 讀取 mode 的值
   });
 
+  // 用戶菜單狀態
+  const [isUserMenuOpen, setUserMenuOpen] = useState(false);
+  // 管理員菜單狀態
+  const [isAdminMenuOpen, setAdminMenuOpen] = useState(false);
+  // 是否為管理員
+  const isAdmin = true;
+
   const { totalQuantity } = useCart(); // 使用 useCart custom hook 來訪問 CartContext 中的 totalQuantity 屬性，這個屬性表示購物車中商品的總數量，可以用來在購物車圖示旁邊顯示一個徽章，提示用戶購物車中有多少件商品。
+  const { isAuthenticated } = useAuth(); // 從 useAuth 鉤子中取得 isAuthenticated 狀態
 
   // toggleMode 函式用於切換主題模式（暗模式和亮模式）。當用戶點擊切換按鈕時，這個函式會被觸發，根據當前的 mode 狀態來切換到另一個模式，並將新的模式存儲到 localStorage 中，以便在頁面重新載入後保持用戶的選擇。
   const toggleMode = () => {
@@ -43,6 +57,15 @@ export default function Header() {
       localStorage.setItem("mode", newMode); // 將新的模式存儲到 localStorage 中
       return newMode; // 更新狀態為新的模式
     });
+  };
+
+  // 切換管理員菜單
+  const toggleAdminMenu = () => {
+    setAdminMenuOpen(!isAdminMenuOpen);
+  };
+  // 切換用戶菜單
+  const toggleUserMenu = () => {
+    setUserMenuOpen(!isUserMenuOpen);
   };
 
   // 監聽 theme 狀態的變化，當 theme 改變時更新 document.documentElement 的 class 列表，以切換主題樣式。
@@ -101,10 +124,89 @@ export default function Header() {
               </NavLink>
             </li>
             <li>
-              {/* login 導向（"/login"） */}
-              <NavLink to="/login" className={getNavLinkClass}>
-                登入
-              </NavLink>
+              {/* 用戶菜單（如果已登入） */}
+              {isAuthenticated ? (
+                <>
+                  <div className="relative">
+                    <button
+                      onClick={toggleUserMenu}
+                      className="relative text-brand"
+                    >
+                      <span className={menuClass}>你好 John Doe</span>
+                      <FontAwesomeIcon
+                        icon={faAngleDown}
+                        className="text-brand dark:text-light w-6 h-6"
+                      />
+                    </button>
+                    {isUserMenuOpen && (
+                      <div className="absolute right-0 w-48 bg-normalbg dark:bg-darkbg border border-gray-300 dark:border-gray-600 rounded-md shadow-lg z-20 transition ease-in-out duration-200">
+                        <ul className="py-2">
+                          <li>
+                            <Link to="/profile" className={dropdownLinkClass}>
+                              個人檔案
+                            </Link>
+                          </li>
+                          <li>
+                            <Link to="/orders" className={dropdownLinkClass}>
+                              我的訂單
+                            </Link>
+                          </li>
+                          {isAdmin && (
+                            <li>
+                              <button
+                                onClick={toggleAdminMenu}
+                                className={`${dropdownLinkClass} flex items-center justify-between`}
+                              >
+                                管理者
+                                <FontAwesomeIcon icon={faAngleDown} />
+                              </button>
+                              {isAdminMenuOpen && (
+                                <ul className="ml-4 mt-2 space-y-2">
+                                  <li>
+                                    <Link
+                                      to="/admin/orders"
+                                      className={dropdownLinkClass}
+                                    >
+                                      Orders
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <Link
+                                      to="/admin/messages"
+                                      className={dropdownLinkClass}
+                                    >
+                                      Messages
+                                    </Link>
+                                  </li>
+                                </ul>
+                              )}
+                            </li>
+                          )}
+
+                          <li>
+                            <Link
+                              to="/home"
+                              onClick={() => {
+                                // TODO: 實現登出邏輯
+                              }}
+                              className={dropdownLinkClass}
+                            >
+                              登出
+                            </Link>
+                          </li>
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <>
+                  {/* login 導向（"/login"） */}
+                  <NavLink to="/login" className={getNavLinkClass}>
+                    登入
+                  </NavLink>
+                </>
+              )}
             </li>
             <li>
               {/* cart 導向（"/cart"） */}
