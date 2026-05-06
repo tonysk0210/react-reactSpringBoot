@@ -14,7 +14,7 @@ export default function CartTable() {
 
   // 更新購物車中商品的數量
   const updateCartQuantity = (productId, quantity) => {
-    const product = cart.find((item) => item.productId === productId); // 使用 find 方法來找到購物車中商品的列表，productId 是商品的 id，quantity 是商品的數量。
+    const product = cart.find((item) => item.id === productId); // 使用 find 方法來找到購物車中商品的列表，productId 是商品的 id，quantity 是商品的數量。
     addToCart(product, quantity - (product?.quantity || 0)); // 使用 addToCart 方法來更新購物車中商品的數量，product 是商品，quantity 是商品的數量。
   };
 
@@ -38,13 +38,13 @@ export default function CartTable() {
               item, // 使用 map 方法來遍歷購物車中商品的列表，item 是當前商品。
             ) => (
               <tr
-                key={item.productId} // 使用 key 屬性來標識每個商品，這樣就可以確保每個商品都有唯一的標識符，從而避免重複渲染的問題。
+                key={item.id} // 使用 key 屬性來標識每個商品，這樣就可以確保每個商品都有唯一的標識符，從而避免重複渲染的問題。
                 className="text-sm sm:text-base text-brand dark:text-light text-center"
               >
                 {/* 產品名稱和圖片 */}
                 <td className="px-4 sm:px-6 py-4 flex items-center">
                   <Link
-                    to={`/products/${item.productId}`}
+                    to={`/products/${item.id}`}
                     state={{ product: item }}
                     className="flex items-center"
                   >
@@ -66,7 +66,7 @@ export default function CartTable() {
                     value={item.quantity}
                     onChange={(e) =>
                       updateCartQuantity(
-                        item.productId,
+                        item.id,
                         parseInt(e.target.value, 10) || 1,
                       )
                     }
@@ -81,7 +81,7 @@ export default function CartTable() {
                 <td className="px-4 sm:px-6 py-4">
                   <button
                     aria-label="delete-item"
-                    onClick={() => removeFromCart(item.productId)}
+                    onClick={() => removeFromCart(item.id)}
                     className="text-red-400 border border-red-400 p-2 rounded hover:bg-lighter dark:hover:bg-gray-700"
                   >
                     <FontAwesomeIcon icon={faTimes} />
