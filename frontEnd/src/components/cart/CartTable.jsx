@@ -20,7 +20,7 @@ export default function CartTable() {
 
   return (
     <div className="min-h-80 max-w-4xl mx-auto my-8 w-full font-brand">
-      <table className="w-full">
+      <table className="w-full table-fixed">
         {/* 表格標題 */}
         <thead>
           <tr className="uppercase text-sm text-brand dark:text-light border-b border-brand dark:border-light">
@@ -42,7 +42,7 @@ export default function CartTable() {
                 className="text-sm sm:text-base text-brand dark:text-light text-center"
               >
                 {/* 產品名稱和圖片 */}
-                <td className="px-4 sm:px-6 py-4 flex items-center">
+                <td className="px-4 sm:px-6 py-4">
                   <Link
                     to={`/products/${item.id}`}
                     state={{ product: item }}
