@@ -28,12 +28,12 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity // 「我要開始用 Spring Security 保護我的 Web 應用」optional
-public class StickerStoreSecurityConfig {
+public class MySecurityConfig {
 
     private final List<String> publicPaths;
 
     @Autowired
-    public StickerStoreSecurityConfig(@Qualifier("publicPaths") List<String> publicPaths) {
+    public MySecurityConfig(@Qualifier("publicPaths") List<String> publicPaths) {
         this.publicPaths = publicPaths;
     }
 

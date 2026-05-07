@@ -46,6 +46,7 @@ public class AuthController {
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestPayload loginRequestPayload) {
         try {
             // 手動執行登入驗證: 我要用 username + password 嘗試登入
+            // 由 AuthenticationManager 來執行登入驗證，裡面會呼叫 UserDetailsService 來根據 username 拿到使用者資料，然後再比對密碼是否正確。
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             loginRequestPayload.userName(),
