@@ -19,7 +19,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.authentication.password.CompromisedPasswordChecker;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,30 +44,32 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestPayload loginRequestPayload) {
         try {
-            // 手動執行登入驗證: 我要用 username + password 嘗試登入
-            // 由 AuthenticationManager 來執行登入驗證，裡面會呼叫 UserDetailsService 來根據 username 拿到使用者資料，然後再比對密碼是否正確。
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            loginRequestPayload.userName(),
-                            loginRequestPayload.password()));
-            // org.springframework.security.authentication.BadCredentialsException: 憑證錯誤
-            // 這是 GlobalExceptionHandler 接管並給上 500
 
-            var loggedInUser = (User) authentication.getPrincipal(); // 「目前通過驗證的主要身份」
+            // 1. 取得使用者輸入的帳號密碼，並包成一個 AuthenticationToken 物件 ( 還未通過驗證)
+            Authentication authenticationToken = new UsernamePasswordAuthenticationToken(loginRequestPayload.userName(), loginRequestPayload.password());
+
+            // 2. 由自訂義的 AuthenticationManager bean 來執行驗證剛包好的 Authentication 物件 ( 若驗證成功產生已通過驗證的 Authentication 物件)
+            Authentication authentication = authenticationManager.authenticate(authenticationToken);
+            // 驗證錯誤丟出 org.springframework.security.authentication.BadCredentialsException: 憑證錯誤
+
+            // 3. 從 Authentication 物件中取出通過驗證的使用者物件，並包在 UserDto 物件中
+            var loggedInUser = (Customer) authentication.getPrincipal(); // 「目前通過驗證的主要身份」
             UserDto userDto = new UserDto();
-            userDto.setName(loggedInUser.getUsername());// 從登入成功的使用者物件中拿出 username
+            BeanUtils.copyProperties(loggedInUser, userDto);
 
-            // JWT 可以用來證明「這個使用者之前已經登入成功」。只要 token 還沒過期，前端就可以帶著它呼叫 API，後端驗證 token 成功後，就不用要求使用者重新登入。
+            // 4. 用 Authentication 物件 生成 JWT Token 並回傳給前端
             String jwtToken = jwtUtil.generateJwtToken(authentication); // JWT 內容可以被看見，但不能被隨便修改。
+            // JWT 可以用來證明「這個使用者之前已經登入成功」。只要 token 還沒過期，前端就可以帶著它呼叫 API，後端驗證 token 成功後，就不用要求使用者重新登入。
 
+            // 5. 回傳 LoginResponseDto 物件給前端包含了 「使用者資料」 和 「JWT Token」
             return ResponseEntity
                     .status(HttpStatus.OK)
                     .body(new LoginResponseDto(HttpStatus.OK.getReasonPhrase(), userDto, jwtToken));
         } catch (BadCredentialsException e) {
-            return buildErrorResponse(HttpStatus.UNAUTHORIZED, "帳號密碼不一致"); // 排除 global exception handler (500) 攔截防止轉向 ErrorPage.jsx
+            return buildErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage()); // 排除 global exception handler (500) 攔截防止轉向 ErrorPage.jsx
         } catch (AuthenticationException e) {
-            return buildErrorResponse(HttpStatus.UNAUTHORIZED, "驗證失敗"); // status 401
-            // 其餘 Excpetion 轉由 Global Exception Handler 處理
+            return buildErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage()); // status 401
+            // 其餘 Exception 轉由 Global Exception Handler 處理
         }
     }
 

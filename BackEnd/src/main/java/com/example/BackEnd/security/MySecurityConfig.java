@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.authentication.password.CompromisedPasswordChecker;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -78,12 +77,17 @@ public class MySecurityConfig {
     // 有哪些使用者可以登入，以及他們的帳號、密碼和角色是什麼。
     // 自己定義的 UserDetailsService 通常會讓 (application.properties) spring.security.user.* 那組預設帳號設定失效。所以不是兩套一起並存，而是你手寫的那套會優先生效。
     // {noop} 這個密碼是明文，不做編碼。
+    // #1. 自定義 UserDetailsService 作為 Spring Security 的使用者資料來源
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
-        UserDetails user = User.builder().username("user")
-                .password(passwordEncoder.encode("user")).roles("USER").build(); // 把原始密碼 user 先經過 passwordEncoder 編碼後再保存。
-        UserDetails admin = User.builder().username("admin")
-                .password("$2a$12$L51S8Z2JvzSN.pKQSXOgBOa6Iol5R5.dlOpFEkYO8i/J6UufT4TAa").roles("USER", "ADMIN").build(); // 把一串已經編碼好的 BCrypt 密碼寫進去。
+        UserDetails user = User.builder()
+                .username("user")
+                .password(passwordEncoder.encode("user"))
+                .roles("USER").build(); // 把原始密碼 user 先經過 passwordEncoder 編碼後再保存。
+        UserDetails admin = User.builder()
+                .username("admin")
+                .password("$2a$12$L51S8Z2JvzSN.pKQSXOgBOa6Iol5R5.dlOpFEkYO8i/J6UufT4TAa")
+                .roles("USER", "ADMIN").build(); // 把一串已經編碼好的 BCrypt 密碼寫進去。
         return new InMemoryUserDetailsManager(user, admin); // 使用者資料只存在記憶體裡
     }
 
@@ -94,25 +98,18 @@ public class MySecurityConfig {
     }
 
     // authenticationManager 這個 Bean 是在告訴 Spring Security：登入時，請用我的 UserDetailsService 找使用者，再用 BCryptPasswordEncoder 檢查密碼。
+    // #2. 自定義 AuthenticationManager 作為 Spring Security 的驗證系統
     @Bean
-    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
-        var daoAuthenticationProvider = new DaoAuthenticationProvider(); // 負責驗證帳號密碼
-        daoAuthenticationProvider.setUserDetailsService(userDetailsService); // 去哪裡找使用者資料
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder); // 怎麼比對密碼
-        // 建立一個 AuthenticationManager，裡面使用剛剛設定好的 DaoAuthenticationProvider 來驗證登入。
-        var providerManager = new ProviderManager(daoAuthenticationProvider);
-        return providerManager;
+    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder, MyAuthenticationProvider authenticationProvider) {
 
-        /**
-         * •
-         * AuthenticationManager = 驗證系統的總入口
-         * •
-         * ProviderManager = 調度員
-         * •
-         * DaoAuthenticationProvider = 專門處理帳密登入的驗證員
-         * •
-         * UserDetailsService = 去資料庫查使用者資料的人
-         */
+        /*// 1. 提供一個 DaoAuthenticationProvider 來處理帳密登入的驗證流程
+        var daoAuthenticationProvider = new DaoAuthenticationProvider(); // 1. 負責 username/password 登入驗證流程
+        daoAuthenticationProvider.setUserDetailsService(userDetailsService); // 2. 指定它要透過哪個 UserDetailsService 取得使用者資料
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder); // 3. 指定它要用哪個 PasswordEncoder 比對密碼*/
+
+        // 2. 建立一個 AuthenticationManager，套用剛剛設定好的 MyAuthenticationProvider 來管理驗證提供者
+        var providerManager = new ProviderManager(authenticationProvider); // 這個 AuthenticationManager 調度員 會使用 DaoAuthenticationProvider 來驗證登入
+        return providerManager;
     }
 
     // 檢查密碼是否在「被竊取的密碼清單」裡面
