@@ -54,7 +54,7 @@ export default function Header() {
   const isAdmin = true;
 
   const { totalQuantity } = useCart(); // 使用 useCart custom hook 來訪問 CartContext 中的 totalQuantity 屬性，這個屬性表示購物車中商品的總數量，可以用來在購物車圖示旁邊顯示一個徽章，提示用戶購物車中有多少件商品。
-  const { isAuthenticated, logout } = useAuth(); // 從 useAuth 鉤子中取得 isAuthenticated 狀態
+  const { isAuthenticated, logout, user } = useAuth(); // 從 useAuth 鉤子取得認證狀態、登出函式和用戶資訊
 
   // toggleMode 函式用於切換主題模式（暗模式和亮模式）。當用戶點擊切換按鈕時，這個函式會被觸發，根據當前的 mode 狀態來切換到另一個模式，並將新的模式存儲到 localStorage 中，以便在頁面重新載入後保持用戶的選擇。
   const toggleMode = () => {
@@ -166,7 +166,12 @@ export default function Header() {
                       <span
                         className={`${menuClass} text-purple-500 hover:text-purple-600`}
                       >
-                        你好 Anthony
+                        {/* 動態顯示用戶名稱，如果超過5個字就只顯示前5個字 */}
+                        {`你好 ${
+                          user.name.length > 5
+                            ? `${user.name.slice(0, 5)}...` // 如果用戶名稱超過5個字就只顯示前5個字
+                            : user.name // 如果用戶名稱不超過5個字就顯示完整用戶名稱
+                        }`}
                       </span>
                       <FontAwesomeIcon
                         icon={faAngleDown}
