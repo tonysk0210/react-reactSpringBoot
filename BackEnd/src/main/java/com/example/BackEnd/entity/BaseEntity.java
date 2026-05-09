@@ -16,7 +16,8 @@ import java.time.Instant;
 @Getter
 @Setter
 @MappedSuperclass // 讓子類共用欄位，但不建立資料表的父類
-@EntityListeners(AuditingEntityListener.class) // 啟用審計功能，讓 @CreatedDate 和 @LastModifiedDate 能自動填充; 「當這個 Entity 發生 新增 / 更新 時，幫我自動處理一些欄位（例如時間）」
+@EntityListeners(AuditingEntityListener.class)
+// 讓 Spring Data JPA 的 auditing listener 介入處理。啟用審計功能，讓 @CreatedDate 和 @LastModifiedDate 能自動填充; 「當這個 Entity 發生 新增 / 更新 時，幫我自動處理一些欄位（例如時間）」
 public class BaseEntity {
 
     // @ColumnDefault("CURRENT_TIMESTAMP") // 預設值為當前時間戳 @ColumnDefault 是給「資料庫」看的
@@ -40,3 +41,15 @@ public class BaseEntity {
     @LastModifiedBy // 代表這個欄位會在 Entity 被更新時自動填充為當前使用者的名稱（需要配合 Spring Security 或其他認證機制）
     private String updatedBy;
 }
+
+/**
+ * @EntityListeners(AuditingEntityListener.class) |
+ * v
+ * 啟用 auditing listener
+ * |
+ * v
+ * @EnableJpaAuditing(auditorAwareRef = "auditorAwareImpl")
+ * |
+ * v
+ * 指定使用 auditorAwareImpl
+ */
