@@ -24,16 +24,21 @@ export default function Profile() {
 
   // 6. 處理表單提交後的資料
   useEffect(() => {
+    console.log("effect run", actionData); // 會跑兩次，一次是初始資料，一次是提交後的資料
     if (actionData?.success) {
       if (actionData.profileData.emailUpdated) {
         // emailUpdated 來自後端
         sessionStorage.setItem("skipRedirectPath", "true"); // 設定 sessionStorage 來跳過重新導向
         logout();
-        toast.success("成功更新電子郵件，請重新登入");
+        toast.success("成功更新電子郵件，請重新登入", {
+          toastId: "email-update-success", // 防止重複顯示
+        });
         navigate("/login");
       } else {
-        toast.success("成功保存個人資料");
-        setProfileData(actionData.profileData); // 更新本地狀態
+        toast.success("成功保存個人資料", {
+          toastId: "profile-save-success", // 防止重複顯示
+        });
+        setProfileData(actionData.profileData); // 更新本地狀態：它的用途是避免前端畫面跟後端資料不一致，確保使用者看到的資料是最新的
       }
     }
   }, [actionData]);
@@ -72,7 +77,9 @@ export default function Profile() {
             maxLength={30}
           />
           {actionData?.error?.name && (
-            <p className="text-red-500 text-sm mt-1">{actionData.error.name}</p>
+            <p className="text-red-500 text-sm mt-1">
+              {actionData.error.name.join(", ")}
+            </p>
           )}
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -95,7 +102,7 @@ export default function Profile() {
             />
             {actionData?.error?.email && (
               <p className="text-red-500 text-sm mt-1">
-                {actionData.error.email}
+                {actionData.error.email.join(", ")}
               </p>
             )}
           </div>
@@ -124,7 +131,7 @@ export default function Profile() {
             />
             {actionData?.error?.mobileNumber && ( // 顯示手機號碼錯誤 是從 actionData 傳入的
               <p className="text-red-500 text-sm mt-1">
-                {actionData.error.mobileNumber}
+                {actionData.error.mobileNumber.join(", ")}
               </p>
             )}
           </div>
@@ -154,7 +161,7 @@ export default function Profile() {
           />
           {actionData?.error?.street && (
             <p className="text-red-500 text-sm mt-1">
-              {actionData.error.street}
+              {actionData.error.street.join(", ")}
             </p>
           )}
         </div>
@@ -183,7 +190,7 @@ export default function Profile() {
             />
             {actionData?.error?.city && (
               <p className="text-red-500 text-sm mt-1">
-                {actionData.error.city}
+                {actionData.error.city.join(", ")}
               </p>
             )}
           </div>
@@ -212,7 +219,7 @@ export default function Profile() {
             />
             {actionData?.error?.state && (
               <p className="text-red-500 text-sm mt-1">
-                {actionData.error.state}
+                {actionData.error.state.join(", ")}
               </p>
             )}
           </div>
@@ -242,7 +249,7 @@ export default function Profile() {
             />
             {actionData?.error?.postalCode && (
               <p className="text-red-500 text-sm mt-1">
-                {actionData.error.postalCode}
+                {actionData.error.postalCode.join(", ")}
               </p>
             )}
           </div>
@@ -271,7 +278,7 @@ export default function Profile() {
             />
             {actionData?.error?.country && (
               <p className="text-red-500 text-sm mt-1">
-                {actionData.error.country}
+                {actionData.error.country.join(", ")}
               </p>
             )}
           </div>
@@ -294,6 +301,7 @@ export default function Profile() {
 // 1. 這是處理資料載入的函數 - 用於獲取用戶資料
 export async function profileLoader() {
   try {
+    console.log("profileLoader executed");
     const response = await apiClient.get("/profile"); // Axios GET Request
     return toProfileFormData(response.data); // 將後端回傳的資料轉換為表單所需的格式
   } catch (error) {
@@ -308,6 +316,7 @@ export async function profileLoader() {
 
 // 4. 這是處理表單提交的函數 - 用於更新用戶資料
 export async function profileAction({ request }) {
+  console.log("profileAction executed");
   const data = await request.formData();
 
   // 從表單中取得資料

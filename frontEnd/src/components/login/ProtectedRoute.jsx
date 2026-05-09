@@ -8,7 +8,8 @@ export default function ProtectedRoute() {
 
   // 如果未登入且不在登入頁面，則儲存當前路徑
   useEffect(() => {
-    if (!isAuthenticated && location.pathname !== "/login") {
+    const skipRedirect = sessionStorage.getItem("skipRedirectPath") === "true"; // 檢查是否跳過重定向
+    if (!isAuthenticated && location.pathname !== "/login" && !skipRedirect) {
       sessionStorage.setItem("redirectPath", location.pathname); // 儲存當前路徑到 sessionStorage 供登入後跳轉到該頁面
     }
   }, [isAuthenticated, location.pathname]); // 當認證狀態或路由位置變化時執行 (ProtectedRoute component rerender 之後，React 用它來判斷這個 effect 要不要重新執行)

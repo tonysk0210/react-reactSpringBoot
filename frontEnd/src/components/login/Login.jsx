@@ -24,8 +24,13 @@ export default function Login() {
   const navigate = useNavigate(); // 獲取導航函數
   const { loginSuccess } = useAuth(); // 從 context 中取得 loginSuccess 函數
 
+  const skipRedirectPath =
+    sessionStorage.getItem("skipRedirectPath") === "true";
+
   // 獲取 sessionStorage 中的 redirectPath，如果沒有則預設為 "/home"
-  const from = sessionStorage.getItem("redirectPath") || "/home";
+  const from = skipRedirectPath
+    ? "/home"
+    : sessionStorage.getItem("redirectPath") || "/home";
 
   // 處理登入成功後的導航
   useEffect(() => {
@@ -34,8 +39,12 @@ export default function Login() {
 
       // 清除 sessionStorage 中的 redirectPath 目的是避免下次登入時還帶有上次的路徑
       sessionStorage.removeItem("redirectPath");
+      sessionStorage.removeItem("skipRedirectPath");
 
-      navigate(from); // 登入成功後導航到原本要前往的頁面
+      // 延遲導航，確保 context 更新完成：jwtToken 和 user 存入 auth-context 避免 401 unauthorized
+      setTimeout(() => {
+        navigate(from); // 登入成功後導航到原本要前往的頁面
+      }, 100);
     } else if (actionData?.error) {
       toast.error(actionData.error.message || "登入失敗");
     }
