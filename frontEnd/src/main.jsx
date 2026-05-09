@@ -39,6 +39,7 @@ import { profileLoader } from "./components/login/Profile"; // 從 Profile 組�
 import { contactAction } from "./components/contact/Contact"; // 從 Contact 組件中匯入 contactAction 函式；這個函式是用來在表單提交時處理表單數據的，會在 Contact 組件中使用 useActionData hook 來獲取這些數據。
 import { loginAction } from "./components/login/Login"; // 從 Login 組件中匯入 loginAction 函式；這個函式是用來在表單提交時處理表單數據的，會在 Login 組件中使用 useActionData hook 來獲取這些數據。
 import { registerAction } from "./components/login/Register"; // 從 Register 組件中匯入 registerAction 函式；這個函式是用來在表單提交時處理表單數據的，會在 Register 組件中使用 useActionData hook 來獲取這些數據。
+import { profileAction } from "./components/login/Profile"; // 從 Profile 組件中匯入 profileAction 函式；這個函式是用來在表單提交時處理表單數據的，會在 Profile 組件中使用 useActionData hook 來獲取這些數據。
 
 // 引入 react-toastify 的 ToastContainer 組件和 Bounce 動畫效果；ToastContainer 是用來顯示 toast 通知的組件，Bounce 是一種動畫效果，可以讓 toast 通知以彈跳的方式出現和消失。
 import { ToastContainer, Bounce } from "react-toastify";
@@ -74,7 +75,12 @@ const routeDefinitions = createRoutesFromElements(
     {/* 需要登入才能訪問的路由 */}
     <Route element={<ProtectedRoute />}>
       <Route path="/checkout" element={<CheckoutForm />} />
-      <Route path="/profile" element={<Profile />} loader={profileLoader} />
+      <Route
+        path="/profile"
+        element={<Profile />}
+        loader={profileLoader}
+        action={profileAction}
+      />
       <Route path="/orders" element={<Orders />} />
       <Route path="/admin/orderManage" element={<OrderManage />} />
       <Route path="/admin/messages" element={<Message />} />

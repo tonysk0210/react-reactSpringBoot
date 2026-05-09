@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.password.HaveIBeenPwnedRestApiPasswordChecker;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -49,6 +50,9 @@ public class MySecurityConfig {
                     requests.requestMatchers(path).permitAll()); // publicPaths 裡面的路徑，全部公開
             requests.anyRequest().authenticated(); // 其他所有 request，都要登入
         });
+
+        // 把自訂 JWT 驗證 Filter 插入到 Spring Security filter chain 中， 並且在 BasicAuthenticationFilter 前執行。
+        http.addFilterBefore(new JWTTokenValidatorFilter(publicPaths), BasicAuthenticationFilter.class);
 
         http.formLogin(withDefaults()); // 瀏覽器表單登入
         http.httpBasic(withDefaults()); // Client 在 HTTP request header 裡直接帶帳號密碼

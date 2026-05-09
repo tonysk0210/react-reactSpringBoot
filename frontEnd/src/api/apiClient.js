@@ -9,4 +9,19 @@ const apiClient = axios.create({
   },
 });
 
+// 註冊一個 request interceptor
+apiClient.interceptors.request.use(
+  // 第一個 = success response 把 JWT 加進 header。
+  async (config) => {
+    // config 是這次 request 的設定 object
+    const jwtToken = localStorage.getItem("jwtToken");
+    if (jwtToken) {
+      config.headers.Authorization = `Bearer ${jwtToken}`; // 在 HTTP request header 加上一個 Authorization 欄位，裡面放 JWT token。
+    }
+    return config;
+  },
+  // 第二個 = failed response 把錯誤繼續往外丟
+  (error) => Promise.reject(error),
+);
+
 export default apiClient;

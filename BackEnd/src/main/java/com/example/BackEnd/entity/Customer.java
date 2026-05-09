@@ -36,5 +36,9 @@ public class Customer extends BaseEntity {
     @Column(name = "PASSWORD_HASH", nullable = false, length = 500)
     private String passwordHash;
 
-
+    // @OneToOne：表示一對一關聯。(一個 Customer 對應 一個 Address)
+    // mappedBy = "customer"：表示 Address 類中的 customer 欄位是對應到這個 Customer 類中的 id 欄位
+    // cascade = CascadeType.ALL：表示如果 Customer 被刪除，那麼對應的 Address 也會被刪除 (JPA level rule)
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
+    private Address address;
 }

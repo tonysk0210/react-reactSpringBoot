@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import apiClient from "../api/apiClient";
+import apiClient from "../../api/apiClient";
 import {
   Form,
   useLoaderData,
@@ -8,52 +8,53 @@ import {
   useNavigate,
   replace,
 } from "react-router-dom";
-import PageTitle from "./PageTitle";
+import PageTitle from "../../components/home/PageTitle";
 import { toast } from "react-toastify";
-import { useAuth } from "../store/auth-context";
+import { useAuth } from "../../store/auth-context";
 
 export default function Profile() {
   const initialProfileData = useLoaderData(); // 2. 取得初始資料
-  const actionData = useActionData();
+  const actionData = useActionData(); // 5. 取得表單提交後的資料
   const navigation = useNavigation();
-  const navigate = useNavigate();
   const isSubmitting = navigation.state === "submitting";
+  const navigate = useNavigate();
   const { logout } = useAuth();
 
   const [profileData, setProfileData] = useState(initialProfileData); // 3. 設定初始狀態
 
+  // 6. 處理表單提交後的資料
   useEffect(() => {
     if (actionData?.success) {
       if (actionData.profileData.emailUpdated) {
-        sessionStorage.setItem("skipRedirectPath", "true");
+        // emailUpdated 來自後端
+        sessionStorage.setItem("skipRedirectPath", "true"); // 設定 sessionStorage 來跳過重新導向
         logout();
-        toast.success(
-          "Logged out successfully! Login again with updated email",
-        );
+        toast.success("成功更新電子郵件，請重新登入");
         navigate("/login");
       } else {
-        toast.success("Your Profile details are saved successfully!");
-        setProfileData(actionData.profileData);
+        toast.success("成功保存個人資料");
+        setProfileData(actionData.profileData); // 更新本地狀態
       }
     }
   }, [actionData]);
 
   const labelStyle =
-    "block text-lg font-semibold text-primary dark:text-light mb-2";
+    "block text-lg font-semibold text-brand dark:text-light mb-2";
   const h2Style =
-    "block text-2xl font-semibold text-primary dark:text-light mb-2";
+    "block text-2xl font-semibold text-brand dark:text-light mb-2";
   const textFieldStyle =
-    "w-full px-4 py-2 text-base border rounded-md transition border-primary dark:border-light focus:ring focus:ring-dark dark:focus:ring-lighter focus:outline-none text-gray-800 dark:text-lighter bg-white dark:bg-gray-600 placeholder-gray-400 dark:placeholder-gray-300";
+    "w-full px-4 py-2 text-base border rounded-md transition border-brand dark:border-light focus:ring focus:ring-dark dark:focus:ring-lighter focus:outline-none text-gray-800 dark:text-lighter bg-white dark:bg-gray-600 placeholder-gray-400 dark:placeholder-gray-300";
 
   return (
-    <div className="max-w-6xl min-h-213 mx-auto px-6 py-8 font-primary bg-normalbg dark:bg-darkbg">
-      <PageTitle title="My Profile" />
-
+    <div className="max-w-6xl min-h-213 mx-auto px-6 py-8 font-brand bg-normalbg dark:bg-darkbg">
+      <PageTitle title="個人檔案" />
       <Form method="PUT" className="space-y-6 max-w-3xl mx-auto">
+        {" "}
+        {/* 表單提交方法 PUT 代表更新資料 */}
         <div>
-          <h2 className={h2Style}>Personal Details</h2>
+          <h2 className={h2Style}>個人資料</h2>
           <label htmlFor="name" className={labelStyle}>
-            Name
+            姓名
           </label>
           <input
             id="name"
@@ -61,21 +62,19 @@ export default function Profile() {
             type="text"
             placeholder="Your Name"
             className={textFieldStyle}
-            value={profileData.name}
-            onChange={(e) =>
-              setProfileData((prev) => ({ ...prev, name: e.target.value }))
+            value={profileData.name} // 這裡的 name 是從 initialProfileData 傳入的
+            onChange={
+              (e) =>
+                setProfileData((prev) => ({ ...prev, name: e.target.value })) // 輸入時更新狀態
             }
             required
             minLength={5}
             maxLength={30}
           />
-          {actionData?.errors?.name && (
-            <p className="text-red-500 text-sm mt-1">
-              {actionData.errors.name}
-            </p>
+          {actionData?.error?.name && (
+            <p className="text-red-500 text-sm mt-1">{actionData.error.name}</p>
           )}
         </div>
-
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div>
             <label htmlFor="email" className={labelStyle}>
@@ -86,23 +85,24 @@ export default function Profile() {
               name="email"
               type="email"
               placeholder="Your Email"
-              value={profileData.email}
-              onChange={(e) =>
-                setProfileData((prev) => ({ ...prev, email: e.target.value }))
+              value={profileData.email} // 這裡的 email 是從 initialProfileData 傳入的
+              onChange={
+                (e) =>
+                  setProfileData((prev) => ({ ...prev, email: e.target.value })) // 輸入時更新狀態
               }
               className={textFieldStyle}
               required
             />
-            {actionData?.errors?.email && (
+            {actionData?.error?.email && (
               <p className="text-red-500 text-sm mt-1">
-                {actionData.errors.email}
+                {actionData.error.email}
               </p>
             )}
           </div>
 
           <div>
             <label htmlFor="mobileNumber" className={labelStyle}>
-              Mobile Number
+              手機號碼
             </label>
             <input
               id="mobileNumber"
@@ -111,85 +111,86 @@ export default function Profile() {
               required
               pattern="^\d{10}$"
               title="Mobile number must be exactly 10 digits"
-              value={profileData.mobileNumber}
-              onChange={(e) =>
-                setProfileData((prev) => ({
-                  ...prev,
-                  mobileNumber: e.target.value,
-                }))
+              value={profileData.mobileNumber} // 這裡的 mobileNumber 是從 initialProfileData 傳入的
+              onChange={
+                (e) =>
+                  setProfileData((prev) => ({
+                    ...prev,
+                    mobileNumber: e.target.value,
+                  })) // 輸入時更新狀態
               }
               placeholder="Your Mobile Number"
               className={textFieldStyle}
             />
-            {actionData?.errors?.mobileNumber && (
+            {actionData?.error?.mobileNumber && ( // 顯示手機號碼錯誤 是從 actionData 傳入的
               <p className="text-red-500 text-sm mt-1">
-                {actionData.errors.mobileNumber}
+                {actionData.error.mobileNumber}
               </p>
             )}
           </div>
         </div>
-
         <div>
-          <h2 className={h2Style}>Address Details</h2>
+          <h2 className={h2Style}>地址</h2>
           <label htmlFor="street" className={labelStyle}>
-            Street
+            道路
           </label>
           <input
             id="street"
             name="street"
             type="text"
             placeholder="Street details"
-            value={profileData.street}
-            onChange={(e) =>
-              setProfileData((prev) => ({
-                ...prev,
-                street: e.target.value,
-              }))
+            value={profileData.street} // 這裡的 street 是從 initialProfileData 傳入的
+            onChange={
+              (e) =>
+                setProfileData((prev) => ({
+                  ...prev,
+                  street: e.target.value,
+                })) // 輸入時更新狀態
             }
             className={textFieldStyle}
             required
             minLength={5}
             maxLength={30}
           />
-          {actionData?.errors?.street && (
+          {actionData?.error?.street && (
             <p className="text-red-500 text-sm mt-1">
-              {actionData.errors.street}
+              {actionData.error.street}
             </p>
           )}
         </div>
-
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div>
             <label htmlFor="city" className={labelStyle}>
-              City
+              城市
             </label>
             <input
               id="city"
               name="city"
               type="text"
               placeholder="Your City"
-              value={profileData.city}
-              onChange={(e) =>
-                setProfileData((prev) => ({
-                  ...prev,
-                  city: e.target.value,
-                }))
+              value={profileData.city} // 這裡的 city 是從 initialProfileData 傳入的
+              onChange={
+                (e) =>
+                  setProfileData((prev) => ({
+                    ...prev,
+                    city: e.target.value,
+                  })) // 輸入時更新狀態
               }
               className={textFieldStyle}
               required
               minLength={3}
               maxLength={30}
             />
-            {actionData?.errors?.city && (
+            {actionData?.error?.city && (
               <p className="text-red-500 text-sm mt-1">
-                {actionData.errors.city}
+                {actionData.error.city}
               </p>
             )}
           </div>
 
           <div>
             <label htmlFor="state" className={labelStyle}>
-              State
+              州/省
             </label>
             <input
               id="state"
@@ -199,55 +200,56 @@ export default function Profile() {
               minLength={2}
               maxLength={30}
               placeholder="Your State"
-              value={profileData.state}
-              onChange={(e) =>
-                setProfileData((prev) => ({
-                  ...prev,
-                  state: e.target.value,
-                }))
+              value={profileData.state} // 這裡的 state 是從 initialProfileData 傳入的
+              onChange={
+                (e) =>
+                  setProfileData((prev) => ({
+                    ...prev,
+                    state: e.target.value,
+                  })) // 輸入時更新狀態
               }
               className={textFieldStyle}
             />
-            {actionData?.errors?.state && (
+            {actionData?.error?.state && (
               <p className="text-red-500 text-sm mt-1">
-                {actionData.errors.state}
+                {actionData.error.state}
               </p>
             )}
           </div>
         </div>
-
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div>
             <label htmlFor="postalCode" className={labelStyle}>
-              Postal Code
+              郵遞區號
             </label>
             <input
               id="postalCode"
               name="postalCode"
               type="text"
               placeholder="Your Postal Code"
-              value={profileData.postalCode}
-              onChange={(e) =>
-                setProfileData((prev) => ({
-                  ...prev,
-                  postalCode: e.target.value,
-                }))
+              value={profileData.postalCode} // 這裡的 postalCode 是從 initialProfileData 傳入的
+              onChange={
+                (e) =>
+                  setProfileData((prev) => ({
+                    ...prev,
+                    postalCode: e.target.value,
+                  })) // 輸入時更新狀態
               }
               className={textFieldStyle}
               required
               pattern="^\d{5}$"
               title="Postal code must be exactly 5 digits"
             />
-            {actionData?.errors?.postalCode && (
+            {actionData?.error?.postalCode && (
               <p className="text-red-500 text-sm mt-1">
-                {actionData.errors.postalCode}
+                {actionData.error.postalCode}
               </p>
             )}
           </div>
 
           <div>
             <label htmlFor="country" className={labelStyle}>
-              Country
+              國家
             </label>
             <input
               id="country"
@@ -257,30 +259,31 @@ export default function Profile() {
               minLength={3}
               maxLength={30}
               placeholder="Your Country"
-              value={profileData.country}
-              onChange={(e) =>
-                setProfileData((prev) => ({
-                  ...prev,
-                  country: e.target.value,
-                }))
+              value={profileData.country} // 這裡的 country 是從 initialProfileData 傳入的
+              onChange={
+                (e) =>
+                  setProfileData((prev) => ({
+                    ...prev,
+                    country: e.target.value,
+                  })) // 輸入時更新狀態
               }
               className={textFieldStyle}
             />
-            {actionData?.errors?.country && (
+            {actionData?.error?.country && (
               <p className="text-red-500 text-sm mt-1">
-                {actionData.errors.country}
+                {actionData.error.country}
               </p>
             )}
           </div>
         </div>
-
         <div className="text-center">
           <button
             type="submit"
             disabled={isSubmitting}
-            className="px-6 py-2 mt-8 text-white dark:text-black text-xl rounded-md transition duration-200 bg-primary dark:bg-light hover:bg-dark dark:hover:bg-lighter"
+            className="px-6 py-2 mt-8 text-white dark:text-black text-xl rounded-md transition duration-200 bg-brand dark:bg-light hover:bg-dark dark:hover:bg-lighter"
           >
-            {isSubmitting ? "Saving..." : "Save"}
+            {isSubmitting ? "儲存中..." : "儲存"}{" "}
+            {/* 這裡的 isSubmitting 是從 useNavigation 傳入的 */}
           </button>
         </div>
       </Form>
@@ -292,7 +295,7 @@ export default function Profile() {
 export async function profileLoader() {
   try {
     const response = await apiClient.get("/profile"); // Axios GET Request
-    return response.data;
+    return toProfileFormData(response.data); // 將後端回傳的資料轉換為表單所需的格式
   } catch (error) {
     throw new Response(
       error.response?.data?.errorMessage ||
@@ -303,11 +306,12 @@ export async function profileLoader() {
   }
 }
 
-// 這是處理表單提交的函數 - 用於更新用戶資料
+// 4. 這是處理表單提交的函數 - 用於更新用戶資料
 export async function profileAction({ request }) {
   const data = await request.formData();
 
-  const profileData = {
+  // 從表單中取得資料
+  const profilePayload = {
     name: data.get("name"),
     email: data.get("email"),
     mobileNumber: data.get("mobileNumber"),
@@ -318,17 +322,33 @@ export async function profileAction({ request }) {
     country: data.get("country"),
   };
   try {
-    const response = await apiClient.put("/profile", profileData);
-    return { success: true, profileData: response.data };
+    const response = await apiClient.put("/profile", profilePayload); // Axios PUT Request
+    return { success: true, profileData: toProfileFormData(response.data) }; // 返回成功訊息和更新後的 profile 資料
   } catch (error) {
+    // 後端驗證失敗
     if (error.response?.status === 400) {
-      return { success: false, errors: error.response?.data };
+      return { success: false, error: error.response?.data };
     }
     throw new Response(
       error.response?.data?.errorMessage ||
         error.message ||
-        "Failed to save profile details. Please try again.",
+        "更新個人資料失敗，請稍後再試。",
       { status: error.status || 500 },
     );
   }
+}
+
+// 1.1 這是將後端回傳的資料轉換為表單所需的格式
+function toProfileFormData(profile) {
+  return {
+    name: profile?.name ?? "", // 如果 profile?.name 存在，就使用 profile?.name，否則就使用空字串
+    email: profile?.email ?? "",
+    mobileNumber: profile?.mobileNumber ?? "",
+    street: profile?.address?.street ?? "",
+    city: profile?.address?.city ?? "",
+    state: profile?.address?.state ?? "",
+    postalCode: profile?.address?.postalCode ?? "",
+    country: profile?.address?.country ?? "",
+    emailUpdated: profile?.emailUpdated ?? false,
+  };
 }
