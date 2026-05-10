@@ -18,6 +18,8 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.password.HaveIBeenPwnedRestApiPasswordChecker;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -40,7 +42,17 @@ public class MySecurityConfig {
     // Filter = 可以攔截 HTTP request / response 並做前後處理的元件
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrfConfig -> csrfConfig.disable()); // 把 Spring Security 的 CSRF 保護關掉。
+        //http.csrf(csrfConfig -> csrfConfig.disable()); // 把 Spring Security 的 CSRF 保護關掉。
+
+        // 將 CSRF Token 存到 Cookie，Cookie 名稱預設是 XSRF-TOKEN。
+        // withHttpOnlyFalse() 代表允許前端 JavaScript 讀取這個 Cookie。
+        // 前端在送 POST / PUT / DELETE 等非安全請求時，
+        // 需要把這個 token 放到 request header：X-XSRF-TOKEN。
+        // Spring Security 會比對 header 裡的 token 是否正確，正確才放行。
+        http.csrf(csrfConfig ->
+                csrfConfig.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) // 儲存/取得 token
+                        .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())); // 將 CSRF Token 放進 request attribute（例如 _csrf）， 讓 Controller、Filter、Thymeleaf、JSP 等可以透過 request 取得 token。
+
 
         // 在 Spring Security 中開啟 CORS，並指定它使用 corsConfigurationSource() 這份跨域設定。
         http.cors(corsConfig -> corsConfig.configurationSource(corsConfigurationSource()));
