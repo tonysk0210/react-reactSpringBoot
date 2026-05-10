@@ -1,6 +1,7 @@
 package com.example.BackEnd.security;
 
 import com.example.BackEnd.entity.Customer;
+import com.example.BackEnd.entity.Role;
 import com.example.BackEnd.repository.CustomerRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -8,11 +9,13 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
@@ -33,16 +36,22 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
         Customer customer = customerRepo.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("無法找到該使用者: " + username));
 
-        // 3. 如果使用者輸入的密碼與存在資料庫中的密碼相符
+        Set<Role> roles = customer.getRoles();
+        // 3. 將角色名稱轉換成 SimpleGrantedAuthority 並包裝成 List
+        List<SimpleGrantedAuthority> authorities = roles.stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .toList();
+
+        // 4. 如果使用者輸入的密碼與存在資料庫中的密碼相符
         if (passwordEncoder.matches(password, customer.getPasswordHash())) {
             // 則回傳一個已通過驗證的 Authentication 物件 (三個參數版本代表「已驗證」)
             return new UsernamePasswordAuthenticationToken(
                     customer,
                     null,
-                    Collections.emptyList());
+                    authorities);
             // 代表密碼不重要，因為我們已經驗證過了
         } else {
-            // 4. 如果密碼錯誤，則丟出 BadCredentialsException
+            // 5. 如果密碼錯誤，則丟出 BadCredentialsException
             throw new BadCredentialsException("密碼錯誤");
         }
     }

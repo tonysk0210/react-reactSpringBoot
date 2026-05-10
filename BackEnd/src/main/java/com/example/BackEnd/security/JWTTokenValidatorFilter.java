@@ -13,6 +13,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -20,7 +21,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import javax.crypto.SecretKey;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Collections;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -66,12 +66,13 @@ public class JWTTokenValidatorFilter extends OncePerRequestFilter { // extends O
 
                 // 5. 取得 username 從 JWT payload
                 String username = String.valueOf(claims.get("email"));
+                String roles = String.valueOf(claims.get("roles"));
 
                 // 6. 建立 Authentication 物件
                 Authentication authentication = new UsernamePasswordAuthenticationToken(
                         username,
                         null,
-                        Collections.emptyList());
+                        AuthorityUtils.commaSeparatedStringToAuthorityList(roles)); // 逗號分隔的字串轉成權限清單
 
                 // 7. 設定 Authentication 物件到 Security Context，告訴 Spring Security：這個 request 已經通過身份驗證了。
                 SecurityContextHolder.getContext().setAuthentication(authentication);

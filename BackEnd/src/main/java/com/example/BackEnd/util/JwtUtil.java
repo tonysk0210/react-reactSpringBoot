@@ -2,6 +2,7 @@ package com.example.BackEnd.util;
 
 import com.example.BackEnd.constant.ApplicationConstants;
 import com.example.BackEnd.entity.Customer;
+import com.example.BackEnd.entity.Role;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -45,6 +47,9 @@ public class JwtUtil {
                 .claim("username", fetchedCustomer.getName()) // 加入一個自訂 claim。JWT payload 裡會有："username": "admin"
                 .claim("email", fetchedCustomer.getEmail()) // 加入一個自訂 claim。JWT payload 裡會有："email": "admin@example.com"
                 .claim("mobileNumber", fetchedCustomer.getMobileNumber()) // 加入一個自訂 claim。JWT payload 裡會有："mobileNumber": "0912345678"
+                .claim("roles", fetchedCustomer.getRoles().stream()
+                        .map(Role::getName)
+                        .collect(Collectors.joining(",")))// 加入一個自訂 claim。JWT payload 裡會有："role": "ADMIN, USER"
                 .issuedAt(new java.util.Date())
                 .expiration(new java.util.Date((new java.util.Date()).getTime() + 60 * 60 * 1000)) // JWT 裡的欄位名稱通常是 exp; JWT 會在現在時間 + 1 小時後過期
                 .signWith(secretKey).compact(); // 使用剛剛建立的 secretKey 對 JWT 簽章。這一步會產生 JWT 的 signature，用來防止 token 被竄改。

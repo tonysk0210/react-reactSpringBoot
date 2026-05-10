@@ -45,10 +45,11 @@ public class MySecurityConfig {
         // 在 Spring Security 中開啟 CORS，並指定它使用 corsConfigurationSource() 這份跨域設定。
         http.cors(corsConfig -> corsConfig.configurationSource(corsConfigurationSource()));
 
-        http.authorizeHttpRequests((requests) -> {
+        http.authorizeHttpRequests((auth) -> {
             publicPaths.forEach(path ->
-                    requests.requestMatchers(path).permitAll()); // publicPaths 裡面的路徑，全部公開
-            requests.anyRequest().authenticated(); // 其他所有 request，都要登入
+                    auth.requestMatchers(path).permitAll()); // publicPaths 裡面的路徑，全部公開
+            auth.requestMatchers("/api/v1/admin/**").hasRole("ADMIN"); // /api/v1/admin/** 路徑，需要有 ADMIN 角色
+            auth.anyRequest().hasAnyRole("USER", "ADMIN"); // 其他所有 request，需要有 USER 或 ADMIN 角色
         });
 
         // 把自訂 JWT 驗證 Filter 插入到 Spring Security filter chain 中， 並且在 BasicAuthenticationFilter 前執行。

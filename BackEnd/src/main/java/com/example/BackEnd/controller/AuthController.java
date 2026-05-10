@@ -3,6 +3,7 @@ package com.example.BackEnd.controller;
 import com.example.BackEnd.dto.LoginResponseDto;
 import com.example.BackEnd.dto.UserDto;
 import com.example.BackEnd.entity.Customer;
+import com.example.BackEnd.entity.Role;
 import com.example.BackEnd.payload.LoginRequestPayload;
 import com.example.BackEnd.payload.RegisterRequestPayload;
 import com.example.BackEnd.repository.CustomerRepo;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -56,6 +58,10 @@ public class AuthController {
             var loggedInUser = (Customer) authentication.getPrincipal(); // 「目前通過驗證的主要身份」
             UserDto userDto = new UserDto();
             BeanUtils.copyProperties(loggedInUser, userDto);
+
+            userDto.setRole(loggedInUser.getRoles().stream()
+                    .map(Role::getName)
+                    .collect(Collectors.joining(","))); // 取得使用者角色 (source: Customer entity)
 
             // 4. 用 Authentication 物件 生成 JWT Token 並回傳給前端
             String jwtToken = jwtUtil.generateJwtToken(authentication); // JWT 內容可以被看見，但不能被隨便修改。
@@ -114,6 +120,9 @@ public class AuthController {
         var customer = new Customer(); // 建立 Customer Entity
         BeanUtils.copyProperties(registerRequestpayload, customer); //只會複製「欄位名稱一樣」的屬性
         customer.setPasswordHash(passwordEncoder.encode(registerRequestpayload.password())); // 將密碼做 Bcrypt hash 編碼後存入 Customer Entity
+        Role role = new Role(); // 建立 Role Entity
+        role.setName("ROLE_USER");
+        customer.getRoles().add(role); // 將 Role Entity 加入 Customer Entity 的 roles 集合
         customerRepo.save(customer); // 將 Customer Entity 儲存到資料庫
 
         return ResponseEntity

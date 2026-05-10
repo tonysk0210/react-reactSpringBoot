@@ -50,11 +50,11 @@ export default function Header() {
   const userMenuRef = useRef(null); // userMenuRef 用於存儲用戶菜單的 DOM 元素，以便在點擊外部時關閉菜單
   const navigate = useNavigate(); // navigate 用於程式化導航
 
-  // 是否為管理員
-  const isAdmin = true;
-
   const { totalQuantity } = useCart(); // 使用 useCart custom hook 來訪問 CartContext 中的 totalQuantity 屬性，這個屬性表示購物車中商品的總數量，可以用來在購物車圖示旁邊顯示一個徽章，提示用戶購物車中有多少件商品。
   const { isAuthenticated, logout, user } = useAuth(); // 從 useAuth 鉤子取得認證狀態、登出函式和用戶資訊
+
+  // 是否為管理員
+  const isAdmin = user?.role?.includes("ROLE_ADMIN"); // 從 user 物件中取得 role 屬性，並檢查是否包含 "ROLE_ADMIN"
 
   // toggleMode 函式用於切換主題模式（暗模式和亮模式）。當用戶點擊切換按鈕時，這個函式會被觸發，根據當前的 mode 狀態來切換到另一個模式，並將新的模式存儲到 localStorage 中，以便在頁面重新載入後保持用戶的選擇。
   const toggleMode = () => {

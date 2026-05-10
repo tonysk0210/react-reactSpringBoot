@@ -119,4 +119,47 @@ KEY(name)
 VALUES ('Wardgaze', 'Protective power of the evil eye', 6.00, 60, '/stickers/EvilEye.png', CURRENT_TIMESTAMP, 'admin', NULL, NULL);
 
 
---
+-- Admin 不存在才新增
+MERGE INTO customers (
+                      customer_id,
+                      name,
+                      email,
+                      mobile_number,
+                      password_hash,
+                      created_by,
+                      created_at
+    )
+    KEY (email)
+    VALUES (1,
+            'Admin',
+            'admin@gmail.com',
+            '1234567890',
+            '$2a$10$MJuns8311HDe2MXfnjcmQOYtb0EgNMD3S218yPZhQqmUchzUSBmZy',
+            'SYSTEM',
+            CURRENT_TIMESTAMP);
+
+-- ROLE_ADMIN 不存在才新增
+MERGE INTO roles (
+                  customer_id,
+                  name,
+                  created_by,
+                  created_at
+    )
+    KEY (customer_id, name)
+    VALUES (1,
+            'ROLE_ADMIN',
+            'SYSTEM',
+            CURRENT_TIMESTAMP);
+
+-- ROLE_USER 不存在才新增
+MERGE INTO roles (
+                  customer_id,
+                  name,
+                  created_by,
+                  created_at
+    )
+    KEY (customer_id, name)
+    VALUES (1,
+            'ROLE_USER',
+            'SYSTEM',
+            CURRENT_TIMESTAMP);

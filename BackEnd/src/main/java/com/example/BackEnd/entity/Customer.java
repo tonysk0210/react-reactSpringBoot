@@ -6,6 +6,9 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 @Getter
 @Setter
 @Entity
@@ -41,4 +44,22 @@ public class Customer extends BaseEntity {
     // cascade = CascadeType.ALL：表示如果 Customer 被刪除，那麼對應的 Address 也會被刪除 (JPA level rule)
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
     private Address address;
+
+    // Customer.roles 不是 non-owning side。它其實變成 owning side。原因是：單向關聯只有一邊知道關係，JPA 必須從這一邊知道外鍵欄位在哪裡。
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "customer_id", nullable = false) // ROLES 表裡面有一個 customer_id 欄位，用它來連回 CUSTOMERS。
+    private Set<Role> roles = new LinkedHashSet<>(); // 不重複，而且保留加入順序
+
+    /**
+     *
+     * 有 mappedBy 的那一邊 = non-owning side
+     * 有 @JoinColumn 的那一邊 = owning side
+     *
+     * @JoinColumn 是放在 JPA 關聯的 owning side
+     * 不是單純照 Java 欄位所在的 table 判斷
+     *
+     * Unidirectional @OneToMany:
+     * 因為 many side 沒有 Java 欄位，所以 @JoinColumn 只能放在 one side 的 collection 上。
+     * 但實際 DB 外鍵仍然在 many side table。
+     */
 }
