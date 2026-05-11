@@ -15,7 +15,8 @@ public class PublicPathConfig {
                 "/api/v1/products/**",
                 "/api/v1/contacts/**",
                 "/api/v1/auth/**",
-                "/error" // Spring Boot 發生錯誤時，常會內部轉發到：/error 才能看到 status 403
+                "/error", // Spring Boot 發生錯誤時，常會內部轉發到：/error 才能看到 status 403
+                "/api/v1/csrf-token"
         );
         /**
          * GET /api/v1/profile

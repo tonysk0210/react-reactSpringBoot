@@ -51,7 +51,7 @@ public class MySecurityConfig {
         // Spring Security 會比對 header 裡的 token 是否正確，正確才放行。
         http.csrf(csrfConfig ->
                 csrfConfig.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) // 儲存/取得 token
-                        .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())); // 將 CSRF Token 放進 request attribute（例如 _csrf）， 讓 Controller、Filter、Thymeleaf、JSP 等可以透過 request 取得 token。
+                        .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())); // 將 CSRF Token 放進 request attribute（例如 _csrf）， 方便讓 Controller、Filter、Thymeleaf、JSP 等可以透過 request 取得 token。
 
 
         // 在 Spring Security 中開啟 CORS，並指定它使用 corsConfigurationSource() 這份跨域設定。
