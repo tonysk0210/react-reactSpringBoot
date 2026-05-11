@@ -138,6 +138,13 @@ export const CartProvider = ({ children }) => {
 
   // 使用 reduce 方法來計算購物車中所有項目的總數量，這裡我們將 acc 初始化為 0，然後對 cart 中的每一個項目進行累加，將它們的 quantity 屬性的值加到 acc 上，最後返回 acc 的值，這樣就可以得到購物車中所有項目的總數量了。
   const totalQuantity = cart.reduce((acc, item) => acc + item.quantity, 0); // acc 是累積所有商品的總數量，item 是 cart 中的每一個項目，item.quantity 是每一個項目的數量，這樣就可以得到購物車中所有項目的總數量了。
+
+  // 使用 reduce 方法來計算購物車中所有項目的總價格，這裡我們將 acc 初始化為 0，然後對 cart 中的每一個項目進行累加，將它們的 quantity 屬性的值乘以 price 屬性的值加到 acc 上，最後返回 acc 的值，這樣就可以得到購物車中所有項目的總價格了。
+  const totalPrice = cart.reduce(
+    (acc, item) => acc + item.quantity * item.price,
+    0,
+  );
+
   return (
     <CartContext.Provider
       value={{
@@ -146,6 +153,7 @@ export const CartProvider = ({ children }) => {
         addToCart,
         removeFromCart,
         totalQuantity,
+        totalPrice,
         clearCart, // 清空購物車 (使用 useReducer)
       }} // 使用 CartContext.Provider 組件來提供購物車上下文的值，這裡我們將 cart、setCart、addToCart、removeFromCart 和 totalQuantity 作為 value 傳入 CartContext.Provider 組件，這樣在整個應用程式中就可以使用 CartContext 來訪問和修改購物車的狀態了。
     >

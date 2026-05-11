@@ -21,7 +21,7 @@ export default function CheckoutForm() {
   const elements = useElements(); // Stripe elements instance
   const navigate = useNavigate();
 
-  const [isProcessing, setIsProcessing] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false); // 處理中狀態
   const [errorMessage, setErrorMessage] = useState("");
   const [elementErrors, setElementErrors] = useState({
     cardNumber: "",
@@ -41,11 +41,13 @@ export default function CheckoutForm() {
   const fieldValidClass =
     "border-brand dark:border-light focus:ring-dark dark:focus:ring-lighter";
 
+  // 根據錯誤狀態動態套用樣式，讓同一個 function 可以處理多個欄位：cardNumber, cardExpiry, cardCvc
   const getClassForElement = (field) =>
     `${fieldBaseClass} ${
       elementErrors[field] ? fieldErrorClass : fieldValidClass
     }`;
 
+  // Stripe 元素樣式
   const elementOptions = {
     style: {
       base: {
@@ -60,13 +62,15 @@ export default function CheckoutForm() {
     },
   };
 
+  // 處理 Stripe 元素變更 並更新錯誤訊息
   function handleCardChange(field, event) {
     setElementErrors((prev) => ({
       ...prev,
-      [field]: event.error ? event.error.message : "",
+      [field]: event.error ? event.error.message : "", // 就是讓同一個 function 可以動態更新不同欄位：cardNumber, cardExpiry, cardCvc
     }));
   }
 
+  // 處理表單提交
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -80,7 +84,7 @@ export default function CheckoutForm() {
       return;
     }
 
-    setIsProcessing(true);
+    setIsProcessing(true); // 設置處理中狀態
 
     try {
       const response = await apiClient.post("/payment/create-payment-intent", {
@@ -138,7 +142,7 @@ export default function CheckoutForm() {
       setErrorMessage("Error processing payment. Please try again later.");
       console.error("Error creating PaymentIntent:", error);
     } finally {
-      setIsProcessing(false);
+      setIsProcessing(false); //
     }
   };
 
@@ -147,12 +151,13 @@ export default function CheckoutForm() {
       <div
         className={
           isProcessing
-            ? "visible  flex flex-col justify-center items-center my-[200px] "
-            : "hidden"
+            ? "visible  flex flex-col justify-center items-center my-[200px] " // 顯示處理中訊息
+            : "hidden" // 隱藏處理中訊息
         }
       >
         <p className="mt-4 text-2xl font-normal text-brand dark:text-light">
-          Processing Payment.... Don't refresh the page
+          正在處理付款...請勿刷新頁面
+          {/* isProcessing 為 true 時顯示 */}
         </p>
       </div>
       <div
@@ -162,32 +167,36 @@ export default function CheckoutForm() {
             : "visible bg-white dark:bg-gray-700 shadow-md rounded-lg max-w-md w-full px-8 py-6"
         }
       >
-        <PageTitle title="Complete Your Payment" />
+        {/* isProcessing 為 false 時顯示 */}
+        <PageTitle title="結帳" />
 
         <p className="text-center mt-8 text-lg text-gray-600 dark:text-lighter mb-8">
-          Amount to be charged: <strong>${totalPrice.toFixed(2)}</strong>
+          總金額: <strong>${totalPrice.toFixed(2)}</strong>
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {errorMessage && (
             <div className="text-red-500 text-sm text-center">
               {errorMessage}
+              {/* 如果是 Stripe 錯誤，顯示錯誤訊息 */}
             </div>
           )}
+
           {/* Card Number */}
           <div>
             <label htmlFor="cardNumber" className={labelStyle}>
-              Card Number
+              信用卡號碼
             </label>
             <div id="cardNumber" className={getClassForElement("cardNumber")}>
-              <CardNumberElement
-                options={elementOptions}
-                onChange={(event) => handleCardChange("cardNumber", event)}
+              {/* 信用卡號碼輸入框 */}
+              <CardNumberElement // 這是 Stripe 提供的元件
+                options={elementOptions} // 設定樣式
+                onChange={(event) => handleCardChange("cardNumber", event)} // 當使用者輸入時，更新錯誤訊息： event 來自 Stripe
               />
             </div>
             {elementErrors.cardNumber && (
               <p className="text-red-500 text-sm mt-1">
-                {elementErrors.cardNumber}
+                {elementErrors.cardNumber}　{/* 顯示 Stripe 錯誤訊息 */}
               </p>
             )}
           </div>
@@ -195,17 +204,18 @@ export default function CheckoutForm() {
           {/* Card Expiry */}
           <div>
             <label htmlFor="cardExpiry" className={labelStyle}>
-              Expiry Date
+              有效日期
             </label>
             <div id="cardExpiry" className={getClassForElement("cardExpiry")}>
-              <CardExpiryElement
+              <CardExpiryElement // 這是 Stripe 提供的元件
                 options={elementOptions}
-                onChange={(event) => handleCardChange("cardExpiry", event)}
+                onChange={(event) => handleCardChange("cardExpiry", event)} // 當使用者輸入時，更新錯誤訊息： event 來自 Stripe
               />
             </div>
-            {elementErrors.cardExpiry && (
+            {elementErrors.cardExpiry && ( // 如果有錯誤訊息
               <p className="text-red-500 text-sm mt-1">
                 {elementErrors.cardExpiry}
+                {/* 這個是 Stripe 的錯誤訊息 */}
               </p>
             )}
           </div>
@@ -216,9 +226,9 @@ export default function CheckoutForm() {
               CVC
             </label>
             <div id="cardCvc" className={getClassForElement("cardCvc")}>
-              <CardCvcElement
+              <CardCvcElement // 這是 Stripe 提供的元件
                 options={elementOptions}
-                onChange={(event) => handleCardChange("cardCvc", event)}
+                onChange={(event) => handleCardChange("cardCvc", event)} // 當使用者輸入時，更新錯誤訊息： event 來自 Stripe
               />
             </div>
             {elementErrors.cardCvc && (
@@ -232,10 +242,10 @@ export default function CheckoutForm() {
           <div>
             <button
               type="submit"
-              disabled={!stripe || isProcessing}
+              disabled={!stripe || isProcessing} // 如果 Stripe 還沒載入完畢，或者正在處理付款，就禁用按鈕
               className="w-full px-6 py-2 mt-6 text-white dark:text-black text-xl bg-brand dark:bg-light hover:bg-dark dark:hover:bg-lighter rounded-md transition duration-200"
             >
-              {isProcessing ? "Payment processing..." : "Pay Now"}
+              {isProcessing ? "正在處理付款..." : "付款"}
             </button>
           </div>
         </form>
