@@ -52,9 +52,17 @@ import { CartContext } from "./store/cart-context.jsx";
 import { CartProvider } from "./store/cart-context.jsx";
 import { AuthProvider } from "./store/auth-context.jsx"; // 引入 AuthProvider；這個組件用於提供認證上下文的值，這裡我們將 initialAuthContext 作為 value 傳入 AuthContext.Provider 組件，這樣在整個應用程式中就可以使用 AuthContext 來訪問和修改認證的狀態了。
 
+import { loadStripe } from "@stripe/stripe-js"; // 引入 loadStripe 函式；這個函式是用來加載 Stripe 的 JavaScript SDK 的，會在 Payment 組件中使用這個函式來加載 Stripe 的 JavaScript SDK。
+import { Elements } from "@stripe/react-stripe-js"; // 引入 Elements 組件；這個組件是用來包裝支付表單的，會在 Payment 組件中使用這個組件來包裝支付表單。
+
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
+
+// 初始化 Stripe
+const stripePromise = loadStripe(
+  "pk_test_51TVvD6FMVB3vMe2eBCgg8DEUVgDD6dvffycHPSCh41qeoDWzY77pDkoRw6KbVqwpxw176v2HyaciVBjYcoqdUtnT00N0NJf4oQ",
+);
 
 // 定義路由配置；這裡使用 createRoutesFromElements 函式來創建一個路由器，並且定義了路由的結構和對應的組件
 const routeDefinitions = createRoutesFromElements(
@@ -145,24 +153,27 @@ createRoot(document.getElementById("root")).render(
   // 使用 StrictMode 包裹 App 組件，呼叫兩次 render 是 React 18 中 StrictMode 的一個特性，
   // 可以幫助開發者更早地發現潛在的問題，例如：不安全的生命週期方法、過時的 API 等等。
   <StrictMode>
-    <AuthProvider>
-      {/* 使用 CartProvider 組件來包裹 RouterProvider 組件，這樣整個應用程式都能夠使用 CartContext 來訪問和修改購物車的狀態了。 */}
-      <CartProvider>
-        <RouterProvider router={appRouter} />
-        {/* 使用 RouterProvider 組件，將 appRouter 傳入 router 屬性，讓整個應用程式都能夠使用 React Router 的功能 */}
-        {/* 這是 CartProvider 的 children，RouterProvider 組件會被渲染在 CartProvider 組件內部，這樣 RouterProvider 就可以訪問到 CartContext 中的值了。*/}
-      </CartProvider>
-    </AuthProvider>
-    <ToastContainer
-      // ToastContainer 是用來顯示 toast 通知的組件，這裡配置了一些屬性來定義 toast 通知的行為和樣式，例如：position 定義了通知出現的位置，autoClose 定義了通知自動關閉的時間，theme 定義了通知的主題等等。
-      position="top-center"
-      autoClose={3000} // autoClose={3000} 表示通知會在 3000 毫秒（也就是 3 秒）後自動關閉
-      hideProgressBar={false} // hideProgressBar={false} 表示通知會顯示一個進度條，這個進度條會隨著 autoClose 的時間逐漸減少，直到通知自動關閉
-      newestOnTop={false} // newestOnTop={false} 表示新的通知會出現在舊的通知下面，如果設置為 true，則新的通知會出現在舊的通知上面
-      draggable // draggable 表示通知可以被拖動，這樣用戶就可以通過拖動來關閉通知或者重新排列通知的位置
-      pauseOnHover // pauseOnHover 表示當用戶將鼠標懸停在通知上時，autoClose 的計時會暫停，這樣用戶就有更多的時間來閱讀通知內容；當鼠標離開通知後，autoClose 的計時會繼續，直到通知自動關閉
-      theme={localStorage.getItem("theme") === "dark" ? "dark" : "light"}
-      transition={Bounce}
-    />
+    <Elements stripe={stripePromise}>
+      {/* <Elements> 很像是 Stripe 專用的 Context Provider。它的作用是建立一個 Stripe 的 context，讓被它包住的元件可以使用 Stripe 提供的功能 */}
+      <AuthProvider>
+        {/* 使用 CartProvider 組件來包裹 RouterProvider 組件，這樣整個應用程式都能夠使用 CartContext 來訪問和修改購物車的狀態了。 */}
+        <CartProvider>
+          <RouterProvider router={appRouter} />
+          {/* 使用 RouterProvider 組件，將 appRouter 傳入 router 屬性，讓整個應用程式都能夠使用 React Router 的功能 */}
+          {/* 這是 CartProvider 的 children，RouterProvider 組件會被渲染在 CartProvider 組件內部，這樣 RouterProvider 就可以訪問到 CartContext 中的值了。*/}
+        </CartProvider>
+      </AuthProvider>
+      <ToastContainer
+        // ToastContainer 是用來顯示 toast 通知的組件，這裡配置了一些屬性來定義 toast 通知的行為和樣式，例如：position 定義了通知出現的位置，autoClose 定義了通知自動關閉的時間，theme 定義了通知的主題等等。
+        position="top-center"
+        autoClose={3000} // autoClose={3000} 表示通知會在 3000 毫秒（也就是 3 秒）後自動關閉
+        hideProgressBar={false} // hideProgressBar={false} 表示通知會顯示一個進度條，這個進度條會隨著 autoClose 的時間逐漸減少，直到通知自動關閉
+        newestOnTop={false} // newestOnTop={false} 表示新的通知會出現在舊的通知下面，如果設置為 true，則新的通知會出現在舊的通知上面
+        draggable // draggable 表示通知可以被拖動，這樣用戶就可以通過拖動來關閉通知或者重新排列通知的位置
+        pauseOnHover // pauseOnHover 表示當用戶將鼠標懸停在通知上時，autoClose 的計時會暫停，這樣用戶就有更多的時間來閱讀通知內容；當鼠標離開通知後，autoClose 的計時會繼續，直到通知自動關閉
+        theme={localStorage.getItem("theme") === "dark" ? "dark" : "light"}
+        transition={Bounce}
+      />
+    </Elements>
   </StrictMode>,
 );
