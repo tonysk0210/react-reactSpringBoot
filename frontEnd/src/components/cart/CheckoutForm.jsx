@@ -22,8 +22,9 @@ export default function CheckoutForm() {
   const navigate = useNavigate();
 
   const [isProcessing, setIsProcessing] = useState(false); // 處理中狀態
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState(""); // 錯誤訊息
   const [elementErrors, setElementErrors] = useState({
+    // Stripe 元素錯誤訊息
     cardNumber: "",
     cardExpiry: "",
     cardCvc: "",
@@ -72,34 +73,51 @@ export default function CheckoutForm() {
 
   // 處理表單提交
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    event.preventDefault(); // 阻止表單預設提交行為
 
     if (!stripe || !elements) {
-      setErrorMessage("Stripe.js is not loaded yet.");
+      // 檢查 Stripe 和 elements 是否已載入
+      setErrorMessage("Stripe還未載入完成，請稍後再試");
       return;
     }
 
+    // 檢查 Stripe 元素是否有錯誤
+    // 檢查 elementErrors 裡面有沒有任何一個欄位目前有錯誤訊息。 會檢查陣列裡有沒有任何一個值是 truthy。
+    // {
+    //   cardNumber: "",
+    //   cardExpiry: "",
+    //   cardCvc: ""
+    // }
+
+    // Object.values(elementErrors) 會變成： ["", "", ""] 代表沒有錯誤。
     if (Object.values(elementErrors).some((error) => error)) {
-      setErrorMessage("Please correct the highlighted errors.");
+      setErrorMessage("請修正標示為紅色的欄位");
       return;
     }
 
     setIsProcessing(true); // 設置處理中狀態
 
     try {
+      // 創建付款意向: 請後端向 Stripe 建立一筆 PaymentIntent
       const response = await apiClient.post("/payment/create-payment-intent", {
-        amount: totalPrice * 100,
+        amount: totalPrice * 100, // Stripe 要的是 cents，不是 dollars。
         currency: "usd",
       });
 
-      const { clientSecret } = response.data;
+      const { clientSecret } = response.data; // 從後端回傳的資料中取得 clientSecret，這個 clientSecret 後面會交給 Stripe
 
+      // 確認付款: 用 Stripe SDK 來處理信用卡付款
+      // 把 clientSecret、信用卡欄位、使用者帳單資料交給 Stripe，請 Stripe 確認這筆付款。
+      // error: Stripe 回傳的錯誤訊息
+      // paymentIntent: Stripe 回傳的付款結果
       const { error, paymentIntent } = await stripe.confirmCardPayment(
-        clientSecret,
+        clientSecret, // 後端給的 clientSecret
         {
           payment_method: {
-            card: elements.getElement(CardNumberElement),
+            card: elements.getElement(CardNumberElement), // 信用卡號碼
+            // 信用卡其他資訊（到期日、CVC）會自動從 Stripe 提供的 CardNumberElement 中取得
             billing_details: {
+              // 付款人帳單資料
               name: user.name,
               email: user.email,
               phone: user.mobileNumber,
@@ -116,33 +134,35 @@ export default function CheckoutForm() {
       );
 
       if (error) {
-        setErrorMessage(error.message || "Payment failed. Please try again.");
+        setErrorMessage(error.message || "付款失敗，請再試一次"); // 設置錯誤訊息
       } else if (paymentIntent && paymentIntent.status === "succeeded") {
-        toast.success("Payment successful!");
+        toast.success("付款成功"); // 顯示成功訊息
         try {
+          // 這段是在 付款成功之後，把訂單資料送到你的後端，建立一筆 order。
           await apiClient.post("/orders", {
             totalPrice: totalPrice,
             paymentId: paymentIntent.id,
             paymentStatus: paymentIntent.status,
             items: cart.map((item) => ({
+              // 這是把購物車 cart 轉成訂單商品列表。
               productId: item.productId,
               quantity: item.quantity,
               price: item.price,
             })),
           });
-          sessionStorage.setItem("skipRedirectPath", "true");
-          clearCart();
-          navigate("/order-success");
+          sessionStorage.setItem("skipRedirectPath", "true"); // 設置 sessionStorage 來跳過重新導向
+          clearCart(); // 清空購物車
+          navigate("/order-success"); // 跳轉到訂單成功頁面
         } catch (orderError) {
-          console.error("Failed to create order:", orderError);
-          setErrorMessage("Order creation failed. Please contact support.");
+          console.error("創建訂單失敗:", orderError);
+          setErrorMessage("訂單建立失敗，請聯繫客服。");
         }
       }
     } catch (error) {
-      setErrorMessage("Error processing payment. Please try again later.");
-      console.error("Error creating PaymentIntent:", error);
+      setErrorMessage("付款處理失敗，請再試一次。");
+      console.error("建立 PaymentIntent 時發生錯誤:", error);
     } finally {
-      setIsProcessing(false); //
+      setIsProcessing(false); // 重置處理中狀態
     }
   };
 
