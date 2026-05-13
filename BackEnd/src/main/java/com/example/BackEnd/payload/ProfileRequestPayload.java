@@ -38,6 +38,6 @@ public class ProfileRequestPayload {
     private String postalCode;
 
     @NotBlank(message = "國家不可空白")
-    @Size(min = 2, max = 30, message = "國家必須在 2 到 30 個字符之間")
+    @Size(min = 2, max = 2, message = "國家必須是 2 個字符")
     private String country;
 }

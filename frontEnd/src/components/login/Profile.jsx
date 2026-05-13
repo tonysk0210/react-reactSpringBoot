@@ -18,7 +18,7 @@ export default function Profile() {
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { loginSuccess, logout } = useAuth();
 
   const [profileData, setProfileData] = useState(initialProfileData); // 3. 設定初始狀態
 
@@ -39,6 +39,17 @@ export default function Profile() {
           toastId: "profile-save-success", // 防止重複顯示
         });
         setProfileData(actionData.profileData); // 更新本地狀態：它的用途是避免前端畫面跟後端資料不一致，確保使用者看到的資料是最新的
+
+        // 更新 auth context 中的 user 物件 和 localStorage 中的 user
+        if (actionData.profileData) {
+          // 建立新的 user 物件
+          const updatedUser = {
+            ...profileData, // 原始資料
+            ...actionData.profileData, // 更新的欄位
+          };
+          // 更新到 context 和 localStorage
+          loginSuccess(localStorage.getItem("jwtToken"), updatedUser);
+        }
       }
     }
   }, [actionData]);
@@ -263,8 +274,8 @@ export default function Profile() {
               name="country"
               type="text"
               required
-              minLength={3}
-              maxLength={30}
+              minLength={2}
+              maxLength={2}
               placeholder="Your Country"
               value={profileData.country} // 這裡的 country 是從 initialProfileData 傳入的
               onChange={

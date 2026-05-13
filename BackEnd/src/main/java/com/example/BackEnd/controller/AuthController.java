@@ -1,5 +1,6 @@
 package com.example.BackEnd.controller;
 
+import com.example.BackEnd.dto.AddressDto;
 import com.example.BackEnd.dto.LoginResponseDto;
 import com.example.BackEnd.dto.UserDto;
 import com.example.BackEnd.entity.Customer;
@@ -62,6 +63,13 @@ public class AuthController {
             userDto.setRole(loggedInUser.getRoles().stream()
                     .map(Role::getName)
                     .collect(Collectors.joining(","))); // 取得使用者角色 (source: Customer entity)
+
+            // 3.1 如果使用者有地址資料，則將地址資料包在 UserDto 物件中 (loggedInUser 是從 MyAuthenticationProvider 來的，登入時用 email 從資料庫查出來的 Customer)
+            if (loggedInUser.getAddress() != null) {
+                AddressDto addressDto = new AddressDto();
+                BeanUtils.copyProperties(loggedInUser.getAddress(), addressDto);
+                userDto.setAddress(addressDto);
+            }
 
             // 4. 用 Authentication 物件 生成 JWT Token 並回傳給前端
             String jwtToken = jwtUtil.generateJwtToken(authentication); // JWT 內容可以被看見，但不能被隨便修改。

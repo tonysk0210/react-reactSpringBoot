@@ -9,4 +9,5 @@ public class UserDto {
     private String email;
     private String mobileNumber;
     private String role;
+    private AddressDto address;
 }
