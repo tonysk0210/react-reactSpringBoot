@@ -37,13 +37,18 @@ export default function Login() {
     if (actionData?.success) {
       loginSuccess(actionData.jwtToken, actionData.user); // 將 jwtToken 和 user 存入 context
 
+      const redirectTarget =
+        from === "/checkout" && isAddressIncomplete(actionData.user)
+          ? "/cart"
+          : from; // 如果是從結帳頁面過來且地址不完整，則導向購物車頁面
+
       // 清除 sessionStorage 中的 redirectPath 目的是避免下次登入時還帶有上次的路徑
       sessionStorage.removeItem("redirectPath");
       sessionStorage.removeItem("skipRedirectPath");
 
       // 延遲導航，確保 context 更新完成：jwtToken 和 user 存入 auth-context 避免 401 unauthorized
       setTimeout(() => {
-        navigate(from); // 登入成功後導航到原本要前往的頁面
+        navigate(redirectTarget); // 登入成功後導航到原本要前往的頁面
       }, 100);
     } else if (actionData?.error) {
       toast.error(actionData.error.message || "登入失敗");
@@ -116,6 +121,17 @@ export default function Login() {
       </div>
     </div>
   );
+}
+
+function isAddressIncomplete(user) {
+  const address = user?.address;
+
+  if (!address) {
+    return true; // 沒有地址，返回 true
+  }
+
+  const { street, city, state, postalCode, country } = address;
+  return !street || !city || !state || !postalCode || !country; // 地址不完整，返回 true
 }
 
 // 從 Login 組件中匯入 loginAction 函式；這個函式是用來在表單提交時處理表單數據的，會在 Login 組件中使用 useActionData hook 來獲取這些數據。
