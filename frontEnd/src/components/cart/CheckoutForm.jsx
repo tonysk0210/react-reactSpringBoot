@@ -99,10 +99,14 @@ export default function CheckoutForm() {
 
     try {
       // 創建付款意向: 請後端向 Stripe 建立一筆 PaymentIntent
-      const response = await apiClient.post("/payment/create-payment-intent", {
-        amount: totalPrice * 100, // Stripe 要的是 cents，不是 dollars。
-        currency: "usd",
-      });
+      const response = await apiClient.post(
+        "/payment/create-payment-intent",
+        // Payload: 傳送給後端的資料
+        {
+          amount: totalPrice * 100, // Stripe 要的是 cents，不是 dollars。
+          currency: "usd",
+        },
+      );
 
       const { clientSecret } = response.data; // 從後端回傳的資料中取得 clientSecret，這個 clientSecret 後面會交給 Stripe
 
@@ -137,26 +141,27 @@ export default function CheckoutForm() {
         setErrorMessage(error.message || "付款失敗，請再試一次"); // 設置錯誤訊息
       } else if (paymentIntent && paymentIntent.status === "succeeded") {
         toast.success("付款成功"); // 顯示成功訊息
-        try {
-          // 這段是在 付款成功之後，把訂單資料送到你的後端，建立一筆 order。
-          await apiClient.post("/orders", {
-            totalPrice: totalPrice,
-            paymentId: paymentIntent.id,
-            paymentStatus: paymentIntent.status,
-            items: cart.map((item) => ({
-              // 這是把購物車 cart 轉成訂單商品列表。
-              productId: item.productId,
-              quantity: item.quantity,
-              price: item.price,
-            })),
-          });
-          sessionStorage.setItem("skipRedirectPath", "true"); // 設置 sessionStorage 來跳過重新導向
-          clearCart(); // 清空購物車
-          navigate("/order-success"); // 跳轉到訂單成功頁面
-        } catch (orderError) {
-          console.error("創建訂單失敗:", orderError);
-          setErrorMessage("訂單建立失敗，請聯繫客服。");
-        }
+        navigate("/order-success"); // 跳轉到訂單成功頁面
+        // try {
+        //   // 這段是在 付款成功之後，把訂單資料送到你的後端，建立一筆 order。
+        //   await apiClient.post("/orders", {
+        //     totalPrice: totalPrice,
+        //     paymentId: paymentIntent.id,
+        //     paymentStatus: paymentIntent.status,
+        //     items: cart.map((item) => ({
+        //       // 這是把購物車 cart 轉成訂單商品列表。
+        //       productId: item.productId,
+        //       quantity: item.quantity,
+        //       price: item.price,
+        //     })),
+        //   });
+        //   sessionStorage.setItem("skipRedirectPath", "true"); // 設置 sessionStorage 來跳過重新導向
+        //   clearCart(); // 清空購物車
+        //   navigate("/order-success"); // 跳轉到訂單成功頁面
+        // } catch (orderError) {
+        //   console.error("創建訂單失敗:", orderError);
+        //   setErrorMessage("訂單建立失敗，請聯繫客服。");
+        // }
       }
     } catch (error) {
       setErrorMessage("付款處理失敗，請再試一次。");

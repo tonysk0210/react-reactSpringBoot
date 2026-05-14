@@ -31,6 +31,7 @@ import Orders from "./components/login/Orders";
 import OrderManage from "./components/login/admin/OrderManage.jsx";
 import Message from "./components/login/admin/Message.jsx";
 import Register from "./components/login/Register.jsx";
+import OrderSuccess from "./components/cart/OrderSuccess.jsx";
 
 // 從 Home 組件中匯入 productsLoader 函式；這個函式是用來在路由匹配時加載產品資料的，會在 Home 組件中使用 useLoaderData hook來獲取這些資料。
 import { productsLoader } from "./components/home/Home";
@@ -83,6 +84,8 @@ const routeDefinitions = createRoutesFromElements(
     {/* 需要登入才能訪問的路由 */}
     <Route element={<ProtectedRoute />}>
       <Route path="/checkout" element={<CheckoutForm />} />
+      <Route path="/order-success" element={<OrderSuccess />} />
+      {/* 訂單成功 */}
       <Route
         path="/profile"
         element={<Profile />}
