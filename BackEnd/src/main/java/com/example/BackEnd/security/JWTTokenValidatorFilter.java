@@ -10,6 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 public class JWTTokenValidatorFilter extends OncePerRequestFilter { // extends OncePerRequestFilter 代表「同一個 request dispatch 過程中，只執行一次」
     private final AntPathMatcher pathMatcher = new AntPathMatcher(); // Spring Framework 提供的：路徑比對工具
@@ -79,15 +81,18 @@ public class JWTTokenValidatorFilter extends OncePerRequestFilter { // extends O
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } catch (ExpiredJwtException exception) {
                 // JWT Token 已過期
+                log.warn("JWT Token 已過期: {}", exception.getMessage());
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
                 response.setContentType("application/json;charset=UTF-8");
-                response.getWriter().write("{\"error\": \"JWT Token 已過期！\"}");
+                response.getWriter().write("{\"errorMessage\": \"JWT Token 已過期！\"}");
                 return; // 終止方法執行
-            } catch (BadCredentialsException exception) {
-                // 無效的 Token - 直接在 filter 處理，因為 @RestControllerAdvice 無法捕獲 filter 層的異常
+            } catch (Exception exception) {
+                // 無效的 Token (MalformedJwtException, SignatureException, etc.)
+                // 直接在 filter 處理，因為 @RestControllerAdvice 無法捕獲 filter 層的異常
+                log.warn("無效的 Token: {}", exception.getMessage());
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
                 response.setContentType("application/json;charset=UTF-8");
-                response.getWriter().write("{\"error\": \"這是無效的 Token！\"}");
+                response.getWriter().write("{\"errorMessage\": \"這是無效的 Token！\"}");
                 return; // 終止方法執行
             }
         }

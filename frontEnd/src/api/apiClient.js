@@ -63,10 +63,10 @@ apiClient.interceptors.response.use(
       const jwtToken = localStorage.getItem("jwtToken");
       if (jwtToken) {
         localStorage.removeItem("jwtToken"); // 移除過期的 JWT token
-        window.location.href = "/login"; // 跳轉到登入頁面
+        window.location.href = "/login"; // 跳轉到登入頁面；但不會立即停止 JavaScript 執行， ErrorPage 短暫顯示
       }
     }
-    return Promise.reject(error); // 把錯誤繼續往外丟
+    return Promise.reject(error); // 把錯誤繼續往外丟 Promise 被 reject，等同於 throw error
   },
 );
 

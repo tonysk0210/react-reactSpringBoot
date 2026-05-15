@@ -109,6 +109,6 @@ public class GlobalExceptionHandler {
                 exception.getMessage(),
                 LocalDateTime.now()
         );
-        return new ResponseEntity<>(responseDTO, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(responseDTO, HttpStatus.NOT_FOUND); // 404
     }
 }
