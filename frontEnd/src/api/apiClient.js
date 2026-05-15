@@ -50,4 +50,24 @@ apiClient.interceptors.request.use(
   (error) => Promise.reject(error),
 );
 
+// 註冊一個 response interceptor 來處理 401 錯誤  ExpiredJwtException
+// 這裡的 response / error 不是看 backend「有沒有正常寫出 response body」，而是看 Axios 怎麼判斷 HTTP status
+apiClient.interceptors.response.use(
+  (response) => response, // 如果成功，就直接回傳 response: 2xx 會進這裡
+  async (error) => {
+    // 如果失敗，就檢查 status code: 非 2xx 預設會進這裡; Axios 預設把非 2xx status 當錯誤
+    if (error.response && error.response.status === 401) {
+      // 401 Unauthorized
+      console.log(error.response.data); // "JWT Token 已過期！"
+
+      const jwtToken = localStorage.getItem("jwtToken");
+      if (jwtToken) {
+        localStorage.removeItem("jwtToken"); // 移除過期的 JWT token
+        window.location.href = "/login"; // 跳轉到登入頁面
+      }
+    }
+    return Promise.reject(error); // 把錯誤繼續往外丟
+  },
+);
+
 export default apiClient;

@@ -46,7 +46,7 @@ export default function ErrorPage() {
               to="/home"
               className="py-3 px-6 text-white dark:text-black text-xl rounded-md transition duration-200 bg-brand dark:bg-light hover:bg-dark dark:hover:bg-lighter font-semibold"
             >
-              Back to Home
+              回到首頁
             </Link>
           </div>
         </div>

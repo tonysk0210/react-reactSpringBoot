@@ -2,6 +2,7 @@ package com.example.BackEnd.security;
 
 import com.example.BackEnd.constant.ApplicationConstants;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.FilterChain;
@@ -76,9 +77,18 @@ public class JWTTokenValidatorFilter extends OncePerRequestFilter { // extends O
 
                 // 7. 設定 Authentication 物件到 Security Context，告訴 Spring Security：這個 request 已經通過身份驗證了。
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-
-            } catch (Exception exception) {
-                throw new BadCredentialsException("這是無效的 Token！");
+            } catch (ExpiredJwtException exception) {
+                // JWT Token 已過期
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
+                response.setContentType("application/json;charset=UTF-8");
+                response.getWriter().write("{\"error\": \"JWT Token 已過期！\"}");
+                return; // 終止方法執行
+            } catch (BadCredentialsException exception) {
+                // 無效的 Token - 直接在 filter 處理，因為 @RestControllerAdvice 無法捕獲 filter 層的異常
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
+                response.setContentType("application/json;charset=UTF-8");
+                response.getWriter().write("{\"error\": \"這是無效的 Token！\"}");
+                return; // 終止方法執行
             }
         }
         filterChain.doFilter(request, response); // 繼續處理其他 filter: BasicAuthenticationFilter

@@ -67,3 +67,35 @@ CREATE TABLE IF NOT EXISTS roles (
     updated_by VARCHAR(20) DEFAULT NULL,
     FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE
 );
+
+-- 訂單
+CREATE TABLE IF NOT EXISTS orders
+(
+    order_id       BIGINT AUTO_INCREMENT PRIMARY KEY,
+    customer_id    BIGINT NOT NULL,
+    total_price    DECIMAL(10, 2)                        NOT NULL,
+    payment_id     VARCHAR(200)                          NOT NULL,
+    payment_status VARCHAR(50)                           NOT NULL,
+    order_status   VARCHAR(50)                           NOT NULL,
+    created_at     TIMESTAMP   DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    created_by     VARCHAR(20)                           NOT NULL,
+    updated_at     TIMESTAMP   DEFAULT NULL,
+    updated_by     VARCHAR(20) DEFAULT NULL,
+    FOREIGN KEY (customer_id) REFERENCES customers (customer_id)
+    );
+
+-- 訂單明細
+CREATE TABLE IF NOT EXISTS order_items
+(
+    order_item_id   BIGINT AUTO_INCREMENT PRIMARY KEY,
+    order_id        BIGINT NOT NULL,
+    product_id      BIGINT NOT NULL,
+    quantity        INT NOT NULL,
+    price           DECIMAL(10, 2) NOT NULL,
+    created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    created_by      VARCHAR(20)    NOT NULL,
+    updated_at      TIMESTAMP      DEFAULT NULL,
+    updated_by      VARCHAR(20)    DEFAULT NULL,
+    FOREIGN KEY (order_id) REFERENCES orders(order_id),
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+    );

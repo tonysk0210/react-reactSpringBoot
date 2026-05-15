@@ -59,7 +59,7 @@ public class ProfileServiceImpl implements ProfileService {
         return profileResponseDto;
     }
 
-    private Customer getAuthenticatedCustomer() {
+    public Customer getAuthenticatedCustomer() {
         // 1. 取得當前登入用戶的 Customer 物件
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
