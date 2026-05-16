@@ -4292,3 +4292,129 @@ Caused by: java.lang.ClassNotFoundException: com.example.BackEnd.service.Contact
 2026-05-16T19:40:44.672+08:00  INFO 26232 --- [BackEnd] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring DispatcherServlet 'dispatcherServlet'
 2026-05-16T19:40:44.672+08:00  INFO 26232 --- [BackEnd] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2026-05-16T19:40:44.676+08:00  INFO 26232 --- [BackEnd] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 4 ms
+2026-05-16T20:23:47.162+08:00  WARN 26232 --- [BackEnd] [HikariPool-5:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-5 - Thread starvation or clock leap detected (housekeeper delta=11m48s336ms378µs).
+2026-05-16T20:24:05.808+08:00 ERROR 26232 --- [BackEnd] [http-nio-8080-exec-3] c.e.B.exception.GlobalExceptionHandler   : Global Exception Handler: Exception 發生異常: No static resource favicon.ico.
+2026-05-16T20:24:05.828+08:00  WARN 26232 --- [BackEnd] [http-nio-8080-exec-3] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-05-16T20:30:17.551+08:00  INFO 26232 --- [BackEnd] [http-nio-8080-exec-6] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 423 ms
+2026-05-16T20:32:12.257+08:00  INFO 26232 --- [BackEnd] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 1 deletion, 0 modifications)
+2026-05-16T20:32:12.259+08:00  INFO 26232 --- [BackEnd] [Thread-24] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-05-16T20:32:12.264+08:00  INFO 26232 --- [BackEnd] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-05-16T20:32:12.268+08:00  INFO 26232 --- [BackEnd] [Thread-24] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-16T20:32:12.269+08:00  INFO 26232 --- [BackEnd] [Thread-24] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Shutdown initiated...
+2026-05-16T20:32:12.526+08:00  INFO 26232 --- [BackEnd] [Thread-24] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Shutdown completed.
+2026-05-16T20:32:12.706+08:00  INFO 26232 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : Starting BackEndApplication using Java 25.0.1 with PID 26232 (D:\React\reactSpringBoot\BackEnd\target\classes started by tony.shangkuan in D:\React\reactSpringBoot\BackEnd)
+2026-05-16T20:32:12.706+08:00  INFO 26232 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-05-16T20:32:13.339+08:00  INFO 26232 --- [BackEnd] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-16T20:32:13.365+08:00  INFO 26232 --- [BackEnd] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 25 ms. Found 4 JPA repository interfaces.
+2026-05-16T20:32:13.554+08:00  INFO 26232 --- [BackEnd] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-05-16T20:32:13.557+08:00  INFO 26232 --- [BackEnd] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-05-16T20:32:13.557+08:00  INFO 26232 --- [BackEnd] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.54]
+2026-05-16T20:32:13.594+08:00  INFO 26232 --- [BackEnd] [restartedMain] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2026-05-16T20:32:13.594+08:00  INFO 26232 --- [BackEnd] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 885 ms
+2026-05-16T20:32:13.671+08:00  WARN 26232 --- [BackEnd] [restartedMain] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Cannot deserialize session attribute [SPRING_SECURITY_CONTEXT] for session [E3B2A1A3A2BC9839F3A83EEE876E9D6A]
+2026-05-16T20:32:13.691+08:00  INFO 26232 --- [BackEnd] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Starting...
+2026-05-16T20:32:13.748+08:00  INFO 26232 --- [BackEnd] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-6 - Added connection conn82: url=jdbc:h2:file:./h2db/myDb user=SA
+2026-05-16T20:32:13.748+08:00  INFO 26232 --- [BackEnd] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Start completed.
+2026-05-16T20:32:13.791+08:00  INFO 26232 --- [BackEnd] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-05-16T20:32:13.797+08:00  INFO 26232 --- [BackEnd] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-05-16T20:32:13.815+08:00  INFO 26232 --- [BackEnd] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-16T20:32:13.816+08:00  WARN 26232 --- [BackEnd] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-16T20:32:13.817+08:00  INFO 26232 --- [BackEnd] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-6)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-16T20:32:14.055+08:00  INFO 26232 --- [BackEnd] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-16T20:32:14.056+08:00  INFO 26232 --- [BackEnd] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-16T20:32:14.216+08:00  WARN 26232 --- [BackEnd] [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authController' defined in file [D:\React\reactSpringBoot\BackEnd\target\classes\com\example\BackEnd\controller\AuthController.class]: Unsatisfied dependency expressed through constructor parameter 0: No qualifying bean of type 'org.springframework.security.authentication.AuthenticationManager' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+2026-05-16T20:32:14.216+08:00  INFO 26232 --- [BackEnd] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-16T20:32:14.217+08:00  INFO 26232 --- [BackEnd] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Shutdown initiated...
+2026-05-16T20:32:14.372+08:00  INFO 26232 --- [BackEnd] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Shutdown completed.
+2026-05-16T20:32:14.374+08:00  INFO 26232 --- [BackEnd] [restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2026-05-16T20:32:14.390+08:00  INFO 26232 --- [BackEnd] [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-05-16T20:32:14.401+08:00 ERROR 26232 --- [BackEnd] [restartedMain] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in com.example.BackEnd.controller.AuthController required a bean of type 'org.springframework.security.authentication.AuthenticationManager' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'org.springframework.security.authentication.AuthenticationManager' in your configuration.
+
+2026-05-16T20:32:15.850+08:00  INFO 26232 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : Starting BackEndApplication using Java 25.0.1 with PID 26232 (D:\React\reactSpringBoot\BackEnd\target\classes started by tony.shangkuan in D:\React\reactSpringBoot\BackEnd)
+2026-05-16T20:32:15.850+08:00  INFO 26232 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-05-16T20:32:16.282+08:00  INFO 26232 --- [BackEnd] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-16T20:32:16.304+08:00  INFO 26232 --- [BackEnd] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 20 ms. Found 4 JPA repository interfaces.
+2026-05-16T20:32:16.446+08:00  INFO 26232 --- [BackEnd] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-05-16T20:32:16.447+08:00  INFO 26232 --- [BackEnd] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-05-16T20:32:16.447+08:00  INFO 26232 --- [BackEnd] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.54]
+2026-05-16T20:32:16.481+08:00  INFO 26232 --- [BackEnd] [restartedMain] o.a.c.c.C.[Tomcat-2].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2026-05-16T20:32:16.481+08:00  INFO 26232 --- [BackEnd] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 629 ms
+2026-05-16T20:32:16.547+08:00  INFO 26232 --- [BackEnd] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Starting...
+2026-05-16T20:32:16.592+08:00  INFO 26232 --- [BackEnd] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-7 - Added connection conn93: url=jdbc:h2:file:./h2db/myDb user=SA
+2026-05-16T20:32:16.592+08:00  INFO 26232 --- [BackEnd] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Start completed.
+2026-05-16T20:32:16.612+08:00  INFO 26232 --- [BackEnd] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-05-16T20:32:16.614+08:00  INFO 26232 --- [BackEnd] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-05-16T20:32:16.621+08:00  INFO 26232 --- [BackEnd] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-16T20:32:16.622+08:00  WARN 26232 --- [BackEnd] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-16T20:32:16.622+08:00  INFO 26232 --- [BackEnd] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-7)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-16T20:32:16.737+08:00  INFO 26232 --- [BackEnd] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-16T20:32:16.737+08:00  INFO 26232 --- [BackEnd] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-16T20:32:16.930+08:00  WARN 26232 --- [BackEnd] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-05-16T20:32:17.053+08:00  INFO 26232 --- [BackEnd] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 14 endpoints beneath base path '/actuator'
+2026-05-16T20:32:17.068+08:00  INFO 26232 --- [BackEnd] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name myAuthenticationProvider
+2026-05-16T20:32:17.068+08:00  WARN 26232 --- [BackEnd] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-05-16T20:32:17.076+08:00  WARN 26232 --- [BackEnd] [restartedMain] thorizationManagerRequestMatcherRegistry : One of the patterns in [/api/v1/admin/**, actuator/**, /swagger-ui.html, /swagger-ui/**, /v3/api-docs/**] is missing a leading slash. This is discouraged; please include the leading slash in all your request matcher patterns. In future versions of Spring Security, leaving out the leading slash will result in an exception.
+2026-05-16T20:32:17.257+08:00  INFO 26232 --- [BackEnd] [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:./h2db/myDb'
+2026-05-16T20:32:17.266+08:00  INFO 26232 --- [BackEnd] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-05-16T20:32:17.289+08:00  INFO 26232 --- [BackEnd] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-05-16T20:32:17.299+08:00  INFO 26232 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : Started BackEndApplication in 1.473 seconds (process running for 6850.446)
+2026-05-16T20:32:17.300+08:00  WARN 26232 --- [BackEnd] [restartedMain] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-05-16T20:32:17.300+08:00  WARN 26232 --- [BackEnd] [restartedMain] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-05-16T20:32:17.300+08:00  INFO 26232 --- [BackEnd] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-05-16T20:32:25.004+08:00  INFO 26232 --- [BackEnd] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat-2].[localhost].[/]     : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-05-16T20:32:25.004+08:00  INFO 26232 --- [BackEnd] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-05-16T20:32:25.006+08:00  INFO 26232 --- [BackEnd] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2026-05-16T20:32:32.558+08:00 ERROR 26232 --- [BackEnd] [http-nio-8080-exec-10] c.e.B.exception.GlobalExceptionHandler   : Global Exception Handler: Exception 發生異常: No static resource favicon.ico.
+2026-05-16T20:32:32.565+08:00  WARN 26232 --- [BackEnd] [http-nio-8080-exec-10] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-05-16T20:32:36.198+08:00 ERROR 26232 --- [BackEnd] [http-nio-8080-exec-1] c.e.B.exception.GlobalExceptionHandler   : Global Exception Handler: Exception 發生異常: No static resource favicon.ico.
+2026-05-16T20:32:36.200+08:00  WARN 26232 --- [BackEnd] [http-nio-8080-exec-1] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-05-16T20:32:45.098+08:00 ERROR 26232 --- [BackEnd] [http-nio-8080-exec-3] c.e.B.exception.GlobalExceptionHandler   : Global Exception Handler: Exception 發生異常: No static resource .
+2026-05-16T20:32:45.098+08:00  WARN 26232 --- [BackEnd] [http-nio-8080-exec-3] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource .]
+2026-05-16T20:32:45.802+08:00 ERROR 26232 --- [BackEnd] [http-nio-8080-exec-4] c.e.B.exception.GlobalExceptionHandler   : Global Exception Handler: Exception 發生異常: No static resource favicon.ico.
+2026-05-16T20:32:45.806+08:00  WARN 26232 --- [BackEnd] [http-nio-8080-exec-4] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-05-16T20:32:48.775+08:00 ERROR 26232 --- [BackEnd] [http-nio-8080-exec-8] c.e.B.exception.GlobalExceptionHandler   : Global Exception Handler: Exception 發生異常: No static resource favicon.ico.
+2026-05-16T20:32:48.778+08:00  WARN 26232 --- [BackEnd] [http-nio-8080-exec-8] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-05-16T20:32:58.465+08:00  INFO 26232 --- [BackEnd] [http-nio-8080-exec-6] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 283 ms
+2026-05-16T20:33:40.370+08:00 ERROR 26232 --- [BackEnd] [http-nio-8080-exec-8] c.e.B.exception.GlobalExceptionHandler   : Global Exception Handler: Exception 發生異常: No static resource v3/api-docs/**.
+2026-05-16T20:33:40.372+08:00  WARN 26232 --- [BackEnd] [http-nio-8080-exec-8] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource v3/api-docs/**.]
+2026-05-16T20:33:40.917+08:00 ERROR 26232 --- [BackEnd] [http-nio-8080-exec-10] c.e.B.exception.GlobalExceptionHandler   : Global Exception Handler: Exception 發生異常: No static resource favicon.ico.
+2026-05-16T20:33:40.918+08:00  WARN 26232 --- [BackEnd] [http-nio-8080-exec-10] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-05-16T20:33:51.676+08:00 ERROR 26232 --- [BackEnd] [http-nio-8080-exec-9] c.e.B.exception.GlobalExceptionHandler   : Global Exception Handler: Exception 發生異常: No static resource favicon.ico.
+2026-05-16T20:33:51.676+08:00  WARN 26232 --- [BackEnd] [http-nio-8080-exec-9] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-05-16T20:34:39.799+08:00 ERROR 26232 --- [BackEnd] [http-nio-8080-exec-9] c.e.B.exception.GlobalExceptionHandler   : Global Exception Handler: Exception 發生異常: No static resource ac.
+2026-05-16T20:34:39.800+08:00  WARN 26232 --- [BackEnd] [http-nio-8080-exec-9] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource ac.]
+2026-05-16T20:34:43.665+08:00 ERROR 26232 --- [BackEnd] [http-nio-8080-exec-3] c.e.B.exception.GlobalExceptionHandler   : Global Exception Handler: Exception 發生異常: No static resource favicon.ico.
+2026-05-16T20:34:43.666+08:00  WARN 26232 --- [BackEnd] [http-nio-8080-exec-3] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-05-16T20:34:56.511+08:00 ERROR 26232 --- [BackEnd] [http-nio-8080-exec-10] c.e.B.exception.GlobalExceptionHandler   : Global Exception Handler: Exception 發生異常: No static resource favicon.ico.
+2026-05-16T20:34:56.512+08:00  WARN 26232 --- [BackEnd] [http-nio-8080-exec-10] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-05-16T20:35:18.430+08:00 ERROR 26232 --- [BackEnd] [http-nio-8080-exec-3] c.e.B.exception.GlobalExceptionHandler   : Global Exception Handler: Exception 發生異常: No static resource v3.
+2026-05-16T20:35:18.432+08:00  WARN 26232 --- [BackEnd] [http-nio-8080-exec-3] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource v3.]
