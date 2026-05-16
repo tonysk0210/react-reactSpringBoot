@@ -66,7 +66,7 @@ export default function OrderManage() {
                   </h2>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
                     狀態:{" "}
-                    <span className="font-medium text-gray-800 dark:text-lighter">
+                    <span className="font-medium  text-yellow-500 dark:text-lighter">
                       {order.status}
                     </span>
                   </p>

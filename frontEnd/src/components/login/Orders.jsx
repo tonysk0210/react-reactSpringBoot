@@ -19,6 +19,20 @@ export default function Orders() {
     );
   }
 
+  // 定義一個函數來根據訂單狀態返回對應的 CSS 類名，以便在頁面上使用不同的顏色來顯示不同狀態的訂單，例如：CREATED 狀態的訂單會顯示為橙色，CANCELLED 狀態的訂單會顯示為紅色，CONFIRMED 狀態的訂單會顯示為綠色，其他狀態的訂單會顯示為灰色。
+  function getStatusClassName(status) {
+    switch (status) {
+      case "CREATED":
+        return "text-yellow-500";
+      case "CANCELLED":
+        return "text-red-500";
+      case "CONFIRMED":
+        return "text-green-500";
+      default:
+        return "text-gray-800 dark:text-lighter";
+    }
+  }
+
   return (
     <div className="min-h-213 max-w-4xl mx-auto px-6 py-12 font-brand dark:bg-darkbg">
       {orders.length === 0 ? (
@@ -39,7 +53,9 @@ export default function Orders() {
               </h2>
               <p className="text-sm text-gray-600 dark:text-gray-400">
                 狀態:{" "}
-                <span className="font-medium text-gray-800 dark:text-lighter">
+                <span
+                  className={`font-medium ${getStatusClassName(order.status)}`}
+                >
                   {order.status}
                 </span>
               </p>
