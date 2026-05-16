@@ -14,7 +14,9 @@ export default function Messages() {
       const response = await apiClient.patch(
         `/admin/messages/${contactId}/close`,
       );
-      toast.success(response?.data?.statusMsg || "此信息已關閉。");
+      toast.success(response?.data?.statusMsg || "此信息已關閉。", {
+        style: { width: "450px", maxWidth: "calc(100vw - 32px)" },
+      });
       revalidator.revalidate(); // 🔁 Re-run loader
     } catch (error) {
       toast.error(error.response?.data?.errorMessage || "此信息關閉失敗"); // 失敗時通常會進 GlobalExceptionHandler
