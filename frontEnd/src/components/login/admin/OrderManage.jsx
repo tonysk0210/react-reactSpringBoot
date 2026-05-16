@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 export default function OrderManage() {
   const orders = useLoaderData(); // 2. 使用 useLoaderData hook 來獲取 List<OrderResponseDto> 資料
-  const revalidator = useRevalidator();
+  const revalidator = useRevalidator(); // 使用 useRevalidator hook 來獲取 revalidate 函式，這個函式可以用來重新加載由 loader 函式加載的資料，當我們在頁面上執行某些操作（例如：確認訂單、取消訂單等等）後，可以調用 revalidate 函式來重新加載訂單資料，以便頁面上顯示最新的訂單狀態。
 
   // 定義一個函數來格式化 ISO 日期字串為更易讀的格式，例如：2024-06-01T12:34:56Z 會被格式化為 2024年6月1日。
   function formatDate(isoDate) {
@@ -18,27 +18,29 @@ export default function OrderManage() {
     });
   }
 
-  // 定義一個函數來處理訂單確認的操作，這個函數會發送一個 PATCH 請求到後端 API 的 /admin/orders/{orderId}/confirm 端點，來確認訂單的狀態，然後使用 react-toastify 顯示成功或失敗的通知，最後使用 revalidator 來重新加載訂單資料，以便頁面上顯示最新的訂單狀態。
+  // 定義一個函數來處理訂單確認的操作，這個函數會發送一個 PATCH 請求到後端 API 的 /admin/orderManage/{orderId}/confirm 端點，來更新訂單的狀態為已確認，然後使用 react-toastify 顯示成功或失敗的通知
   const handleConfirm = async (orderId) => {
     try {
-      await apiClient.patch(`/admin/orderManage/${orderId}/confirm`);
-      toast.success("訂單確認成功。");
-      revalidator.revalidate(); // 🔁 Re-run loader
+      const response = await apiClient.patch(
+        `/admin/orderManage/${orderId}/confirm`,
+      );
+      toast.success(response?.data?.statusMsg || "訂單確認成功。");
+      revalidator.revalidate(); // 🔁 這是一個重要的步驟，當訂單狀態被更新後，我們需要重新加載訂單資料，以便頁面上顯示最新的訂單狀態。調用 revalidate 函式會觸發 OrderManage 組件中的 orderManageLoader 函式重新執行，從而獲取最新的訂單資料並更新頁面。
     } catch (error) {
-      toast.error("訂單確認失敗。");
+      toast.error(error.response?.data?.statusMsg || "訂單確認失敗。");
     }
   };
 
-  /**
-   * Handle Order Cancellation
-   */
+  // 定義一個函數來處理訂單取消的操作，這個函數會發送一個 PATCH 請求到後端 API 的 /admin/orderManage/{orderId}/cancel 端點，來取消訂單的狀態，然後使用 react-toastify 顯示成功或失敗的通知
   const handleCancel = async (orderId) => {
     try {
-      await apiClient.patch(`/admin/orderManage/${orderId}/cancel`);
-      toast.success("訂單取消成功。");
-      revalidator.revalidate(); // 🔁 Re-run loader
+      const response = await apiClient.patch(
+        `/admin/orderManage/${orderId}/cancel`,
+      );
+      toast.success(response?.data?.statusMsg || "訂單取消成功。");
+      revalidator.revalidate(); // 🔁 這是一個重要的步驟，當訂單狀態被更新後，我們需要重新加載訂單資料，以便頁面上顯示最新的訂單狀態。調用 revalidate 函式會觸發 OrderManage 組件中的 orderManageLoader 函式重新執行，從而獲取最新的訂單資料並更新頁面。
     } catch (error) {
-      toast.error("訂單取消失敗。");
+      toast.error(error.response?.data?.statusMsg || "訂單取消失敗。");
     }
   };
 

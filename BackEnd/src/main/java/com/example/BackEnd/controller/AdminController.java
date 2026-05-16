@@ -30,7 +30,7 @@ public class AdminController {
         // 1. 更新訂單狀態為 CONFIRMED
         Order confirmedOrder = orderService.updateOrderStatus(orderId, ApplicationConstants.ORDER_STATUS_CONFIRMED);
         return ResponseEntity.ok(
-                new ResponseDto("200", "訂單 #" + confirmedOrder.getId() + " 已經確認.")
+                new ResponseDto("200", "訂單 #" + confirmedOrder.getId() + " 已經確認成功.")
         );
     }
 
@@ -39,7 +39,7 @@ public class AdminController {
         // 1. 更新訂單狀態為 CANCELLED
         Order cancelledOrder = orderService.updateOrderStatus(orderId, ApplicationConstants.ORDER_STATUS_CANCELLED);
         return ResponseEntity.ok(
-                new ResponseDto("200", "訂單 #" + cancelledOrder.getId() + " 已經取消.")
+                new ResponseDto("200", "訂單 #" + cancelledOrder.getId() + " 已經取消成功.")
         );
     }
 }
