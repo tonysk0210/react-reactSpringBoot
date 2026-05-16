@@ -36,6 +36,7 @@ import OrderSuccess from "./components/cart/OrderSuccess.jsx";
 // 從 Home 組件中匯入 productsLoader 函式；這個函式是用來在路由匹配時加載產品資料的，會在 Home 組件中使用 useLoaderData hook來獲取這些資料。
 import { productsLoader } from "./components/home/Home";
 import { profileLoader } from "./components/login/Profile"; // 從 Profile 組件中匯入 profileLoader 函式；這個函式是用來在路由匹配時加載用戶資料的，會在 Profile 組件中使用 useLoaderData hook 來獲取這些數據。
+import { ordersLoader } from "./components/login/Orders"; // 從 Orders 組件中匯入 ordersLoader 函式；這個函式是用來在路由匹配時加載訂單資料的，會在 Orders 組件中使用 useLoaderData hook 來獲取這些數據。
 
 import { contactAction } from "./components/contact/Contact"; // 從 Contact 組件中匯入 contactAction 函式；這個函式是用來在表單提交時處理表單數據的，會在 Contact 組件中使用 useActionData hook 來獲取這些數據。
 import { loginAction } from "./components/login/Login"; // 從 Login 組件中匯入 loginAction 函式；這個函式是用來在表單提交時處理表單數據的，會在 Login 組件中使用 useActionData hook 來獲取這些數據。
@@ -97,7 +98,7 @@ const routeDefinitions = createRoutesFromElements(
           return !actionResult?.success;
         }}
       />
-      <Route path="/orders" element={<Orders />} />
+      <Route path="/orders" element={<Orders />} loader={ordersLoader} />
       <Route path="/admin/orderManage" element={<OrderManage />} />
       <Route path="/admin/messages" element={<Message />} />
     </Route>

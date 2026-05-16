@@ -51,7 +51,7 @@ public class JwtUtil {
                         .map(Role::getName)
                         .collect(Collectors.joining(",")))// 加入一個自訂 claim。JWT payload 裡會有："role": "ADMIN, USER"
                 .issuedAt(new java.util.Date())
-                .expiration(new java.util.Date((new java.util.Date()).getTime() + 60 * 60)) // JWT 裡的欄位名稱通常是 exp; JWT 會在現在時間 + 1 小時後過期
+                .expiration(new java.util.Date((new java.util.Date()).getTime() + 60 * 60 * 1000)) // JWT 裡的欄位名稱通常是 exp; JWT 會在現在時間 + 1 小時後過期
                 .signWith(secretKey).compact(); // 使用剛剛建立的 secretKey 對 JWT 簽章。這一步會產生 JWT 的 signature，用來防止 token 被竄改。
         return jwt;
     }

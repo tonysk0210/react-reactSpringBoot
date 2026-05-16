@@ -1,6 +1,8 @@
 package com.example.BackEnd.service.impl;
 
 import com.example.BackEnd.constant.ApplicationConstants;
+import com.example.BackEnd.dto.OrderItemResponseDto;
+import com.example.BackEnd.dto.OrderResponseDto;
 import com.example.BackEnd.entity.Customer;
 import com.example.BackEnd.entity.Order;
 import com.example.BackEnd.entity.OrderItem;
@@ -52,5 +54,47 @@ public class OrderServiceImpl implements OrderService {
 
         //3. 儲存 Order Entity 物件，包含所有的 OrderItem
         orderRepo.save(order);
+    }
+
+    @Override
+    public List<OrderResponseDto> getCustomerOrders() {
+        // 1. 取得當前登入用戶的 Customer 物件
+        Customer customer = profileServiceImpl.getAuthenticatedCustomer();
+
+        // 2. 取得 Customer 的所有訂單
+        List<Order> orders = orderRepo.findByCustomerOrderByCreatedAtDesc(customer);
+
+        // 3. 將 Order 列表轉換成 OrderResponseDto 列表
+        return orders.stream().map(this::mapToOrderResponseDTO).collect(Collectors.toList());
+    }
+
+    /* Helper method */
+    // 將 Order 轉換成 OrderResponseDto
+    private OrderResponseDto mapToOrderResponseDTO(Order order) {
+        // 1. 取得 Order 的所有 OrderItem
+        List<OrderItemResponseDto> orderItemsDTOs = order.getOrderItems().stream()
+                .map(this::mapToOrderItemResponseDTO)
+                .collect(Collectors.toList());
+        // 2. 建立 OrderResponseDto 物件
+        OrderResponseDto orderResponseDto = new OrderResponseDto(
+                order.getId(),
+                order.getOrderStatus(),
+                order.getTotalPrice(),
+                order.getCreatedAt().toString(),
+                orderItemsDTOs);
+
+        return orderResponseDto;
+    }
+
+    // 將 OrderItem 轉換成 OrderItemResponseDto
+    private OrderItemResponseDto mapToOrderItemResponseDTO(OrderItem orderItem) {
+        // 1. 取得 OrderItem 的 Product 名稱、數量、價格及圖片 URL
+        OrderItemResponseDto orderItemDto = new OrderItemResponseDto(
+                orderItem.getProduct().getName(),
+                orderItem.getQuantity(),
+                orderItem.getPrice(),
+                orderItem.getProduct().getImageUrl());
+
+        return orderItemDto;
     }
 }
