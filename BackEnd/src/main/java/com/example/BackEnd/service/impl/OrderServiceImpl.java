@@ -68,6 +68,26 @@ public class OrderServiceImpl implements OrderService {
         return orders.stream().map(this::mapToOrderResponseDTO).collect(Collectors.toList());
     }
 
+    @Override
+    public List<OrderResponseDto> getAllPendingOrders() {
+        // 1. 取得所有狀態為 CREATED 的訂單
+        List<Order> orders = orderRepo.findByOrderStatus(ApplicationConstants.ORDER_STATUS_CREATED);
+        // 2. 將 Order 列表轉換成 OrderResponseDto 列表
+        return orders.stream().map(this::mapToOrderResponseDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public Order updateOrderStatus(Long orderId, String orderStatus) {
+        // 1. 取得指定 ID 的訂單，若找不到則拋出 ResourceNotFoundException　找不到符合條件的 %s，欄位 %s 的值為 '%s'
+        Order order = orderRepo.findById(orderId)
+                .orElseThrow(() -> new ResourceNotFoundException("Order", "OrderID", orderId.toString()));
+
+        // 2. 更新訂單狀態
+        order.setOrderStatus(orderStatus);
+        // 3. 儲存更新後的訂單，返回更新後的訂單物件
+        return orderRepo.save(order);
+    }
+
     /* Helper method */
     // 將 Order 轉換成 OrderResponseDto
     private OrderResponseDto mapToOrderResponseDTO(Order order) {

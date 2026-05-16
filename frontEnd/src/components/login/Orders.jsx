@@ -20,7 +20,7 @@ export default function Orders() {
   }
 
   return (
-    <div className="min-h-[852px] container mx-auto px-6 py-12 font-brand dark:bg-darkbg">
+    <div className="min-h-213 max-w-4xl mx-auto px-6 py-12 font-brand dark:bg-darkbg">
       {orders.length === 0 ? (
         <p className="text-center text-2xl  text-brand dark:text-lighter">
           暫無訂單
