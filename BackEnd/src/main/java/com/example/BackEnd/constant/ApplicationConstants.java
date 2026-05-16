@@ -13,4 +13,7 @@ public class ApplicationConstants {
     public static final String ORDER_STATUS_CONFIRMED = "CONFIRMED"; // Admin use
     public static final String ORDER_STATUS_CREATED = "CREATED";
     public static final String ORDER_STATUS_CANCELLED = "CANCELLED"; // Admin use
+
+    public static final String OPEN_MESSAGE = "OPEN";
+    public static final String CLOSED_MESSAGE = "CLOSED";
 }

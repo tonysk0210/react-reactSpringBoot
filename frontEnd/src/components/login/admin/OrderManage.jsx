@@ -27,7 +27,7 @@ export default function OrderManage() {
       toast.success(response?.data?.statusMsg || "訂單確認成功。");
       revalidator.revalidate(); // 🔁 這是一個重要的步驟，當訂單狀態被更新後，我們需要重新加載訂單資料，以便頁面上顯示最新的訂單狀態。調用 revalidate 函式會觸發 OrderManage 組件中的 orderManageLoader 函式重新執行，從而獲取最新的訂單資料並更新頁面。
     } catch (error) {
-      toast.error(error.response?.data?.statusMsg || "訂單確認失敗。");
+      toast.error(error.response?.data?.errorMessage || "訂單確認失敗。"); // 失敗時通常會進 GlobalExceptionHandler
     }
   };
 
@@ -40,7 +40,7 @@ export default function OrderManage() {
       toast.success(response?.data?.statusMsg || "訂單取消成功。");
       revalidator.revalidate(); // 🔁 這是一個重要的步驟，當訂單狀態被更新後，我們需要重新加載訂單資料，以便頁面上顯示最新的訂單狀態。調用 revalidate 函式會觸發 OrderManage 組件中的 orderManageLoader 函式重新執行，從而獲取最新的訂單資料並更新頁面。
     } catch (error) {
-      toast.error(error.response?.data?.statusMsg || "訂單取消失敗。");
+      toast.error(error.response?.data?.errorMessage || "訂單取消失敗。"); // 失敗時通常會進 GlobalExceptionHandler
     }
   };
 

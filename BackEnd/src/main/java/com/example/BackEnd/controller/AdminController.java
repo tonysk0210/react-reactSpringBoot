@@ -1,6 +1,7 @@
 package com.example.BackEnd.controller;
 
 import com.example.BackEnd.constant.ApplicationConstants;
+import com.example.BackEnd.dto.ContactResponseDto;
 import com.example.BackEnd.dto.OrderResponseDto;
 import com.example.BackEnd.dto.ResponseDto;
 import com.example.BackEnd.entity.Order;
@@ -40,6 +41,21 @@ public class AdminController {
         Order cancelledOrder = orderService.updateOrderStatus(orderId, ApplicationConstants.ORDER_STATUS_CANCELLED);
         return ResponseEntity.ok(
                 new ResponseDto("200", "訂單 #" + cancelledOrder.getId() + " 已經取消成功.")
+        );
+    }
+
+    @GetMapping("/messages")
+    public ResponseEntity<List<ContactResponseDto>> getAllOpenMessages() {
+        return ResponseEntity.ok(contactService.getAllOpenMessages());
+    }
+
+    @PatchMapping("/messages/{contactId}/close")
+    public ResponseEntity<ResponseDto> closeMessage(@PathVariable Long contactId) {
+        // 1. 更新留言狀態為 CLOSED
+        contactService.updateMessageStatus(contactId, ApplicationConstants.CLOSED_MESSAGE);
+        // 2. 回應成功
+        return ResponseEntity.ok(
+                new ResponseDto("200", "留言 #" + contactId + " 已讀取，將此信息狀態更新為 CLOSED.")
         );
     }
 }
