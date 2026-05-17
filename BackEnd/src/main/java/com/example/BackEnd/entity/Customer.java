@@ -45,7 +45,8 @@ public class Customer extends BaseEntity {
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
     private Address address;
 
-    // Customer.roles 不是 non-owning side。它其實變成 owning side。原因是：單向關聯只有一邊知道關係，JPA 必須從這一邊知道外鍵欄位在哪裡。
+    // Customer.roles 是 owning side。原因是：@JoinColumn 寫在 Customer 類中; customerRepo.save(customer);　→ 會寫入/更新 ROLES 表的 customer_id FK ✅
+    // 單向 | 只有一邊有對方的欄位; 雙向 | 兩邊都有對方的欄位
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id", nullable = false) // ROLES 表裡面有一個 customer_id 欄位，用它來連回 CUSTOMERS。
     private Set<Role> roles = new LinkedHashSet<>(); // 不重複，而且保留加入順序
