@@ -62,7 +62,7 @@ public class MySecurityConfig {
                     auth.requestMatchers(path).permitAll()); // publicPaths 裡面的路徑，全部公開
             auth.requestMatchers(
                     "/api/v1/admin/**",
-                    "actuator/**",
+                    "/actuator/**",
                     "/swagger-ui.html",
                     "/swagger-ui/**",
                     "/v3/api-docs/**").hasRole("ADMIN"); // /api/v1/admin/** 路徑，需要有 ADMIN 角色

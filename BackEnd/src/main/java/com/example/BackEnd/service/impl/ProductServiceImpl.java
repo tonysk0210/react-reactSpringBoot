@@ -7,6 +7,7 @@ import com.example.BackEnd.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepo productRepo;
 
+    @Cacheable("products")
     @Override
     public List<ProductDto> getProducts() {
         List<Product> all = productRepo.findAll(); // findAll() 是 Spring Data JPA 提供的方法，用於從資料庫中檢索所有 Product 實體的列表。它會返回一個包含所有 Product 實體的 List<Product>。

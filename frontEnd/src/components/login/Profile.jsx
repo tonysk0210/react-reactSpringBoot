@@ -42,10 +42,19 @@ export default function Profile() {
 
         // 更新 auth context 中的 user 物件 和 localStorage 中的 user
         if (actionData.profileData) {
-          // 建立新的 user 物件
+          const data = actionData.profileData;
+          // 建立新的 user 物件，address 要包成巢狀結構（與後端 ProfileResponseDto 及 Cart.jsx 期望的結構一致）
           const updatedUser = {
-            ...profileData, // 原始資料
-            ...actionData.profileData, // 更新的欄位
+            name: data.name,
+            email: data.email,
+            mobileNumber: data.mobileNumber,
+            address: {
+              street: data.street,
+              city: data.city,
+              state: data.state,
+              postalCode: data.postalCode,
+              country: data.country,
+            },
           };
           // 更新到 context 和 localStorage
           loginSuccess(localStorage.getItem("jwtToken"), updatedUser);
