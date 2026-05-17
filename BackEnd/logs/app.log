@@ -687,3 +687,717 @@ Consider defining a bean of type 'com.example.BackEnd.repository.OrderRepo' in y
 2026-05-17T09:33:50.353+08:00  INFO 31496 --- [BackEnd] [RMI TCP Connection(1)-192.168.50.58] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2026-05-17T09:33:50.356+08:00  INFO 31496 --- [BackEnd] [RMI TCP Connection(1)-192.168.50.58] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
 2026-05-17T11:23:58.635+08:00  WARN 31496 --- [BackEnd] [HikariPool-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h15m11s878ms689µs200ns).
+2026-05-17T13:33:01.172+08:00  INFO 31496 --- [BackEnd] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-05-17T13:33:01.179+08:00  INFO 31496 --- [BackEnd] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-05-17T13:33:01.187+08:00  INFO 31496 --- [BackEnd] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-17T13:33:01.191+08:00  INFO 31496 --- [BackEnd] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-05-17T13:33:01.193+08:00  INFO 31496 --- [BackEnd] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-05-17T13:33:07.263+08:00  INFO 29268 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : Starting BackEndApplication using Java 25.0.1 with PID 29268 (D:\React\reactSpringBoot\BackEnd\target\classes started by tony.shangkuan in D:\React\reactSpringBoot\BackEnd)
+2026-05-17T13:33:07.266+08:00  INFO 29268 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-05-17T13:33:07.341+08:00  INFO 29268 --- [BackEnd] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-05-17T13:33:07.342+08:00  INFO 29268 --- [BackEnd] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-05-17T13:33:08.591+08:00  INFO 29268 --- [BackEnd] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-17T13:33:08.660+08:00  INFO 29268 --- [BackEnd] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 59 ms. Found 4 JPA repository interfaces.
+2026-05-17T13:33:09.309+08:00  INFO 29268 --- [BackEnd] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-05-17T13:33:09.324+08:00  INFO 29268 --- [BackEnd] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-05-17T13:33:09.325+08:00  INFO 29268 --- [BackEnd] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.54]
+2026-05-17T13:33:09.380+08:00  INFO 29268 --- [BackEnd] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-05-17T13:33:09.381+08:00  INFO 29268 --- [BackEnd] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2038 ms
+2026-05-17T13:33:09.649+08:00  INFO 29268 --- [BackEnd] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-05-17T13:33:09.931+08:00  INFO 29268 --- [BackEnd] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn1: url=jdbc:h2:file:./h2db/myDb user=SA
+2026-05-17T13:33:09.933+08:00  INFO 29268 --- [BackEnd] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-05-17T13:33:09.950+08:00  WARN 29268 --- [BackEnd] [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Failed to initialize dependency 'dataSourceScriptDatabaseInitializer' of LoadTimeWeaverAware bean 'entityManagerFactory': Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Failed to execute SQL script statement #5 of class path resource [sql/schema.sql]: CREATE TABLE IF NOT EXISTS roles ( role_id BIGINT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50) NOT NULL, UNIQUE created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, created_by VARCHAR(20) NOT NULL, updated_at TIMESTAMP DEFAULT NULL, updated_by VARCHAR(20) DEFAULT NULL, FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE )
+2026-05-17T13:33:09.950+08:00  INFO 29268 --- [BackEnd] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-05-17T13:33:10.072+08:00  INFO 29268 --- [BackEnd] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-05-17T13:33:10.076+08:00  INFO 29268 --- [BackEnd] [restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2026-05-17T13:33:10.098+08:00  INFO 29268 --- [BackEnd] [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-05-17T13:33:10.117+08:00 ERROR 29268 --- [BackEnd] [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Failed to initialize dependency 'dataSourceScriptDatabaseInitializer' of LoadTimeWeaverAware bean 'entityManagerFactory': Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Failed to execute SQL script statement #5 of class path resource [sql/schema.sql]: CREATE TABLE IF NOT EXISTS roles ( role_id BIGINT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50) NOT NULL, UNIQUE created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, created_by VARCHAR(20) NOT NULL, updated_at TIMESTAMP DEFAULT NULL, updated_by VARCHAR(20) DEFAULT NULL, FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE )
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:328) ~[spring-beans-6.2.18.jar:6.2.18]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207) ~[spring-beans-6.2.18.jar:6.2.18]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:974) ~[spring-context-6.2.18.jar:6.2.18]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:628) ~[spring-context-6.2.18.jar:6.2.18]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350) ~[spring-boot-3.5.14.jar:3.5.14]
+	at com.example.BackEnd.BackEndApplication.main(BackEndApplication.java:12) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.5.14.jar:3.5.14]
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Failed to execute SQL script statement #5 of class path resource [sql/schema.sql]: CREATE TABLE IF NOT EXISTS roles ( role_id BIGINT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50) NOT NULL, UNIQUE created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, created_by VARCHAR(20) NOT NULL, updated_at TIMESTAMP DEFAULT NULL, updated_by VARCHAR(20) DEFAULT NULL, FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE )
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1826) ~[spring-beans-6.2.18.jar:6.2.18]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607) ~[spring-beans-6.2.18.jar:6.2.18]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529) ~[spring-beans-6.2.18.jar:6.2.18]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.18.jar:6.2.18]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373) ~[spring-beans-6.2.18.jar:6.2.18]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.18.jar:6.2.18]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) ~[spring-beans-6.2.18.jar:6.2.18]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:315) ~[spring-beans-6.2.18.jar:6.2.18]
+	... 13 common frames omitted
+Caused by: org.springframework.jdbc.datasource.init.ScriptStatementFailedException: Failed to execute SQL script statement #5 of class path resource [sql/schema.sql]: CREATE TABLE IF NOT EXISTS roles ( role_id BIGINT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50) NOT NULL, UNIQUE created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, created_by VARCHAR(20) NOT NULL, updated_at TIMESTAMP DEFAULT NULL, updated_by VARCHAR(20) DEFAULT NULL, FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE )
+	at org.springframework.jdbc.datasource.init.ScriptUtils.executeSqlScript(ScriptUtils.java:293) ~[spring-jdbc-6.2.18.jar:6.2.18]
+	at org.springframework.jdbc.datasource.init.ResourceDatabasePopulator.populate(ResourceDatabasePopulator.java:254) ~[spring-jdbc-6.2.18.jar:6.2.18]
+	at org.springframework.jdbc.datasource.init.DatabasePopulatorUtils.execute(DatabasePopulatorUtils.java:54) ~[spring-jdbc-6.2.18.jar:6.2.18]
+	at org.springframework.boot.jdbc.init.DataSourceScriptDatabaseInitializer.runScripts(DataSourceScriptDatabaseInitializer.java:87) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.sql.init.AbstractScriptDatabaseInitializer.runScripts(AbstractScriptDatabaseInitializer.java:146) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.sql.init.AbstractScriptDatabaseInitializer.applyScripts(AbstractScriptDatabaseInitializer.java:108) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.sql.init.AbstractScriptDatabaseInitializer.applySchemaScripts(AbstractScriptDatabaseInitializer.java:98) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.sql.init.AbstractScriptDatabaseInitializer.initializeDatabase(AbstractScriptDatabaseInitializer.java:76) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.sql.init.AbstractScriptDatabaseInitializer.afterPropertiesSet(AbstractScriptDatabaseInitializer.java:66) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1873) ~[spring-beans-6.2.18.jar:6.2.18]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1822) ~[spring-beans-6.2.18.jar:6.2.18]
+	... 20 common frames omitted
+Caused by: org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CREATE TABLE IF NOT EXISTS roles ( role_id BIGINT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50) NOT NULL, UNIQUE [*]created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, created_by VARCHAR(20) NOT NULL, updated_at TIMESTAMP DEFAULT NULL, updated_by VARCHAR(20) DEFAULT NULL, FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE )"; expected "NULLS, ("; SQL statement:
+CREATE TABLE IF NOT EXISTS roles ( role_id BIGINT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50) NOT NULL, UNIQUE created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, created_by VARCHAR(20) NOT NULL, updated_at TIMESTAMP DEFAULT NULL, updated_by VARCHAR(20) DEFAULT NULL, FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE ) [42001-232]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:514) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.message.DbException.getSyntaxError(DbException.java:261) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.command.ParserBase.getSyntaxError(ParserBase.java:762) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.command.ParserBase.read(ParserBase.java:369) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.command.Parser.parseTableConstraintIf(Parser.java:8633) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.command.Parser.parseTableColumnDefinition(Parser.java:8866) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.command.Parser.parseCreateTable(Parser.java:8819) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.command.Parser.parseCreate(Parser.java:6398) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.command.Parser.parsePrepared(Parser.java:645) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.command.Parser.parse(Parser.java:581) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.command.Parser.parse(Parser.java:561) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.command.Parser.prepareCommand(Parser.java:484) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:645) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.engine.SessionLocal.prepareCommand(SessionLocal.java:561) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1164) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:245) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:231) ~[h2-2.3.232.jar:2.3.232]
+	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:95) ~[HikariCP-6.3.3.jar:na]
+	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java) ~[HikariCP-6.3.3.jar:na]
+	at org.springframework.jdbc.datasource.init.ScriptUtils.executeSqlScript(ScriptUtils.java:261) ~[spring-jdbc-6.2.18.jar:6.2.18]
+	... 30 common frames omitted
+
+2026-05-17T13:38:45.650+08:00  INFO 14520 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : Starting BackEndApplication using Java 25.0.1 with PID 14520 (D:\React\reactSpringBoot\BackEnd\target\classes started by tony.shangkuan in D:\React\reactSpringBoot\BackEnd)
+2026-05-17T13:38:45.653+08:00  INFO 14520 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-05-17T13:38:45.727+08:00  INFO 14520 --- [BackEnd] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-05-17T13:38:45.727+08:00  INFO 14520 --- [BackEnd] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-05-17T13:38:47.021+08:00  INFO 14520 --- [BackEnd] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-17T13:38:47.124+08:00  INFO 14520 --- [BackEnd] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 94 ms. Found 4 JPA repository interfaces.
+2026-05-17T13:38:47.787+08:00  INFO 14520 --- [BackEnd] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-05-17T13:38:47.801+08:00  INFO 14520 --- [BackEnd] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-05-17T13:38:47.801+08:00  INFO 14520 --- [BackEnd] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.54]
+2026-05-17T13:38:47.859+08:00  INFO 14520 --- [BackEnd] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-05-17T13:38:47.859+08:00  INFO 14520 --- [BackEnd] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2131 ms
+2026-05-17T13:38:48.082+08:00  INFO 14520 --- [BackEnd] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-05-17T13:38:48.353+08:00  INFO 14520 --- [BackEnd] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn1: url=jdbc:h2:file:./h2db/myDb user=SA
+2026-05-17T13:38:48.355+08:00  INFO 14520 --- [BackEnd] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-05-17T13:38:48.371+08:00  WARN 14520 --- [BackEnd] [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Failed to initialize dependency 'dataSourceScriptDatabaseInitializer' of LoadTimeWeaverAware bean 'entityManagerFactory': Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Failed to execute SQL script statement #5 of class path resource [sql/schema.sql]: CREATE TABLE IF NOT EXISTS roles ( role_id BIGINT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50) NOT NULL UNIQUE created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, created_by VARCHAR(20) NOT NULL, updated_at TIMESTAMP DEFAULT NULL, updated_by VARCHAR(20) DEFAULT NULL, )
+2026-05-17T13:38:48.371+08:00  INFO 14520 --- [BackEnd] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-05-17T13:38:48.543+08:00  INFO 14520 --- [BackEnd] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-05-17T13:38:48.547+08:00  INFO 14520 --- [BackEnd] [restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2026-05-17T13:38:48.570+08:00  INFO 14520 --- [BackEnd] [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-05-17T13:38:48.590+08:00 ERROR 14520 --- [BackEnd] [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Failed to initialize dependency 'dataSourceScriptDatabaseInitializer' of LoadTimeWeaverAware bean 'entityManagerFactory': Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Failed to execute SQL script statement #5 of class path resource [sql/schema.sql]: CREATE TABLE IF NOT EXISTS roles ( role_id BIGINT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50) NOT NULL UNIQUE created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, created_by VARCHAR(20) NOT NULL, updated_at TIMESTAMP DEFAULT NULL, updated_by VARCHAR(20) DEFAULT NULL, )
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:328) ~[spring-beans-6.2.18.jar:6.2.18]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207) ~[spring-beans-6.2.18.jar:6.2.18]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:974) ~[spring-context-6.2.18.jar:6.2.18]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:628) ~[spring-context-6.2.18.jar:6.2.18]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350) ~[spring-boot-3.5.14.jar:3.5.14]
+	at com.example.BackEnd.BackEndApplication.main(BackEndApplication.java:12) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.5.14.jar:3.5.14]
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Failed to execute SQL script statement #5 of class path resource [sql/schema.sql]: CREATE TABLE IF NOT EXISTS roles ( role_id BIGINT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50) NOT NULL UNIQUE created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, created_by VARCHAR(20) NOT NULL, updated_at TIMESTAMP DEFAULT NULL, updated_by VARCHAR(20) DEFAULT NULL, )
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1826) ~[spring-beans-6.2.18.jar:6.2.18]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607) ~[spring-beans-6.2.18.jar:6.2.18]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529) ~[spring-beans-6.2.18.jar:6.2.18]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.18.jar:6.2.18]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373) ~[spring-beans-6.2.18.jar:6.2.18]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.18.jar:6.2.18]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) ~[spring-beans-6.2.18.jar:6.2.18]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:315) ~[spring-beans-6.2.18.jar:6.2.18]
+	... 13 common frames omitted
+Caused by: org.springframework.jdbc.datasource.init.ScriptStatementFailedException: Failed to execute SQL script statement #5 of class path resource [sql/schema.sql]: CREATE TABLE IF NOT EXISTS roles ( role_id BIGINT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50) NOT NULL UNIQUE created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, created_by VARCHAR(20) NOT NULL, updated_at TIMESTAMP DEFAULT NULL, updated_by VARCHAR(20) DEFAULT NULL, )
+	at org.springframework.jdbc.datasource.init.ScriptUtils.executeSqlScript(ScriptUtils.java:293) ~[spring-jdbc-6.2.18.jar:6.2.18]
+	at org.springframework.jdbc.datasource.init.ResourceDatabasePopulator.populate(ResourceDatabasePopulator.java:254) ~[spring-jdbc-6.2.18.jar:6.2.18]
+	at org.springframework.jdbc.datasource.init.DatabasePopulatorUtils.execute(DatabasePopulatorUtils.java:54) ~[spring-jdbc-6.2.18.jar:6.2.18]
+	at org.springframework.boot.jdbc.init.DataSourceScriptDatabaseInitializer.runScripts(DataSourceScriptDatabaseInitializer.java:87) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.sql.init.AbstractScriptDatabaseInitializer.runScripts(AbstractScriptDatabaseInitializer.java:146) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.sql.init.AbstractScriptDatabaseInitializer.applyScripts(AbstractScriptDatabaseInitializer.java:108) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.sql.init.AbstractScriptDatabaseInitializer.applySchemaScripts(AbstractScriptDatabaseInitializer.java:98) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.sql.init.AbstractScriptDatabaseInitializer.initializeDatabase(AbstractScriptDatabaseInitializer.java:76) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.sql.init.AbstractScriptDatabaseInitializer.afterPropertiesSet(AbstractScriptDatabaseInitializer.java:66) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1873) ~[spring-beans-6.2.18.jar:6.2.18]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1822) ~[spring-beans-6.2.18.jar:6.2.18]
+	... 20 common frames omitted
+Caused by: org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CREATE TABLE IF NOT EXISTS roles ( role_id BIGINT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50) NOT NULL UNIQUE [*]created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, created_by VARCHAR(20) NOT NULL, updated_at TIMESTAMP DEFAULT NULL, updated_by VARCHAR(20) DEFAULT NULL, )"; expected "NULLS, CONSTRAINT, COMMENT, PRIMARY KEY, UNIQUE, NOT NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+CREATE TABLE IF NOT EXISTS roles ( role_id BIGINT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50) NOT NULL UNIQUE created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, created_by VARCHAR(20) NOT NULL, updated_at TIMESTAMP DEFAULT NULL, updated_by VARCHAR(20) DEFAULT NULL, ) [42001-232]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:514) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.message.DbException.getSyntaxError(DbException.java:261) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.command.ParserBase.getSyntaxError(ParserBase.java:762) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.command.ParserBase.read(ParserBase.java:369) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.command.ParserBase.readIfMore(ParserBase.java:637) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.command.Parser.parseCreateTable(Parser.java:8820) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.command.Parser.parseCreate(Parser.java:6398) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.command.Parser.parsePrepared(Parser.java:645) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.command.Parser.parse(Parser.java:581) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.command.Parser.parse(Parser.java:561) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.command.Parser.prepareCommand(Parser.java:484) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:645) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.engine.SessionLocal.prepareCommand(SessionLocal.java:561) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1164) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:245) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:231) ~[h2-2.3.232.jar:2.3.232]
+	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:95) ~[HikariCP-6.3.3.jar:na]
+	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java) ~[HikariCP-6.3.3.jar:na]
+	at org.springframework.jdbc.datasource.init.ScriptUtils.executeSqlScript(ScriptUtils.java:261) ~[spring-jdbc-6.2.18.jar:6.2.18]
+	... 30 common frames omitted
+
+2026-05-17T13:39:45.348+08:00  INFO 22136 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : Starting BackEndApplication using Java 25.0.1 with PID 22136 (D:\React\reactSpringBoot\BackEnd\target\classes started by tony.shangkuan in D:\React\reactSpringBoot\BackEnd)
+2026-05-17T13:39:45.351+08:00  INFO 22136 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-05-17T13:39:45.424+08:00  INFO 22136 --- [BackEnd] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-05-17T13:39:45.425+08:00  INFO 22136 --- [BackEnd] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-05-17T13:39:46.949+08:00  INFO 22136 --- [BackEnd] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-17T13:39:47.036+08:00  INFO 22136 --- [BackEnd] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 80 ms. Found 4 JPA repository interfaces.
+2026-05-17T13:39:47.735+08:00  INFO 22136 --- [BackEnd] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-05-17T13:39:47.748+08:00  INFO 22136 --- [BackEnd] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-05-17T13:39:47.749+08:00  INFO 22136 --- [BackEnd] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.54]
+2026-05-17T13:39:47.803+08:00  INFO 22136 --- [BackEnd] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-05-17T13:39:47.804+08:00  INFO 22136 --- [BackEnd] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2379 ms
+2026-05-17T13:39:48.025+08:00  INFO 22136 --- [BackEnd] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-05-17T13:39:48.299+08:00  INFO 22136 --- [BackEnd] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn1: url=jdbc:h2:file:./h2db/myDb user=SA
+2026-05-17T13:39:48.301+08:00  INFO 22136 --- [BackEnd] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-05-17T13:39:48.434+08:00  INFO 22136 --- [BackEnd] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-05-17T13:39:48.481+08:00  INFO 22136 --- [BackEnd] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.49.Final
+2026-05-17T13:39:48.511+08:00  INFO 22136 --- [BackEnd] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-05-17T13:39:48.753+08:00  INFO 22136 --- [BackEnd] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-17T13:39:48.792+08:00  WARN 22136 --- [BackEnd] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-17T13:39:48.805+08:00  INFO 22136 --- [BackEnd] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-17T13:39:49.891+08:00  INFO 22136 --- [BackEnd] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-17T13:39:50.088+08:00  INFO 22136 --- [BackEnd] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-17T13:39:50.313+08:00  INFO 22136 --- [BackEnd] [restartedMain] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-05-17T13:39:51.204+08:00  WARN 22136 --- [BackEnd] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-05-17T13:39:51.530+08:00  INFO 22136 --- [BackEnd] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 14 endpoints beneath base path '/actuator'
+2026-05-17T13:39:51.562+08:00  INFO 22136 --- [BackEnd] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name myAuthenticationProvider
+2026-05-17T13:39:51.562+08:00  WARN 22136 --- [BackEnd] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-05-17T13:39:51.619+08:00  WARN 22136 --- [BackEnd] [restartedMain] thorizationManagerRequestMatcherRegistry : One of the patterns in [/api/v1/admin/**, actuator/**, /swagger-ui.html, /swagger-ui/**, /v3/api-docs/**] is missing a leading slash. This is discouraged; please include the leading slash in all your request matcher patterns. In future versions of Spring Security, leaving out the leading slash will result in an exception.
+2026-05-17T13:39:52.014+08:00  INFO 22136 --- [BackEnd] [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:./h2db/myDb'
+2026-05-17T13:39:52.047+08:00  INFO 22136 --- [BackEnd] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-05-17T13:39:52.118+08:00  INFO 22136 --- [BackEnd] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-05-17T13:39:52.131+08:00  INFO 22136 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : Started BackEndApplication in 7.46 seconds (process running for 8.494)
+2026-05-17T13:39:52.137+08:00  WARN 22136 --- [BackEnd] [restartedMain] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-05-17T13:39:52.137+08:00  WARN 22136 --- [BackEnd] [restartedMain] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-05-17T13:39:52.506+08:00  INFO 22136 --- [BackEnd] [RMI TCP Connection(4)-192.168.50.58] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-05-17T13:39:52.506+08:00  INFO 22136 --- [BackEnd] [RMI TCP Connection(4)-192.168.50.58] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-05-17T13:39:52.510+08:00  INFO 22136 --- [BackEnd] [RMI TCP Connection(4)-192.168.50.58] o.s.web.servlet.DispatcherServlet        : Completed initialization in 4 ms
+2026-05-17T13:44:18.189+08:00  INFO 22136 --- [BackEnd] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-05-17T13:44:18.196+08:00  INFO 22136 --- [BackEnd] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-05-17T13:44:18.206+08:00  INFO 22136 --- [BackEnd] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-17T13:44:18.210+08:00  INFO 22136 --- [BackEnd] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-05-17T13:44:18.212+08:00  INFO 22136 --- [BackEnd] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-05-17T13:44:21.913+08:00  INFO 27996 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : Starting BackEndApplication using Java 25.0.1 with PID 27996 (D:\React\reactSpringBoot\BackEnd\target\classes started by tony.shangkuan in D:\React\reactSpringBoot\BackEnd)
+2026-05-17T13:44:21.916+08:00  INFO 27996 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-05-17T13:44:22.005+08:00  INFO 27996 --- [BackEnd] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-05-17T13:44:22.005+08:00  INFO 27996 --- [BackEnd] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-05-17T13:44:23.539+08:00  INFO 27996 --- [BackEnd] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-17T13:44:23.607+08:00  INFO 27996 --- [BackEnd] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 60 ms. Found 4 JPA repository interfaces.
+2026-05-17T13:44:24.261+08:00  INFO 27996 --- [BackEnd] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-05-17T13:44:24.273+08:00  INFO 27996 --- [BackEnd] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-05-17T13:44:24.274+08:00  INFO 27996 --- [BackEnd] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.54]
+2026-05-17T13:44:24.331+08:00  INFO 27996 --- [BackEnd] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-05-17T13:44:24.332+08:00  INFO 27996 --- [BackEnd] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2327 ms
+2026-05-17T13:44:24.590+08:00  INFO 27996 --- [BackEnd] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-05-17T13:44:24.890+08:00  INFO 27996 --- [BackEnd] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn1: url=jdbc:h2:file:./h2db/myDb user=SA
+2026-05-17T13:44:24.891+08:00  INFO 27996 --- [BackEnd] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-05-17T13:44:24.962+08:00  WARN 27996 --- [BackEnd] [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Failed to initialize dependency 'dataSourceScriptDatabaseInitializer' of LoadTimeWeaverAware bean 'entityManagerFactory': Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Failed to execute SQL script statement #32 of class path resource [sql/data.sql]: MERGE INTO roles ( customer_id, name, created_by, created_at ) KEY (customer_id, name) VALUES (1, 'ROLE_ADMIN', 'SYSTEM', CURRENT_TIMESTAMP)
+2026-05-17T13:44:24.962+08:00  INFO 27996 --- [BackEnd] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-05-17T13:44:25.170+08:00  INFO 27996 --- [BackEnd] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-05-17T13:44:25.174+08:00  INFO 27996 --- [BackEnd] [restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2026-05-17T13:44:25.200+08:00  INFO 27996 --- [BackEnd] [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-05-17T13:44:25.229+08:00 ERROR 27996 --- [BackEnd] [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Failed to initialize dependency 'dataSourceScriptDatabaseInitializer' of LoadTimeWeaverAware bean 'entityManagerFactory': Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Failed to execute SQL script statement #32 of class path resource [sql/data.sql]: MERGE INTO roles ( customer_id, name, created_by, created_at ) KEY (customer_id, name) VALUES (1, 'ROLE_ADMIN', 'SYSTEM', CURRENT_TIMESTAMP)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:328) ~[spring-beans-6.2.18.jar:6.2.18]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207) ~[spring-beans-6.2.18.jar:6.2.18]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:974) ~[spring-context-6.2.18.jar:6.2.18]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:628) ~[spring-context-6.2.18.jar:6.2.18]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350) ~[spring-boot-3.5.14.jar:3.5.14]
+	at com.example.BackEnd.BackEndApplication.main(BackEndApplication.java:12) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.5.14.jar:3.5.14]
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Failed to execute SQL script statement #32 of class path resource [sql/data.sql]: MERGE INTO roles ( customer_id, name, created_by, created_at ) KEY (customer_id, name) VALUES (1, 'ROLE_ADMIN', 'SYSTEM', CURRENT_TIMESTAMP)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1826) ~[spring-beans-6.2.18.jar:6.2.18]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607) ~[spring-beans-6.2.18.jar:6.2.18]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529) ~[spring-beans-6.2.18.jar:6.2.18]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.18.jar:6.2.18]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373) ~[spring-beans-6.2.18.jar:6.2.18]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.18.jar:6.2.18]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) ~[spring-beans-6.2.18.jar:6.2.18]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:315) ~[spring-beans-6.2.18.jar:6.2.18]
+	... 13 common frames omitted
+Caused by: org.springframework.jdbc.datasource.init.ScriptStatementFailedException: Failed to execute SQL script statement #32 of class path resource [sql/data.sql]: MERGE INTO roles ( customer_id, name, created_by, created_at ) KEY (customer_id, name) VALUES (1, 'ROLE_ADMIN', 'SYSTEM', CURRENT_TIMESTAMP)
+	at org.springframework.jdbc.datasource.init.ScriptUtils.executeSqlScript(ScriptUtils.java:293) ~[spring-jdbc-6.2.18.jar:6.2.18]
+	at org.springframework.jdbc.datasource.init.ResourceDatabasePopulator.populate(ResourceDatabasePopulator.java:254) ~[spring-jdbc-6.2.18.jar:6.2.18]
+	at org.springframework.jdbc.datasource.init.DatabasePopulatorUtils.execute(DatabasePopulatorUtils.java:54) ~[spring-jdbc-6.2.18.jar:6.2.18]
+	at org.springframework.boot.jdbc.init.DataSourceScriptDatabaseInitializer.runScripts(DataSourceScriptDatabaseInitializer.java:87) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.sql.init.AbstractScriptDatabaseInitializer.runScripts(AbstractScriptDatabaseInitializer.java:146) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.sql.init.AbstractScriptDatabaseInitializer.applyScripts(AbstractScriptDatabaseInitializer.java:108) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.sql.init.AbstractScriptDatabaseInitializer.applyDataScripts(AbstractScriptDatabaseInitializer.java:102) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.sql.init.AbstractScriptDatabaseInitializer.initializeDatabase(AbstractScriptDatabaseInitializer.java:77) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.sql.init.AbstractScriptDatabaseInitializer.afterPropertiesSet(AbstractScriptDatabaseInitializer.java:66) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1873) ~[spring-beans-6.2.18.jar:6.2.18]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1822) ~[spring-beans-6.2.18.jar:6.2.18]
+	... 20 common frames omitted
+Caused by: org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "CUSTOMER_ID" not found; SQL statement:
+MERGE INTO roles ( customer_id, name, created_by, created_at ) KEY (customer_id, name) VALUES (1, 'ROLE_ADMIN', 'SYSTEM', CURRENT_TIMESTAMP) [42122-232]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:514) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.message.DbException.get(DbException.java:223) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.message.DbException.get(DbException.java:199) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.table.Table.getColumn(Table.java:786) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.command.Parser.parseColumn(Parser.java:1171) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.command.Parser.parseColumnList(Parser.java:1156) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.command.Parser.parseMergeInto(Parser.java:1436) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.command.Parser.parseMerge(Parser.java:1422) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.command.Parser.parsePrepared(Parser.java:703) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.command.Parser.parse(Parser.java:581) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.command.Parser.parse(Parser.java:556) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.command.Parser.prepareCommand(Parser.java:484) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:645) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.engine.SessionLocal.prepareCommand(SessionLocal.java:561) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1164) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:245) ~[h2-2.3.232.jar:2.3.232]
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:231) ~[h2-2.3.232.jar:2.3.232]
+	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:95) ~[HikariCP-6.3.3.jar:na]
+	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java) ~[HikariCP-6.3.3.jar:na]
+	at org.springframework.jdbc.datasource.init.ScriptUtils.executeSqlScript(ScriptUtils.java:261) ~[spring-jdbc-6.2.18.jar:6.2.18]
+	... 30 common frames omitted
+
+2026-05-17T13:51:11.455+08:00  INFO 32588 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : Starting BackEndApplication using Java 25.0.1 with PID 32588 (D:\React\reactSpringBoot\BackEnd\target\classes started by tony.shangkuan in D:\React\reactSpringBoot\BackEnd)
+2026-05-17T13:51:11.458+08:00  INFO 32588 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-05-17T13:51:11.529+08:00  INFO 32588 --- [BackEnd] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-05-17T13:51:11.530+08:00  INFO 32588 --- [BackEnd] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-05-17T13:51:13.247+08:00  INFO 32588 --- [BackEnd] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-17T13:51:13.346+08:00  INFO 32588 --- [BackEnd] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 87 ms. Found 4 JPA repository interfaces.
+2026-05-17T13:51:14.065+08:00  INFO 32588 --- [BackEnd] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-05-17T13:51:14.079+08:00  INFO 32588 --- [BackEnd] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-05-17T13:51:14.079+08:00  INFO 32588 --- [BackEnd] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.54]
+2026-05-17T13:51:14.146+08:00  INFO 32588 --- [BackEnd] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-05-17T13:51:14.146+08:00  INFO 32588 --- [BackEnd] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2615 ms
+2026-05-17T13:51:14.363+08:00  INFO 32588 --- [BackEnd] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-05-17T13:51:14.476+08:00  INFO 32588 --- [BackEnd] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:file:./h2db/myDb user=SA
+2026-05-17T13:51:14.477+08:00  INFO 32588 --- [BackEnd] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-05-17T13:51:14.613+08:00  INFO 32588 --- [BackEnd] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-05-17T13:51:14.660+08:00  INFO 32588 --- [BackEnd] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.49.Final
+2026-05-17T13:51:14.692+08:00  INFO 32588 --- [BackEnd] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-05-17T13:51:14.967+08:00  INFO 32588 --- [BackEnd] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-17T13:51:15.011+08:00  WARN 32588 --- [BackEnd] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-17T13:51:15.028+08:00  INFO 32588 --- [BackEnd] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-17T13:51:16.058+08:00  INFO 32588 --- [BackEnd] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-17T13:51:16.241+08:00  INFO 32588 --- [BackEnd] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-17T13:51:16.462+08:00  INFO 32588 --- [BackEnd] [restartedMain] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-05-17T13:51:17.371+08:00  WARN 32588 --- [BackEnd] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-05-17T13:51:17.701+08:00  INFO 32588 --- [BackEnd] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 14 endpoints beneath base path '/actuator'
+2026-05-17T13:51:17.733+08:00  INFO 32588 --- [BackEnd] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name myAuthenticationProvider
+2026-05-17T13:51:17.733+08:00  WARN 32588 --- [BackEnd] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-05-17T13:51:17.788+08:00  WARN 32588 --- [BackEnd] [restartedMain] thorizationManagerRequestMatcherRegistry : One of the patterns in [/api/v1/admin/**, actuator/**, /swagger-ui.html, /swagger-ui/**, /v3/api-docs/**] is missing a leading slash. This is discouraged; please include the leading slash in all your request matcher patterns. In future versions of Spring Security, leaving out the leading slash will result in an exception.
+2026-05-17T13:51:18.173+08:00  INFO 32588 --- [BackEnd] [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:./h2db/myDb'
+2026-05-17T13:51:18.205+08:00  INFO 32588 --- [BackEnd] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-05-17T13:51:18.272+08:00  INFO 32588 --- [BackEnd] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-05-17T13:51:18.287+08:00  INFO 32588 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : Started BackEndApplication in 7.422 seconds (process running for 8.371)
+2026-05-17T13:51:18.304+08:00  WARN 32588 --- [BackEnd] [restartedMain] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-05-17T13:51:18.305+08:00  WARN 32588 --- [BackEnd] [restartedMain] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-05-17T13:51:18.742+08:00  INFO 32588 --- [BackEnd] [RMI TCP Connection(1)-192.168.50.58] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-05-17T13:51:18.742+08:00  INFO 32588 --- [BackEnd] [RMI TCP Connection(1)-192.168.50.58] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-05-17T13:51:18.745+08:00  INFO 32588 --- [BackEnd] [RMI TCP Connection(1)-192.168.50.58] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2026-05-17T13:56:09.187+08:00  INFO 32588 --- [BackEnd] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-05-17T13:56:09.192+08:00  INFO 32588 --- [BackEnd] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-05-17T13:56:09.201+08:00  INFO 32588 --- [BackEnd] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-17T13:56:09.205+08:00  INFO 32588 --- [BackEnd] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-05-17T13:56:09.213+08:00  INFO 32588 --- [BackEnd] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-05-17T13:56:12.699+08:00  INFO 28444 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : Starting BackEndApplication using Java 25.0.1 with PID 28444 (D:\React\reactSpringBoot\BackEnd\target\classes started by tony.shangkuan in D:\React\reactSpringBoot\BackEnd)
+2026-05-17T13:56:12.702+08:00  INFO 28444 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-05-17T13:56:12.781+08:00  INFO 28444 --- [BackEnd] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-05-17T13:56:12.781+08:00  INFO 28444 --- [BackEnd] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-05-17T13:56:14.315+08:00  INFO 28444 --- [BackEnd] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-17T13:56:14.385+08:00  INFO 28444 --- [BackEnd] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 62 ms. Found 4 JPA repository interfaces.
+2026-05-17T13:56:15.104+08:00  INFO 28444 --- [BackEnd] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-05-17T13:56:15.119+08:00  INFO 28444 --- [BackEnd] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-05-17T13:56:15.120+08:00  INFO 28444 --- [BackEnd] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.54]
+2026-05-17T13:56:15.182+08:00  INFO 28444 --- [BackEnd] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-05-17T13:56:15.183+08:00  INFO 28444 --- [BackEnd] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2401 ms
+2026-05-17T13:56:15.409+08:00  INFO 28444 --- [BackEnd] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-05-17T13:56:15.522+08:00  INFO 28444 --- [BackEnd] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:file:./h2db/myDb user=SA
+2026-05-17T13:56:15.524+08:00  INFO 28444 --- [BackEnd] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-05-17T13:56:15.675+08:00  INFO 28444 --- [BackEnd] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-05-17T13:56:15.718+08:00  INFO 28444 --- [BackEnd] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.49.Final
+2026-05-17T13:56:15.748+08:00  INFO 28444 --- [BackEnd] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-05-17T13:56:16.011+08:00  INFO 28444 --- [BackEnd] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-17T13:56:16.062+08:00  WARN 28444 --- [BackEnd] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-17T13:56:16.075+08:00  INFO 28444 --- [BackEnd] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-17T13:56:17.089+08:00  INFO 28444 --- [BackEnd] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-17T13:56:17.301+08:00  INFO 28444 --- [BackEnd] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-17T13:56:17.596+08:00  INFO 28444 --- [BackEnd] [restartedMain] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-05-17T13:56:18.662+08:00  WARN 28444 --- [BackEnd] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-05-17T13:56:19.022+08:00  INFO 28444 --- [BackEnd] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 14 endpoints beneath base path '/actuator'
+2026-05-17T13:56:19.054+08:00  INFO 28444 --- [BackEnd] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name myAuthenticationProvider
+2026-05-17T13:56:19.054+08:00  WARN 28444 --- [BackEnd] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-05-17T13:56:19.112+08:00  WARN 28444 --- [BackEnd] [restartedMain] thorizationManagerRequestMatcherRegistry : One of the patterns in [/api/v1/admin/**, actuator/**, /swagger-ui.html, /swagger-ui/**, /v3/api-docs/**] is missing a leading slash. This is discouraged; please include the leading slash in all your request matcher patterns. In future versions of Spring Security, leaving out the leading slash will result in an exception.
+2026-05-17T13:56:19.505+08:00  INFO 28444 --- [BackEnd] [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:./h2db/myDb'
+2026-05-17T13:56:19.540+08:00  INFO 28444 --- [BackEnd] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-05-17T13:56:19.609+08:00  INFO 28444 --- [BackEnd] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-05-17T13:56:19.623+08:00  INFO 28444 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : Started BackEndApplication in 7.648 seconds (process running for 8.729)
+2026-05-17T13:56:19.630+08:00  WARN 28444 --- [BackEnd] [restartedMain] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-05-17T13:56:19.630+08:00  WARN 28444 --- [BackEnd] [restartedMain] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-05-17T13:56:20.129+08:00  INFO 28444 --- [BackEnd] [RMI TCP Connection(1)-192.168.50.58] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-05-17T13:56:20.129+08:00  INFO 28444 --- [BackEnd] [RMI TCP Connection(1)-192.168.50.58] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-05-17T13:56:20.133+08:00  INFO 28444 --- [BackEnd] [RMI TCP Connection(1)-192.168.50.58] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2026-05-17T14:06:45.541+08:00  INFO 28444 --- [BackEnd] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-05-17T14:06:45.546+08:00  INFO 28444 --- [BackEnd] [Thread-5] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-05-17T14:06:45.554+08:00  INFO 28444 --- [BackEnd] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-05-17T14:06:45.566+08:00  INFO 28444 --- [BackEnd] [Thread-5] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-17T14:06:45.572+08:00  INFO 28444 --- [BackEnd] [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-05-17T14:06:45.582+08:00  INFO 28444 --- [BackEnd] [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-05-17T14:06:45.850+08:00  INFO 28444 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : Starting BackEndApplication using Java 25.0.1 with PID 28444 (D:\React\reactSpringBoot\BackEnd\target\classes started by tony.shangkuan in D:\React\reactSpringBoot\BackEnd)
+2026-05-17T14:06:45.851+08:00  INFO 28444 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-05-17T14:06:47.125+08:00  INFO 28444 --- [BackEnd] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-17T14:06:47.232+08:00  INFO 28444 --- [BackEnd] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 102 ms. Found 4 JPA repository interfaces.
+2026-05-17T14:06:47.683+08:00  INFO 28444 --- [BackEnd] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-05-17T14:06:47.688+08:00  INFO 28444 --- [BackEnd] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-05-17T14:06:47.688+08:00  INFO 28444 --- [BackEnd] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.54]
+2026-05-17T14:06:47.795+08:00  INFO 28444 --- [BackEnd] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-05-17T14:06:47.796+08:00  INFO 28444 --- [BackEnd] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1941 ms
+2026-05-17T14:06:48.061+08:00  INFO 28444 --- [BackEnd] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2026-05-17T14:06:48.083+08:00  INFO 28444 --- [BackEnd] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection conn10: url=jdbc:h2:file:./h2db/myDb user=SA
+2026-05-17T14:06:48.084+08:00  INFO 28444 --- [BackEnd] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2026-05-17T14:06:48.200+08:00  INFO 28444 --- [BackEnd] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-05-17T14:06:48.210+08:00  INFO 28444 --- [BackEnd] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-05-17T14:06:48.229+08:00  INFO 28444 --- [BackEnd] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-17T14:06:48.233+08:00  WARN 28444 --- [BackEnd] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-17T14:06:48.237+08:00  INFO 28444 --- [BackEnd] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-2)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-17T14:06:49.143+08:00  INFO 28444 --- [BackEnd] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-17T14:06:49.146+08:00  INFO 28444 --- [BackEnd] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-17T14:06:49.679+08:00  WARN 28444 --- [BackEnd] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-05-17T14:06:49.945+08:00  INFO 28444 --- [BackEnd] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 14 endpoints beneath base path '/actuator'
+2026-05-17T14:06:49.984+08:00  INFO 28444 --- [BackEnd] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name myAuthenticationProvider
+2026-05-17T14:06:49.987+08:00  WARN 28444 --- [BackEnd] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-05-17T14:06:50.010+08:00  WARN 28444 --- [BackEnd] [restartedMain] thorizationManagerRequestMatcherRegistry : One of the patterns in [/api/v1/admin/**, actuator/**, /swagger-ui.html, /swagger-ui/**, /v3/api-docs/**] is missing a leading slash. This is discouraged; please include the leading slash in all your request matcher patterns. In future versions of Spring Security, leaving out the leading slash will result in an exception.
+2026-05-17T14:06:50.361+08:00  INFO 28444 --- [BackEnd] [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:./h2db/myDb'
+2026-05-17T14:06:50.380+08:00  INFO 28444 --- [BackEnd] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-05-17T14:06:50.417+08:00  INFO 28444 --- [BackEnd] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-05-17T14:06:50.432+08:00  INFO 28444 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : Started BackEndApplication in 4.643 seconds (process running for 639.538)
+2026-05-17T14:06:50.434+08:00  WARN 28444 --- [BackEnd] [restartedMain] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-05-17T14:06:50.435+08:00  WARN 28444 --- [BackEnd] [restartedMain] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-05-17T14:06:50.438+08:00  INFO 28444 --- [BackEnd] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-05-17T14:09:20.503+08:00  INFO 28444 --- [BackEnd] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-05-17T14:09:20.510+08:00  INFO 28444 --- [BackEnd] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-05-17T14:09:20.514+08:00  INFO 28444 --- [BackEnd] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-17T14:09:20.515+08:00  INFO 28444 --- [BackEnd] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2026-05-17T14:09:20.523+08:00  INFO 28444 --- [BackEnd] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+2026-05-17T14:09:24.213+08:00  INFO 27580 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : Starting BackEndApplication using Java 25.0.1 with PID 27580 (D:\React\reactSpringBoot\BackEnd\target\classes started by tony.shangkuan in D:\React\reactSpringBoot\BackEnd)
+2026-05-17T14:09:24.216+08:00  INFO 27580 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-05-17T14:09:24.309+08:00  INFO 27580 --- [BackEnd] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-05-17T14:09:24.309+08:00  INFO 27580 --- [BackEnd] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-05-17T14:09:25.723+08:00  INFO 27580 --- [BackEnd] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-17T14:09:25.791+08:00  INFO 27580 --- [BackEnd] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 60 ms. Found 4 JPA repository interfaces.
+2026-05-17T14:09:26.497+08:00  INFO 27580 --- [BackEnd] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-05-17T14:09:26.514+08:00  INFO 27580 --- [BackEnd] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-05-17T14:09:26.515+08:00  INFO 27580 --- [BackEnd] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.54]
+2026-05-17T14:09:26.572+08:00  INFO 27580 --- [BackEnd] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-05-17T14:09:26.573+08:00  INFO 27580 --- [BackEnd] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2263 ms
+2026-05-17T14:09:26.794+08:00  INFO 27580 --- [BackEnd] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-05-17T14:09:26.892+08:00  INFO 27580 --- [BackEnd] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:file:./h2db/myDb user=SA
+2026-05-17T14:09:26.894+08:00  INFO 27580 --- [BackEnd] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-05-17T14:09:27.012+08:00  INFO 27580 --- [BackEnd] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-05-17T14:09:27.057+08:00  INFO 27580 --- [BackEnd] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.49.Final
+2026-05-17T14:09:27.086+08:00  INFO 27580 --- [BackEnd] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-05-17T14:09:27.346+08:00  INFO 27580 --- [BackEnd] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-17T14:09:27.387+08:00  WARN 27580 --- [BackEnd] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-17T14:09:27.401+08:00  INFO 27580 --- [BackEnd] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-17T14:09:28.453+08:00  INFO 27580 --- [BackEnd] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-17T14:09:28.648+08:00  INFO 27580 --- [BackEnd] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-17T14:09:28.901+08:00  INFO 27580 --- [BackEnd] [restartedMain] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-05-17T14:09:29.752+08:00  WARN 27580 --- [BackEnd] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-05-17T14:09:30.101+08:00  INFO 27580 --- [BackEnd] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 14 endpoints beneath base path '/actuator'
+2026-05-17T14:09:30.149+08:00  INFO 27580 --- [BackEnd] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name myAuthenticationProvider
+2026-05-17T14:09:30.150+08:00  WARN 27580 --- [BackEnd] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-05-17T14:09:30.211+08:00  WARN 27580 --- [BackEnd] [restartedMain] thorizationManagerRequestMatcherRegistry : One of the patterns in [/api/v1/admin/**, actuator/**, /swagger-ui.html, /swagger-ui/**, /v3/api-docs/**] is missing a leading slash. This is discouraged; please include the leading slash in all your request matcher patterns. In future versions of Spring Security, leaving out the leading slash will result in an exception.
+2026-05-17T14:09:30.669+08:00  INFO 27580 --- [BackEnd] [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:./h2db/myDb'
+2026-05-17T14:09:30.701+08:00  INFO 27580 --- [BackEnd] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-05-17T14:09:30.771+08:00  INFO 27580 --- [BackEnd] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-05-17T14:09:30.788+08:00  INFO 27580 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : Started BackEndApplication in 7.232 seconds (process running for 8.283)
+2026-05-17T14:09:30.795+08:00  WARN 27580 --- [BackEnd] [restartedMain] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-05-17T14:09:30.795+08:00  WARN 27580 --- [BackEnd] [restartedMain] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-05-17T14:09:31.300+08:00  INFO 27580 --- [BackEnd] [RMI TCP Connection(4)-192.168.50.58] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-05-17T14:09:31.301+08:00  INFO 27580 --- [BackEnd] [RMI TCP Connection(4)-192.168.50.58] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-05-17T14:09:31.304+08:00  INFO 27580 --- [BackEnd] [RMI TCP Connection(4)-192.168.50.58] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2026-05-17T14:09:46.911+08:00  WARN 27580 --- [BackEnd] [http-nio-8080-exec-3] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 42122, SQLState: 42S22
+2026-05-17T14:09:46.912+08:00 ERROR 27580 --- [BackEnd] [http-nio-8080-exec-3] o.h.engine.jdbc.spi.SqlExceptionHelper   : Column "R1_0.CUSTOMER_ID" not found; SQL statement:
+select r1_0.customer_id,r1_0.role_id,r1_0.created_at,r1_0.created_by,r1_0.name,r1_0.updated_at,r1_0.updated_by from roles r1_0 where r1_0.customer_id=? [42122-232]
+2026-05-17T14:09:46.922+08:00 ERROR 27580 --- [BackEnd] [http-nio-8080-exec-3] c.e.B.exception.GlobalExceptionHandler   : Global Exception Handler: Exception 發生異常: could not prepare statement [Column "R1_0.CUSTOMER_ID" not found; SQL statement:
+select r1_0.customer_id,r1_0.role_id,r1_0.created_at,r1_0.created_by,r1_0.name,r1_0.updated_at,r1_0.updated_by from roles r1_0 where r1_0.customer_id=? [42122-232]] [select r1_0.customer_id,r1_0.role_id,r1_0.created_at,r1_0.created_by,r1_0.name,r1_0.updated_at,r1_0.updated_by from roles r1_0 where r1_0.customer_id=?]; SQL [select r1_0.customer_id,r1_0.role_id,r1_0.created_at,r1_0.created_by,r1_0.name,r1_0.updated_at,r1_0.updated_by from roles r1_0 where r1_0.customer_id=?]
+2026-05-17T14:09:46.941+08:00  WARN 27580 --- [BackEnd] [http-nio-8080-exec-3] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.dao.InvalidDataAccessResourceUsageException: could not prepare statement [Column "R1_0.CUSTOMER_ID" not found; SQL statement:<EOL>select r1_0.customer_id,r1_0.role_id,r1_0.created_at,r1_0.created_by,r1_0.name,r1_0.updated_at,r1_0.updated_by from roles r1_0 where r1_0.customer_id=? [42122-232]] [select r1_0.customer_id,r1_0.role_id,r1_0.created_at,r1_0.created_by,r1_0.name,r1_0.updated_at,r1_0.updated_by from roles r1_0 where r1_0.customer_id=?]; SQL [select r1_0.customer_id,r1_0.role_id,r1_0.created_at,r1_0.created_by,r1_0.name,r1_0.updated_at,r1_0.updated_by from roles r1_0 where r1_0.customer_id=?]]
+2026-05-17T14:11:25.106+08:00  INFO 27580 --- [BackEnd] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-05-17T14:11:25.111+08:00  INFO 27580 --- [BackEnd] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-05-17T14:11:25.122+08:00  INFO 27580 --- [BackEnd] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-17T14:11:25.125+08:00  INFO 27580 --- [BackEnd] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-05-17T14:11:25.132+08:00  INFO 27580 --- [BackEnd] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-05-17T14:11:28.060+08:00  INFO 31332 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : Starting BackEndApplication using Java 25.0.1 with PID 31332 (D:\React\reactSpringBoot\BackEnd\target\classes started by tony.shangkuan in D:\React\reactSpringBoot\BackEnd)
+2026-05-17T14:11:28.064+08:00  INFO 31332 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-05-17T14:11:28.133+08:00  INFO 31332 --- [BackEnd] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-05-17T14:11:28.133+08:00  INFO 31332 --- [BackEnd] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-05-17T14:11:29.414+08:00  INFO 31332 --- [BackEnd] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-17T14:11:29.498+08:00  INFO 31332 --- [BackEnd] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 72 ms. Found 4 JPA repository interfaces.
+2026-05-17T14:11:30.146+08:00  INFO 31332 --- [BackEnd] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-05-17T14:11:30.159+08:00  INFO 31332 --- [BackEnd] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-05-17T14:11:30.159+08:00  INFO 31332 --- [BackEnd] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.54]
+2026-05-17T14:11:30.216+08:00  INFO 31332 --- [BackEnd] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-05-17T14:11:30.216+08:00  INFO 31332 --- [BackEnd] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2082 ms
+2026-05-17T14:11:30.438+08:00  INFO 31332 --- [BackEnd] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-05-17T14:11:30.533+08:00  INFO 31332 --- [BackEnd] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:file:./h2db/myDb user=SA
+2026-05-17T14:11:30.535+08:00  INFO 31332 --- [BackEnd] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-05-17T14:11:30.654+08:00  INFO 31332 --- [BackEnd] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-05-17T14:11:30.702+08:00  INFO 31332 --- [BackEnd] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.49.Final
+2026-05-17T14:11:30.733+08:00  INFO 31332 --- [BackEnd] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-05-17T14:11:30.992+08:00  INFO 31332 --- [BackEnd] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-17T14:11:31.033+08:00  WARN 31332 --- [BackEnd] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-17T14:11:31.054+08:00  INFO 31332 --- [BackEnd] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-17T14:11:32.209+08:00  INFO 31332 --- [BackEnd] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-17T14:11:32.406+08:00  INFO 31332 --- [BackEnd] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-17T14:11:32.637+08:00  INFO 31332 --- [BackEnd] [restartedMain] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-05-17T14:11:33.594+08:00  WARN 31332 --- [BackEnd] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-05-17T14:11:34.001+08:00  INFO 31332 --- [BackEnd] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 14 endpoints beneath base path '/actuator'
+2026-05-17T14:11:34.044+08:00  INFO 31332 --- [BackEnd] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name myAuthenticationProvider
+2026-05-17T14:11:34.045+08:00  WARN 31332 --- [BackEnd] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-05-17T14:11:34.113+08:00  WARN 31332 --- [BackEnd] [restartedMain] thorizationManagerRequestMatcherRegistry : One of the patterns in [/api/v1/admin/**, actuator/**, /swagger-ui.html, /swagger-ui/**, /v3/api-docs/**] is missing a leading slash. This is discouraged; please include the leading slash in all your request matcher patterns. In future versions of Spring Security, leaving out the leading slash will result in an exception.
+2026-05-17T14:11:34.618+08:00  INFO 31332 --- [BackEnd] [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:./h2db/myDb'
+2026-05-17T14:11:34.652+08:00  INFO 31332 --- [BackEnd] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-05-17T14:11:34.721+08:00  INFO 31332 --- [BackEnd] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-05-17T14:11:34.735+08:00  INFO 31332 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : Started BackEndApplication in 7.301 seconds (process running for 8.301)
+2026-05-17T14:11:34.741+08:00  WARN 31332 --- [BackEnd] [restartedMain] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-05-17T14:11:34.741+08:00  WARN 31332 --- [BackEnd] [restartedMain] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-05-17T14:11:35.269+08:00  INFO 31332 --- [BackEnd] [RMI TCP Connection(4)-192.168.50.58] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-05-17T14:11:35.269+08:00  INFO 31332 --- [BackEnd] [RMI TCP Connection(4)-192.168.50.58] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-05-17T14:11:35.273+08:00  INFO 31332 --- [BackEnd] [RMI TCP Connection(4)-192.168.50.58] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2026-05-17T14:11:59.612+08:00  WARN 31332 --- [BackEnd] [http-nio-8080-exec-1] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 42122, SQLState: 42S22
+2026-05-17T14:11:59.613+08:00 ERROR 31332 --- [BackEnd] [http-nio-8080-exec-1] o.h.engine.jdbc.spi.SqlExceptionHelper   : Column "R1_0.CUSTOMER_ID" not found; SQL statement:
+select r1_0.customer_id,r1_0.role_id,r1_0.created_at,r1_0.created_by,r1_0.name,r1_0.updated_at,r1_0.updated_by from roles r1_0 where r1_0.customer_id=? [42122-232]
+2026-05-17T14:11:59.622+08:00 ERROR 31332 --- [BackEnd] [http-nio-8080-exec-1] c.e.B.exception.GlobalExceptionHandler   : Global Exception Handler: Exception 發生異常: could not prepare statement [Column "R1_0.CUSTOMER_ID" not found; SQL statement:
+select r1_0.customer_id,r1_0.role_id,r1_0.created_at,r1_0.created_by,r1_0.name,r1_0.updated_at,r1_0.updated_by from roles r1_0 where r1_0.customer_id=? [42122-232]] [select r1_0.customer_id,r1_0.role_id,r1_0.created_at,r1_0.created_by,r1_0.name,r1_0.updated_at,r1_0.updated_by from roles r1_0 where r1_0.customer_id=?]; SQL [select r1_0.customer_id,r1_0.role_id,r1_0.created_at,r1_0.created_by,r1_0.name,r1_0.updated_at,r1_0.updated_by from roles r1_0 where r1_0.customer_id=?]
+2026-05-17T14:11:59.644+08:00  WARN 31332 --- [BackEnd] [http-nio-8080-exec-1] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.dao.InvalidDataAccessResourceUsageException: could not prepare statement [Column "R1_0.CUSTOMER_ID" not found; SQL statement:<EOL>select r1_0.customer_id,r1_0.role_id,r1_0.created_at,r1_0.created_by,r1_0.name,r1_0.updated_at,r1_0.updated_by from roles r1_0 where r1_0.customer_id=? [42122-232]] [select r1_0.customer_id,r1_0.role_id,r1_0.created_at,r1_0.created_by,r1_0.name,r1_0.updated_at,r1_0.updated_by from roles r1_0 where r1_0.customer_id=?]; SQL [select r1_0.customer_id,r1_0.role_id,r1_0.created_at,r1_0.created_by,r1_0.name,r1_0.updated_at,r1_0.updated_by from roles r1_0 where r1_0.customer_id=?]]
+2026-05-17T14:27:20.032+08:00  INFO 31332 --- [BackEnd] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 2 class path changes (0 additions, 2 deletions, 0 modifications)
+2026-05-17T14:27:20.037+08:00  INFO 31332 --- [BackEnd] [Thread-5] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-05-17T14:27:20.043+08:00  INFO 31332 --- [BackEnd] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-05-17T14:27:20.054+08:00  INFO 31332 --- [BackEnd] [Thread-5] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-17T14:27:20.059+08:00  INFO 31332 --- [BackEnd] [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-05-17T14:27:20.067+08:00  INFO 31332 --- [BackEnd] [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-05-17T14:27:20.183+08:00  INFO 31332 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : Starting BackEndApplication using Java 25.0.1 with PID 31332 (D:\React\reactSpringBoot\BackEnd\target\classes started by tony.shangkuan in D:\React\reactSpringBoot\BackEnd)
+2026-05-17T14:27:20.183+08:00  INFO 31332 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-05-17T14:27:20.756+08:00  INFO 31332 --- [BackEnd] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-17T14:27:20.773+08:00  WARN 31332 --- [BackEnd] [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: java.lang.TypeNotPresentException: Type com.example.BackEnd.entity.Customer not present
+2026-05-17T14:27:20.788+08:00  INFO 31332 --- [BackEnd] [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-05-17T14:27:20.815+08:00 ERROR 31332 --- [BackEnd] [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+java.lang.TypeNotPresentException: Type com.example.BackEnd.entity.Customer not present
+	at java.base/sun.reflect.generics.factory.CoreReflectionFactory.makeNamedType(CoreReflectionFactory.java:120) ~[na:na]
+	at java.base/sun.reflect.generics.visitor.Reifier.visitClassTypeSignature(Reifier.java:125) ~[na:na]
+	at java.base/sun.reflect.generics.tree.ClassTypeSignature.accept(ClassTypeSignature.java:49) ~[na:na]
+	at java.base/sun.reflect.generics.visitor.Reifier.reifyTypeArguments(Reifier.java:68) ~[na:na]
+	at java.base/sun.reflect.generics.visitor.Reifier.visitClassTypeSignature(Reifier.java:138) ~[na:na]
+	at java.base/sun.reflect.generics.tree.ClassTypeSignature.accept(ClassTypeSignature.java:49) ~[na:na]
+	at java.base/sun.reflect.generics.repository.ClassRepository.computeSuperInterfaces(ClassRepository.java:117) ~[na:na]
+	at java.base/sun.reflect.generics.repository.ClassRepository.getSuperInterfaces(ClassRepository.java:95) ~[na:na]
+	at java.base/java.lang.Class.getGenericInterfaces(Class.java:1278) ~[na:na]
+	at org.springframework.core.ResolvableType.getInterfaces(ResolvableType.java:553) ~[spring-core-6.2.18.jar:6.2.18]
+	at org.springframework.core.ResolvableType.as(ResolvableType.java:501) ~[spring-core-6.2.18.jar:6.2.18]
+	at org.springframework.data.util.TypeDiscoverer.getSuperTypeInformation(TypeDiscoverer.java:263) ~[spring-data-commons-3.5.11.jar:3.5.11]
+	at org.springframework.data.util.ClassTypeInformation.getSuperTypeInformation(ClassTypeInformation.java:37) ~[spring-data-commons-3.5.11.jar:3.5.11]
+	at org.springframework.data.util.TypeInformation.getRequiredSuperTypeInformation(TypeInformation.java:327) ~[spring-data-commons-3.5.11.jar:3.5.11]
+	at org.springframework.data.repository.core.support.DefaultRepositoryMetadata.<init>(DefaultRepositoryMetadata.java:55) ~[spring-data-commons-3.5.11.jar:3.5.11]
+	at org.springframework.data.repository.core.support.AbstractRepositoryMetadata.getMetadata(AbstractRepositoryMetadata.java:79) ~[spring-data-commons-3.5.11.jar:3.5.11]
+	at org.springframework.data.repository.config.RepositoryConfigurationExtensionSupport.getRepositoryConfigurations(RepositoryConfigurationExtensionSupport.java:93) ~[spring-data-commons-3.5.11.jar:3.5.11]
+	at org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn(RepositoryConfigurationDelegate.java:170) ~[spring-data-commons-3.5.11.jar:3.5.11]
+	at org.springframework.boot.autoconfigure.data.AbstractRepositoryConfigurationSourceSupport.registerBeanDefinitions(AbstractRepositoryConfigurationSourceSupport.java:62) ~[spring-boot-autoconfigure-3.5.14.jar:3.5.14]
+	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.lambda$loadBeanDefinitionsFromRegistrars$1(ConfigurationClassBeanDefinitionReader.java:409) ~[spring-context-6.2.18.jar:6.2.18]
+	at java.base/java.util.LinkedHashMap.forEach(LinkedHashMap.java:987) ~[na:na]
+	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitionsFromRegistrars(ConfigurationClassBeanDefinitionReader.java:408) ~[spring-context-6.2.18.jar:6.2.18]
+	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitionsForConfigurationClass(ConfigurationClassBeanDefinitionReader.java:148) ~[spring-context-6.2.18.jar:6.2.18]
+	at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitions(ConfigurationClassBeanDefinitionReader.java:120) ~[spring-context-6.2.18.jar:6.2.18]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.processConfigBeanDefinitions(ConfigurationClassPostProcessor.java:430) ~[spring-context-6.2.18.jar:6.2.18]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(ConfigurationClassPostProcessor.java:290) ~[spring-context-6.2.18.jar:6.2.18]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanDefinitionRegistryPostProcessors(PostProcessorRegistrationDelegate.java:349) ~[spring-context-6.2.18.jar:6.2.18]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:118) ~[spring-context-6.2.18.jar:6.2.18]
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:792) ~[spring-context-6.2.18.jar:6.2.18]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:610) ~[spring-context-6.2.18.jar:6.2.18]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361) ~[spring-boot-3.5.14.jar:3.5.14]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350) ~[spring-boot-3.5.14.jar:3.5.14]
+	at com.example.BackEnd.BackEndApplication.main(BackEndApplication.java:12) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.5.14.jar:3.5.14]
+Caused by: java.lang.ClassNotFoundException: com.example.BackEnd.entity.Customer
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:580) ~[na:na]
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490) ~[na:na]
+	at java.base/java.lang.Class.forName0(Native Method) ~[na:na]
+	at java.base/java.lang.Class.forName(Class.java:547) ~[na:na]
+	at org.springframework.boot.devtools.restart.classloader.RestartClassLoader.loadClass(RestartClassLoader.java:121) ~[spring-boot-devtools-3.5.14.jar:3.5.14]
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490) ~[na:na]
+	at java.base/java.lang.Class.forName0(Native Method) ~[na:na]
+	at java.base/java.lang.Class.forName(Class.java:547) ~[na:na]
+	at java.base/sun.reflect.generics.factory.CoreReflectionFactory.makeNamedType(CoreReflectionFactory.java:117) ~[na:na]
+	... 39 common frames omitted
+
+2026-05-17T14:27:22.279+08:00  INFO 31332 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : Starting BackEndApplication using Java 25.0.1 with PID 31332 (D:\React\reactSpringBoot\BackEnd\target\classes started by tony.shangkuan in D:\React\reactSpringBoot\BackEnd)
+2026-05-17T14:27:22.279+08:00  INFO 31332 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-05-17T14:27:22.800+08:00  INFO 31332 --- [BackEnd] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-17T14:27:22.824+08:00  INFO 31332 --- [BackEnd] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 22 ms. Found 4 JPA repository interfaces.
+2026-05-17T14:27:22.982+08:00  INFO 31332 --- [BackEnd] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-05-17T14:27:22.983+08:00  INFO 31332 --- [BackEnd] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-05-17T14:27:22.984+08:00  INFO 31332 --- [BackEnd] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.54]
+2026-05-17T14:27:23.028+08:00  INFO 31332 --- [BackEnd] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-05-17T14:27:23.028+08:00  INFO 31332 --- [BackEnd] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 747 ms
+2026-05-17T14:27:23.141+08:00  INFO 31332 --- [BackEnd] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2026-05-17T14:27:23.355+08:00  INFO 31332 --- [BackEnd] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection conn11: url=jdbc:h2:file:./h2db/myDb user=SA
+2026-05-17T14:27:23.356+08:00  INFO 31332 --- [BackEnd] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2026-05-17T14:27:23.448+08:00  INFO 31332 --- [BackEnd] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-05-17T14:27:23.452+08:00  INFO 31332 --- [BackEnd] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-05-17T14:27:23.461+08:00  INFO 31332 --- [BackEnd] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-17T14:27:23.464+08:00  WARN 31332 --- [BackEnd] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-17T14:27:23.465+08:00  INFO 31332 --- [BackEnd] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-2)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-17T14:27:23.679+08:00  INFO 31332 --- [BackEnd] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-17T14:27:23.681+08:00  INFO 31332 --- [BackEnd] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-17T14:27:24.037+08:00  WARN 31332 --- [BackEnd] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-05-17T14:27:24.200+08:00  INFO 31332 --- [BackEnd] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 14 endpoints beneath base path '/actuator'
+2026-05-17T14:27:24.228+08:00  INFO 31332 --- [BackEnd] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name myAuthenticationProvider
+2026-05-17T14:27:24.229+08:00  WARN 31332 --- [BackEnd] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-05-17T14:27:24.240+08:00  WARN 31332 --- [BackEnd] [restartedMain] thorizationManagerRequestMatcherRegistry : One of the patterns in [/api/v1/admin/**, actuator/**, /swagger-ui.html, /swagger-ui/**, /v3/api-docs/**] is missing a leading slash. This is discouraged; please include the leading slash in all your request matcher patterns. In future versions of Spring Security, leaving out the leading slash will result in an exception.
+2026-05-17T14:27:24.372+08:00  INFO 31332 --- [BackEnd] [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:./h2db/myDb'
+2026-05-17T14:27:24.379+08:00  INFO 31332 --- [BackEnd] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-05-17T14:27:24.403+08:00  INFO 31332 --- [BackEnd] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-05-17T14:27:24.413+08:00  INFO 31332 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : Started BackEndApplication in 2.163 seconds (process running for 957.979)
+2026-05-17T14:27:24.414+08:00  WARN 31332 --- [BackEnd] [restartedMain] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-05-17T14:27:24.414+08:00  WARN 31332 --- [BackEnd] [restartedMain] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-05-17T14:27:24.416+08:00  INFO 31332 --- [BackEnd] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-05-17T14:47:17.770+08:00  WARN 31332 --- [BackEnd] [HikariPool-2:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=8m54s307ms163µs100ns).
+2026-05-17T15:08:49.492+08:00  INFO 31332 --- [BackEnd] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-05-17T15:08:49.498+08:00  INFO 31332 --- [BackEnd] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-05-17T15:08:49.503+08:00  INFO 31332 --- [BackEnd] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-17T15:08:49.505+08:00  INFO 31332 --- [BackEnd] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2026-05-17T15:08:49.506+08:00  INFO 31332 --- [BackEnd] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+2026-05-17T15:08:55.906+08:00  INFO 30352 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : Starting BackEndApplication using Java 25.0.1 with PID 30352 (D:\React\reactSpringBoot\BackEnd\target\classes started by tony.shangkuan in D:\React\reactSpringBoot\BackEnd)
+2026-05-17T15:08:55.909+08:00  INFO 30352 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-05-17T15:08:55.976+08:00  INFO 30352 --- [BackEnd] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-05-17T15:08:55.977+08:00  INFO 30352 --- [BackEnd] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-05-17T15:08:57.240+08:00  INFO 30352 --- [BackEnd] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-17T15:08:57.315+08:00  INFO 30352 --- [BackEnd] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 66 ms. Found 5 JPA repository interfaces.
+2026-05-17T15:08:57.971+08:00  INFO 30352 --- [BackEnd] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-05-17T15:08:57.986+08:00  INFO 30352 --- [BackEnd] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-05-17T15:08:57.986+08:00  INFO 30352 --- [BackEnd] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.54]
+2026-05-17T15:08:58.064+08:00  INFO 30352 --- [BackEnd] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-05-17T15:08:58.065+08:00  INFO 30352 --- [BackEnd] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2087 ms
+2026-05-17T15:08:58.318+08:00  INFO 30352 --- [BackEnd] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-05-17T15:08:58.595+08:00  INFO 30352 --- [BackEnd] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn1: url=jdbc:h2:file:./h2db/myDb user=SA
+2026-05-17T15:08:58.597+08:00  INFO 30352 --- [BackEnd] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-05-17T15:08:58.716+08:00  INFO 30352 --- [BackEnd] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-05-17T15:08:58.761+08:00  INFO 30352 --- [BackEnd] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.49.Final
+2026-05-17T15:08:58.793+08:00  INFO 30352 --- [BackEnd] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-05-17T15:08:59.045+08:00  INFO 30352 --- [BackEnd] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-17T15:08:59.091+08:00  WARN 30352 --- [BackEnd] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-17T15:08:59.104+08:00  INFO 30352 --- [BackEnd] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-17T15:09:00.152+08:00  INFO 30352 --- [BackEnd] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-17T15:09:00.364+08:00  INFO 30352 --- [BackEnd] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-17T15:09:00.594+08:00  INFO 30352 --- [BackEnd] [restartedMain] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-05-17T15:09:01.480+08:00  WARN 30352 --- [BackEnd] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-05-17T15:09:01.955+08:00  INFO 30352 --- [BackEnd] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 14 endpoints beneath base path '/actuator'
+2026-05-17T15:09:02.002+08:00  INFO 30352 --- [BackEnd] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name myAuthenticationProvider
+2026-05-17T15:09:02.004+08:00  WARN 30352 --- [BackEnd] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-05-17T15:09:02.117+08:00  WARN 30352 --- [BackEnd] [restartedMain] thorizationManagerRequestMatcherRegistry : One of the patterns in [/api/v1/admin/**, actuator/**, /swagger-ui.html, /swagger-ui/**, /v3/api-docs/**] is missing a leading slash. This is discouraged; please include the leading slash in all your request matcher patterns. In future versions of Spring Security, leaving out the leading slash will result in an exception.
+2026-05-17T15:09:02.688+08:00  INFO 30352 --- [BackEnd] [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:./h2db/myDb'
+2026-05-17T15:09:02.737+08:00  INFO 30352 --- [BackEnd] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-05-17T15:09:02.815+08:00  INFO 30352 --- [BackEnd] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-05-17T15:09:02.831+08:00  INFO 30352 --- [BackEnd] [restartedMain] com.example.BackEnd.BackEndApplication   : Started BackEndApplication in 7.492 seconds (process running for 8.42)
+2026-05-17T15:09:02.840+08:00  WARN 30352 --- [BackEnd] [restartedMain] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-05-17T15:09:02.840+08:00  WARN 30352 --- [BackEnd] [restartedMain] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-05-17T15:09:03.222+08:00  INFO 30352 --- [BackEnd] [RMI TCP Connection(4)-192.168.50.58] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-05-17T15:09:03.222+08:00  INFO 30352 --- [BackEnd] [RMI TCP Connection(4)-192.168.50.58] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-05-17T15:09:03.225+08:00  INFO 30352 --- [BackEnd] [RMI TCP Connection(4)-192.168.50.58] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms

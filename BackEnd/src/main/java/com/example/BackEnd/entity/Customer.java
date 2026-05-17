@@ -45,11 +45,18 @@ public class Customer extends BaseEntity {
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
     private Address address;
 
-    // Customer.roles 是 owning side。原因是：@JoinColumn 寫在 Customer 類中; customerRepo.save(customer);　→ 會寫入/更新 ROLES 表的 customer_id FK ✅
+    /*// Customer.roles 是 owning side。原因是：@JoinColumn 寫在 Customer 類中; customerRepo.save(customer);　→ 會寫入/更新 ROLES 表的 customer_id FK ✅
     // 單向 | 只有一邊有對方的欄位; 雙向 | 兩邊都有對方的欄位
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id", nullable = false) // ROLES 表裡面有一個 customer_id 欄位，用它來連回 CUSTOMERS。
-    private Set<Role> roles = new LinkedHashSet<>(); // 不重複，而且保留加入順序
+    private Set<Role> roles = new LinkedHashSet<>(); // 不重複，而且保留加入順序*/
+
+    @ManyToMany(fetch = FetchType.EAGER) // CascadeType.REMOVE：如果刪除某個 customer 時連 ROLE_USER 也刪掉，就可能影響其他 customer。
+    @JoinTable( // owning side
+            name = "customer_roles", // 中間表名稱
+            joinColumns = @JoinColumn(name = "customer_id"), // 中間表裡面有一個 customer_id 欄位，用它來連回 CUSTOMERS。
+            inverseJoinColumns = @JoinColumn(name = "role_id")) // 中間表裡面有一個 role_id 欄位，用它來連回 ROLES。
+    private Set<Role> roles = new LinkedHashSet<>();
 
     /**
      *

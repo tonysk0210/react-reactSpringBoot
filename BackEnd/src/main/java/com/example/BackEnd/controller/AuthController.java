@@ -8,6 +8,7 @@ import com.example.BackEnd.entity.Role;
 import com.example.BackEnd.payload.LoginRequestPayload;
 import com.example.BackEnd.payload.RegisterRequestPayload;
 import com.example.BackEnd.repository.CustomerRepo;
+import com.example.BackEnd.repository.RoleRepo;
 import com.example.BackEnd.util.JwtUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -43,6 +45,7 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder; // ByCrpt hash encoder
     private final CustomerRepo customerRepo;
     private final CompromisedPasswordChecker compromisedPasswordChecker;
+    private final RoleRepo roleRepo;
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestPayload loginRequestPayload) {
@@ -128,9 +131,15 @@ public class AuthController {
         var customer = new Customer(); // 建立 Customer Entity
         BeanUtils.copyProperties(registerRequestpayload, customer); //只會複製「欄位名稱一樣」的屬性
         customer.setPasswordHash(passwordEncoder.encode(registerRequestpayload.password())); // 將密碼做 Bcrypt hash 編碼後存入 Customer Entity
-        Role role = new Role(); // 建立 Role Entity
+
+        // 從 RoleRepo 查找 Role 並加入 Customer Entity 的 roles 集合
+        roleRepo.findByName("ROLE_USER").ifPresent(role -> customer.setRoles(Set.of(role)));
+
+        // 改為 @ManyToMany 後 comment
+        /*Role role = new Role(); // 建立 Role Entity
         role.setName("ROLE_USER");
-        customer.getRoles().add(role); // 將 Role Entity 加入 Customer Entity 的 roles 集合
+        customer.getRoles().add(role); // 將 Role Entity 加入 Customer Entity 的 roles 集合*/
+
         customerRepo.save(customer); // 將 Customer Entity 儲存到資料庫
 
         return ResponseEntity

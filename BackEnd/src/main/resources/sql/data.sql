@@ -121,45 +121,45 @@ VALUES ('Wardgaze', 'Protective power of the evil eye', 6.00, 60, '/stickers/Evi
 
 -- Admin 不存在才新增
 MERGE INTO customers (
-                      customer_id,
-                      name,
-                      email,
-                      mobile_number,
-                      password_hash,
-                      created_by,
-                      created_at
-    )
-    KEY (email)
-    VALUES (1,
-            'Admin',
-            'admin@gmail.com',
-            '1234567890',
-            '$2a$10$MJuns8311HDe2MXfnjcmQOYtb0EgNMD3S218yPZhQqmUchzUSBmZy',
-            'SYSTEM',
-            CURRENT_TIMESTAMP);
+    customer_id,
+    name,
+    email,
+    mobile_number,
+    password_hash,
+    created_by,
+    created_at
+)
+KEY (email)
+VALUES (
+    1,
+    'Admin',
+    'admin@gmail.com',
+    '1234567890',
+    '$2a$10$MJuns8311HDe2MXfnjcmQOYtb0EgNMD3S218yPZhQqmUchzUSBmZy',
+    'SYSTEM',
+    CURRENT_TIMESTAMP
+);
 
--- ROLE_ADMIN 不存在才新增
+-- 角色不存在才新增
 MERGE INTO roles (
-                  customer_id,
-                  name,
-                  created_by,
-                  created_at
-    )
-    KEY (customer_id, name)
-    VALUES (1,
-            'ROLE_ADMIN',
-            'SYSTEM',
-            CURRENT_TIMESTAMP);
+    role_id,
+    name,
+    created_by,
+    created_at
+)
+KEY (name)
+VALUES
+    (1, 'ROLE_ADMIN', 'SYSTEM', CURRENT_TIMESTAMP),
+    (2, 'ROLE_USER', 'SYSTEM', CURRENT_TIMESTAMP),
+    (3, 'ROLE_OP', 'SYSTEM', CURRENT_TIMESTAMP);
 
--- ROLE_USER 不存在才新增
-MERGE INTO roles (
-                  customer_id,
-                  name,
-                  created_by,
-                  created_at
-    )
-    KEY (customer_id, name)
-    VALUES (1,
-            'ROLE_USER',
-            'SYSTEM',
-            CURRENT_TIMESTAMP);
+-- 建立 admin 和 role 的關聯
+MERGE INTO customer_roles (
+    customer_id,
+    role_id
+)
+KEY (customer_id, role_id)
+VALUES
+    (1, 1),
+    (1, 2),
+    (1, 3);
