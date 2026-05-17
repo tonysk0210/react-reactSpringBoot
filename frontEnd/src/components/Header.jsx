@@ -214,7 +214,7 @@ export default function Header() {
                                       className={dropdownLinkClass}
                                     >
                                       <div className="text-green-600 hover:text-green-700 dark:text-green-100 dark:hover:text-green-200">
-                                        訂單
+                                        訂單管理
                                       </div>
                                     </Link>
                                   </li>
@@ -224,7 +224,7 @@ export default function Header() {
                                       className={dropdownLinkClass}
                                     >
                                       <div className="text-green-600 hover:text-green-700 dark:text-green-100 dark:hover:text-green-200">
-                                        信息
+                                        信息管理
                                       </div>
                                     </Link>
                                   </li>

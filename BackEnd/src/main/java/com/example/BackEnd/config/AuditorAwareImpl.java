@@ -30,7 +30,8 @@ public class AuditorAwareImpl implements AuditorAware<String> {
         Object principal = authentication.getPrincipal();
         String username;
 
-        // 4. 如果是 Customer 類型，就取 email 當 username；否則就用 toString() 當 username ( MyAuthenticationProvider.java 是把整個 Customer 放進 Authentication 裡面  )
+        // 4. 如果是 Customer 類型，就取 email 當 user
+        //  name；否則就用 toString() 當 username ( MyAuthenticationProvider.java 是把整個 Customer 放進 Authentication 裡面  )
         if (principal instanceof Customer customer) {
             username = customer.getEmail(); // 只有 login 的 principal 才是 Customer
             /**

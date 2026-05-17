@@ -52,4 +52,18 @@ public class BaseEntity {
  * |
  * v
  * 指定使用 auditorAwareImpl
+ * <p>
+ * <p>
+ * 簡單流程：
+ * save(entity)
+ * ↓
+ * JPA 準備新增或更新 entity
+ * ↓
+ * AuditingEntityListener 被觸發
+ * ↓
+ * 看到 @CreatedDate / @CreatedBy / @LastModifiedDate / @LastModifiedBy
+ * ↓
+ * 自動填入時間與使用者
+ * ↓
+ * 寫入資料庫
  */
