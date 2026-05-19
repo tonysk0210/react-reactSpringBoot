@@ -1,5 +1,6 @@
 package com.example.BackEnd.controller;
 
+import com.example.BackEnd.dto.ContactInfoDto;
 import com.example.BackEnd.payload.ContactPayload;
 import com.example.BackEnd.service.ContactService;
 import jakarta.validation.Valid;
@@ -7,10 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -18,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ContactController {
 
     private final ContactService contactService;
+    private final ContactInfoDto contactInfoDto; // 聯繫信息 DTO 做 autowiring
 
     @PostMapping("/contacts")
     public ResponseEntity<String> saveContact(@Valid @RequestBody ContactPayload contactPayload) {
@@ -31,5 +30,10 @@ public class ContactController {
             // return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("哎呀，出錯了！請重試一次，若問題持續請聯絡技術團隊 from API");
             throw new RuntimeException("哎呀，出錯了！請重試一次，若問題持續請聯絡技術團隊 from API"); // 這會給到全局異常處理器，然後全局異常處理器會捕獲到這個 RuntimeException，並返回一個包含錯誤訊息的 JSON 格式的響應給前端。
         }
+    }
+
+    @GetMapping("/contacts")
+    public ResponseEntity<ContactInfoDto> getContactInfo() {
+        return ResponseEntity.ok(contactInfoDto);
     }
 }

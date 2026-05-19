@@ -39,6 +39,7 @@ import { profileLoader } from "./components/login/Profile"; // 從 Profile 組�
 import { ordersLoader } from "./components/login/Orders"; // 從 Orders 組件中匯入 ordersLoader 函式；這個函式是用來在路由匹配時加載訂單資料的，會在 Orders 組件中使用 useLoaderData hook 來獲取這些數據。
 import { orderManageLoader } from "./components/login/admin/OrderManage.jsx"; // 從 OrderManage 組件中匯入 adminOrdersLoader 函式；這個函式是用來在路由匹配時加載管理員訂單資料的，會在 OrderManage 組件中使用 useLoaderData hook 來獲取這些數據。
 import { messagesLoader } from "./components/login/admin/Message.jsx"; // 從 Message 組件中匯入 messagesLoader 函式；這個函式是用來在路由匹配時加載管理員消息資料的，會在 Message 組件中使用 useLoaderData hook 來獲取這些數據。
+import { contactLoader } from "./components/contact/Contact"; // 從 Contact 組件中匯入 contactLoader 函式；這個函式是用來在路由匹配時加載聯繫資料的，會在 Contact 組件中使用 useLoaderData hook 來獲取這些數據。
 
 import { contactAction } from "./components/contact/Contact"; // 從 Contact 組件中匯入 contactAction 函式；這個函式是用來在表單提交時處理表單數據的，會在 Contact 組件中使用 useActionData hook 來獲取這些數據。
 import { loginAction } from "./components/login/Login"; // 從 Login 組件中匯入 loginAction 函式；這個函式是用來在表單提交時處理表單數據的，會在 Login 組件中使用 useActionData hook 來獲取這些數據。
@@ -76,7 +77,12 @@ const routeDefinitions = createRoutesFromElements(
     {/* loader={productsLoader} 是 React Router 中用於在路由匹配時加載資料的函式，這個函式會在路由匹配到 "/" 時被調用，用於獲取產品資料，並且在 Home 組件中使用 useLoaderData 鉤子來獲取這些資料。 */}
     <Route path="/home" element={<Home />} loader={productsLoader} />
     <Route path="/about" element={<About />} />
-    <Route path="/contact" element={<Contact />} action={contactAction} />
+    <Route
+      path="/contact"
+      element={<Contact />}
+      action={contactAction}
+      loader={contactLoader}
+    />
     {/* action={contactAction} 是 React Router 中用於在表單提交時處理表單數據的函式，這個函式會在 Contact 組件中的 Form 組件提交時被調用，用於處理表單數據，並且在 Contact 組件中使用 useActionData 鉤子來獲取這些數據。 */}
     <Route path="/login" element={<Login />} action={loginAction} />
     <Route path="/cart" element={<Cart />} />
