@@ -3,6 +3,13 @@ import { useAuth } from "../../store/auth-context";
 import apiClient from "../../api/apiClient";
 import { useCart } from "../../store/cart-context";
 // Stripe components
+
+import { useSelector, useDispatch } from "react-redux";
+import {
+  selectCartItems,
+  selectTotalPrice,
+  clearCart,
+} from "../../store/cart-slice";
 import {
   useStripe,
   useElements,
@@ -16,7 +23,11 @@ import { toast } from "react-toastify";
 
 export default function CheckoutForm() {
   const { user } = useAuth();
-  const { cart, totalPrice, clearCart } = useCart();
+
+  const dispatch = useDispatch();
+  const cart = useSelector(selectCartItems);
+  const totalPrice = useSelector(selectTotalPrice);
+
   const stripe = useStripe(); // Stripe.js instance
   const elements = useElements(); // Stripe elements instance
   const navigate = useNavigate();
@@ -155,7 +166,7 @@ export default function CheckoutForm() {
             })),
           });
           sessionStorage.setItem("skipRedirectPath", "true"); // 設置 sessionStorage 來跳過重新導向
-          clearCart(); // 清空購物車
+          dispatch(clearCart()); // 清空購物車
           navigate("/order-success"); // 跳轉到訂單成功頁面
         } catch (orderError) {
           console.error("創建訂單失敗:", orderError);

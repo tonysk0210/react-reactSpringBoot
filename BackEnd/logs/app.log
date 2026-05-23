@@ -333,3 +333,8 @@ Consider defining a bean of type 'com.example.BackEnd.security.MyAuthenticationP
 2026-05-23T10:33:59.960+08:00  INFO 8020 --- [BackEnd] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring DispatcherServlet 'dispatcherServlet'
 2026-05-23T10:33:59.960+08:00  INFO 8020 --- [BackEnd] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2026-05-23T10:33:59.963+08:00  INFO 8020 --- [BackEnd] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2026-05-23T11:49:28.039+08:00  WARN 8020 --- [BackEnd] [HikariPool-3:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Thread starvation or clock leap detected (housekeeper delta=6m15s476ms466µs800ns).
+2026-05-23T12:25:43.265+08:00  WARN 8020 --- [BackEnd] [HikariPool-3:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Thread starvation or clock leap detected (housekeeper delta=8m15s181ms315µs400ns).
+2026-05-23T12:42:46.421+08:00  WARN 8020 --- [BackEnd] [HikariPool-3:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Thread starvation or clock leap detected (housekeeper delta=5m3s146ms372µs500ns).
+2026-05-23T12:52:26.540+08:00  WARN 8020 --- [BackEnd] [http-nio-8080-exec-8] c.e.B.security.JWTTokenValidatorFilter   : JWT Token 已過期: JWT expired 24260538 milliseconds ago at 2026-05-22T22:08:06.000Z. Current time: 2026-05-23T04:52:26.538Z. Allowed clock skew: 0 milliseconds.
+2026-05-23T14:04:39.094+08:00  WARN 8020 --- [BackEnd] [HikariPool-3:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Thread starvation or clock leap detected (housekeeper delta=15m22s540ms80µs900ns).

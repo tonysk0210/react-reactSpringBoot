@@ -2,10 +2,17 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import { useCart } from "../../store/cart-context";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  selectCartItems,
+  addToCart,
+  removeFromCart,
+  clearCart,
+} from "../../store/cart-slice";
 
 export default function CartTable() {
-  const { cart, addToCart, removeFromCart } = useCart(); // 使用 useCart hook 來獲取 CartContext 中的 cart 屬性，這個屬性表示購物車中商品的列表，可以用來在購物車頁面中顯示購物車中的商品列表。
+  const dispatch = useDispatch();
+  const cart = useSelector(selectCartItems);
 
   // 計算購物車中商品的總價
   const subtotal = cart
@@ -15,7 +22,14 @@ export default function CartTable() {
   // 更新購物車中商品的數量
   const updateCartQuantity = (productId, quantity) => {
     const product = cart.find((item) => item.id === productId); // 使用 find 方法來找到購物車中商品的列表，productId 是商品的 id，quantity 是商品的數量。
-    addToCart(product, quantity - (product?.quantity || 0)); // 使用 addToCart 方法來更新購物車中商品的數量，product 是商品，quantity 是商品的數量。
+    dispatch(
+      addToCart({ product, quantity: quantity - (product?.quantity || 0) }),
+    );
+  };
+
+  // 清空購物車
+  const clearCartHandler = () => {
+    dispatch(clearCart());
   };
 
   return (
@@ -81,7 +95,7 @@ export default function CartTable() {
                 <td className="px-4 sm:px-6 py-4">
                   <button
                     aria-label="delete-item"
-                    onClick={() => removeFromCart(item.id)}
+                    onClick={() => dispatch(removeFromCart({ id: item.id }))}
                     className="text-red-400 border border-red-400 p-2 rounded hover:bg-lighter dark:hover:bg-gray-700"
                   >
                     <FontAwesomeIcon icon={faTimes} />

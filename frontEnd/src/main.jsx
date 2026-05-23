@@ -60,6 +60,9 @@ import { AuthProvider } from "./store/auth-context.jsx"; // 引入 AuthProvider�
 import { loadStripe } from "@stripe/stripe-js"; // 引入 loadStripe 函式；這個函式是用來加載 Stripe 的 JavaScript SDK 的，會在 Payment 組件中使用這個函式來加載 Stripe 的 JavaScript SDK。
 import { Elements } from "@stripe/react-stripe-js"; // 引入 Elements 組件；這個組件是用來包裝支付表單的，會在 Payment 組件中使用這個組件來包裝支付表單。
 
+import store from "./store/store.js"; // 引入 Redux store；這個 store 是用來管理應用程式的全局狀態的，這裡我們將 store 作為 value 傳入 Provider 組件，這樣在整個應用程式中就可以使用 store 來訪問和修改全局狀態了。
+import { Provider } from "react-redux"; // 引入 Provider 組件；這個組件是用來提供 Redux store 的，會在 App 組件中使用這個組件來提供 Redux store。
+
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
@@ -176,12 +179,12 @@ createRoot(document.getElementById("root")).render(
     <Elements stripe={stripePromise}>
       {/* <Elements> 很像是 Stripe 專用的 Context Provider。它的作用是建立一個 Stripe 的 context，讓被它包住的元件可以使用 Stripe 提供的功能 */}
       <AuthProvider>
-        {/* 使用 CartProvider 組件來包裹 RouterProvider 組件，這樣整個應用程式都能夠使用 CartContext 來訪問和修改購物車的狀態了。 */}
-        <CartProvider>
+        {/* 使用 Provider 包裹 RouterProvider，這樣整個應用程式都能夠使用 Redux 的功能 */}
+        <Provider store={store}>
           <RouterProvider router={appRouter} />
           {/* 使用 RouterProvider 組件，將 appRouter 傳入 router 屬性，讓整個應用程式都能夠使用 React Router 的功能 */}
           {/* 這是 CartProvider 的 children，RouterProvider 組件會被渲染在 CartProvider 組件內部，這樣 RouterProvider 就可以訪問到 CartContext 中的值了。*/}
-        </CartProvider>
+        </Provider>
       </AuthProvider>
       <ToastContainer
         // ToastContainer 是用來顯示 toast 通知的組件，這裡配置了一些屬性來定義 toast 通知的行為和樣式，例如：position 定義了通知出現的位置，autoClose 定義了通知自動關閉的時間，theme 定義了通知的主題等等。

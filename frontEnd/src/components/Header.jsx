@@ -16,8 +16,10 @@ import { toast } from "react-toastify";
 // import { useContext } from "react"; // 引入 useContext hook；這個 hook 是 React 中用於在函式組件中訪問 Context 的 hook，Context 是 React 中用於在組件樹中傳遞數據的一種方式，可以讓你在組件之間共享數據，而不需要通過 props 一層一層地傳遞。
 // import { CartContext } from "../store/cart-context.jsx"; // 引入 CartContext；這個 Context 是用來在組件之間共享購物車狀態的，這樣就不需要通過 props 一層一層地傳遞購物車數據了。
 
-import { useCart } from "../store/cart-context"; // 引入 useCart custom hook；這個 hook 是用來在組件中訪問 CartContext 中的 totalQuantity 屬性，這個屬性表示購物車中商品的總數量，可以用來在購物車圖示旁邊顯示一個徽章，提示用戶購物車中有多少件商品。
 import { useAuth } from "../store/auth-context"; // 引入 useAuth custom hook；這個 hook 是用來在組件中訪問 AuthContext 中的 user 屬性，這個屬性表示當前登入的用戶，可以用來在導航欄中顯示用戶名稱和登出按鈕。
+
+import { useSelector } from "react-redux"; // 引入 useSelector hook；這個 hook 是 React Redux 中用於在組件中訪問 Redux store 中的 state 的 hook，可以用來在組件中讀取 store 中的數據。
+import { selectTotalQuantity } from "../store/cart-slice"; // 引入 selectTotalQuantity 選擇器函式；這個函式是用來從 Redux store 中選擇購物車的總數量，可以用來在購物車圖示旁邊顯示一個徽章，提示用戶購物車中有多少件商品。
 
 // Tailwind CSS 的類，用於設定導航連結在暗模式下的樣式。
 const DarkModeClass =
@@ -50,7 +52,7 @@ export default function Header() {
   const userMenuRef = useRef(null); // userMenuRef 用於存儲用戶菜單的 DOM 元素，以便在點擊外部時關閉菜單
   const navigate = useNavigate(); // navigate 用於程式化導航
 
-  const { totalQuantity } = useCart(); // 使用 useCart custom hook 來訪問 CartContext 中的 totalQuantity 屬性，這個屬性表示購物車中商品的總數量，可以用來在購物車圖示旁邊顯示一個徽章，提示用戶購物車中有多少件商品。
+  const totalQuantity = useSelector(selectTotalQuantity); // 從 Redux store 中選擇購物車的總數量
   const { isAuthenticated, logout, user } = useAuth(); // 從 useAuth 鉤子取得認證狀態、登出函式和用戶資訊
 
   // 是否為管理員

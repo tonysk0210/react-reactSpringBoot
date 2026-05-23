@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 // import { useContext } from "react"; // 引入 useContext hook；這個 hook 是 React 中用於在函式組件中訪問 Context 的 hook，Context 是 React 中用於在組件樹中傳遞數據的一種方式，可以讓你在組件之間共享數據，而不需要通過 props 一層一層地傳遞。
 // import { CartContext } from "../../../store/cart-context"; // 引入 CartContext；這個 Context 是用來在組件之間共享購物車狀態的，這樣就不需要通過 props 一層一層地傳遞購物車數據了。
 
-import { useCart } from "../../../store/cart-context"; // 引入 useCart custom hook；這個 hook 是用來在組件中訪問 CartContext 中的 addToCart 方法，這個方法用於將產品添加到購物車中，當用戶點擊「加入購物車」按鈕時，就會調用這個方法，並且將當前的產品作為參數傳入，從而將產品添加到購物車中。
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../../store/cart-slice";
 
 export default function ProductCard({ product }) {
-  const { addToCart } = useCart(); // 使用 useContext hook 來訪問 CartContext 中的 addToCart 方法，這個方法用於將產品添加到購物車中，當用戶點擊「加入購物車」按鈕時，就會調用這個方法，並且將當前的產品作為參數傳入，從而將產品添加到購物車中。
-
+  const dispatch = useDispatch();
   return (
     <div className="product-card">
       {/* 點擊產品卡片會導航到 /products/:id 路由，這裡的 :id 是一個動態參數，會被替換成實際的產品 ID，例如：/products/123，這樣在 ProductDetail 組件中就可以使用 useParams 來獲取這個 ID 並顯示對應的產品詳細資訊。 */}
@@ -25,7 +25,6 @@ export default function ProductCard({ product }) {
           className="product-card-image"
         />
       </Link>
-
       {/* 產品詳細資訊 */}
       <div className="product-card-details">
         <h2 className="product-card-title">{product.name}</h2>
@@ -40,7 +39,7 @@ export default function ProductCard({ product }) {
             </div>
             <button
               type="button"
-              onClick={() => addToCart(product, 1)} // 當用戶點擊「加入購物車」按鈕時，就會調用 addToCart 方法，並且將當前的產品作為參數傳入，從而將產品添加到購物車中。
+              onClick={() => dispatch(addToCart({ product, quantity: 1 }))} // 當用戶點擊「加入購物車」按鈕時，就會調用 addToCart 方法，並且將當前的產品作為參數傳入，從而將產品添加到購物車中。
               className="text-sm font-semibold text-white bg-brand hover:bg-dark px-4 py-2 rounded-md transition"
             >
               加入購物車

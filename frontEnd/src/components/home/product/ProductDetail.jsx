@@ -13,6 +13,9 @@ import { useRef } from "react";
 
 import { useCart } from "../../../store/cart-context"; // 引入 useCart custom hook；這個 hook 是用來在組件中訪問 CartContext 中的 addToCart 方法，這個方法用於將產品添加到購物車中，當用戶點擊「加入購物車」按鈕時，就會調用這個方法，並且將當前的產品作為參數傳入，從而將產品添加到購物車中。
 
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../../store/cart-slice";
+
 export default function ProductDetail() {
   const params = useParams(); // 使用 useParams Hook 獲取 URL 中的參數，並將其存儲在 params 變量中。這些參數通常是在路由定義中指定的，例如 /products/:id，其中 :id 就是一個參數。
   const location = useLocation(); // 使用 useLocation Hook 獲取當前路由的位置信息，並將其存儲在 location 變量中。這些位置信息包括 pathname、search、hash 和 state 等等，可以用來在組件中獲取導航過程中傳遞的狀態，例如：當用戶從產品列表頁面導航到產品詳細頁面時，可以使用 useLocation 來獲取傳遞過去的產品資料，從而在產品詳細頁面中顯示對應的產品資訊。
@@ -42,14 +45,13 @@ export default function ProductDetail() {
     setBackgroundPosition("center"); // 將背景圖片的位置重置為中心
   };
 
-  // 使用 useCart custom hook 來訪問 CartContext 中的 addToCart 方法，這個方法用於將產品添加到購物車中，當用戶點擊「加入購物車」按鈕時，就會調用這個方法，並且將當前的產品作為參數傳入，從而將產品添加到購物車中。
-  const { addToCart } = useCart();
+  const dispatch = useDispatch();
   // 當用戶點擊「加入購物車」按鈕時，就會調用 addToCart 方法，並且將當前的產品作為參數傳入，從而將產品添加到購物車中。
   const handleAddToCart = () => {
     if (quantity < 1) {
       return; // 如果數量小於 1，則不進行任何操作
     }
-    addToCart(product, quantity); // 調用 addToCart 方法，將當前的產品和數量作為參數傳入，從而將產品添加到購物車中。
+    dispatch(addToCart({ product, quantity })); // 調用 addToCart 方法，將當前的產品和數量作為參數傳入，從而將產品添加到購物車中。
   };
 
   return (

@@ -6,6 +6,12 @@ import emptyCartImage from "../../assets/util/emptycart.png";
 import { useCart } from "../../store/cart-context"; // 引入 useCart custom hook；這個 hook 是用來在組件中訪問 CartContext 中的 totalQuantity 屬性，這個屬性表示購物車中商品的總數量，可以用來在購物車圖示旁邊顯示一個徽章，提示用戶購物車中有多少件商品。
 import CartTable from "./CartTable"; // 引入 CartTable 組件；這個組件是用來渲染購物車表格的，當購物車不是空的時候，會渲染購物車表格，當購物車是空的時候，會渲染空購物車提示和返回商品按鈕。
 import { useAuth } from "../../store/auth-context"; // 引入 useAuth custom hook；這個 hook 是用來在組件中訪問 AuthContext 中的 user 屬性，這個屬性表示當前登入的用戶，可以用來在購物車頁面中顯示用戶的資訊。
+import { useSelector, useDispatch } from "react-redux";
+import {
+  selectCartItems,
+  addToCart,
+  removeFromCart,
+} from "../../store/cart-slice";
 
 export default function Cart() {
   const navigate = useNavigate(); // 使用 useNavigate hook 來獲取導航函式，這個函式可以用來在組件中進行導航，例如：當用戶點擊返回商品按鈕時，可以使用 navigate("/home") 來導航到 "/home" 路由，並且可以傳遞一些狀態，例如：navigate("/home", { state: { username: "madan" } })，這些狀態可以在目標路由的組件中使用 useLocation hook 來獲取和使用。
@@ -22,7 +28,7 @@ export default function Cart() {
     return !street || !city || !state || !postalCode || !country; // 有登入，有 address，但地址不完整，返回 true
   }, [user]); // 使用 useMemo hook 來記住 isAddressIncomplete 的值，這樣在 user 屬性發生變化時，才會重新計算 isAddressIncomplete 的值，這樣可以避免重複計算，提高性能。
 
-  const { cart } = useCart(); // 使用 useCart hook 來獲取 CartContext 中的 cart 屬性，這個屬性表示購物車中商品的列表，可以用來在購物車頁面中顯示購物車中的商品列表。
+  const cart = useSelector(selectCartItems); // 從 Redux store 中獲取購物車中的商品列表
 
   const isCartEmpty = useMemo(() => {
     return cart.length === 0;
