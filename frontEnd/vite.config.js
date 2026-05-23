@@ -9,4 +9,39 @@ export default defineConfig({
   // server: {
   //   port: 3000,
   // },
+  build: {
+    outDir: "dist",
+    sourcemap: false,
+    minify: "esbuild",
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (
+            id.includes("node_modules/react") ||
+            id.includes("node_modules/react-dom")
+          ) {
+            return "vendor";
+          }
+
+          if (id.includes("@reduxjs/toolkit") || id.includes("react-redux")) {
+            return "redux";
+          }
+
+          if (id.includes("react-router-dom")) {
+            return "router";
+          }
+
+          if (
+            id.includes("@fortawesome/react-fontawesome") ||
+            id.includes("@fortawesome/fontawesome-svg-core")
+          ) {
+            return "ui";
+          }
+        },
+      },
+    },
+  },
+  base: "/",
+  server: { port: 5173 },
+  preview: { port: 5173 },
 });
