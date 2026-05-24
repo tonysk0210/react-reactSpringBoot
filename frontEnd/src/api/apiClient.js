@@ -21,29 +21,6 @@ apiClient.interceptors.request.use(
       config.headers.Authorization = `Bearer ${jwtToken}`; // 在 HTTP request header 加上一個 Authorization 欄位，裡面放 JWT token。
     }
 
-    // Only fetch CSRF token for non-safe methods
-    const safeMethods = ["GET", "HEAD", "OPTIONS"];
-    if (!safeMethods.includes(config.method.toUpperCase())) {
-      // 只有非安全方法才需要 CSRF token
-
-      // 1. 從 cookies 中取得 CSRF token
-      let csrfToken = Cookies.get("XSRF-TOKEN");
-      if (!csrfToken) {
-        // 2. 如果 cookies 中沒有 CSRF token，則呼叫 api 從後端取得
-        await axios.get(`${import.meta.env.VITE_API_BASE_URL}/csrf-token`, {
-          withCredentials: true, // Axios 設定：允許瀏覽器在跨域請求中帶 cookies，並接收後端的 Set-Cookie: XSRF-TOKEN=abc123; 瀏覽器收到後，自動把 XSRF-TOKEN 存進 cookie
-        });
-        // 2.1 從 cookies 中取得 CSRF token
-        csrfToken = Cookies.get("XSRF-TOKEN");
-        // 2.2 如果還是沒有，則拋出錯誤
-        if (!csrfToken) {
-          throw new Error("無法取得 CSRF token");
-        }
-      }
-      // 3. 將 CSRF token 加入 request header
-      config.headers["X-XSRF-TOKEN"] = csrfToken;
-    }
-
     return config;
   },
   // 第二個 = failed response 把錯誤繼續往外丟

@@ -19,8 +19,6 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.password.HaveIBeenPwnedRestApiPasswordChecker;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -53,10 +51,7 @@ public class MySecurityConfig {
         // 前端在送 POST / PUT / DELETE 等非安全請求時，
         // 需要把這個 token 放到 request header：X-XSRF-TOKEN。
         // Spring Security 會比對 header 裡的 token 是否正確，正確才放行。
-        http.csrf(csrfConfig ->
-                csrfConfig.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) // 儲存/取得 token
-                        .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())); // 將 CSRF Token 放進 request attribute（例如 _csrf）， 方便讓 Controller、Filter、Thymeleaf、JSP 等可以透過 request 取得 token。
-
+        http.csrf(csrfConfig -> csrfConfig.disable());
 
         // 在 Spring Security 中開啟 CORS，並指定它使用 corsConfigurationSource() 這份跨域設定。
         http.cors(corsConfig -> corsConfig.configurationSource(corsConfigurationSource()));
