@@ -2,6 +2,7 @@ package com.example.BackEnd.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,6 +34,9 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class MySecurityConfig {
 
     private final List<String> publicPaths;
+
+    @Value("${stickerstore.cors.allowed-origins}") // 從 application.properties 檔案中取得跨域設定
+    private String allowedOrigins;
 
     @Autowired
     public MySecurityConfig(@Qualifier("publicPaths") List<String> publicPaths) {
@@ -84,7 +88,7 @@ public class MySecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:5173"));
+        config.setAllowedOrigins(List.of(allowedOrigins.split(",")));
         config.setAllowedMethods(List.of("*")); // 允許哪些 HTTP method（GET / POST / PUT / DELETE）
         config.setAllowedHeaders(List.of("*")); // 允許前端 request 可以帶哪些 header
         config.setAllowCredentials(true); // 允許攜帶憑證（如 cookie / session）
