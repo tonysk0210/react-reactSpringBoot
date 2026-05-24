@@ -1,5 +1,9 @@
 # Repository Guidelines
 
+## Communication
+
+Always respond in Traditional Chinese.
+
 ## Project Structure & Module Organization
 
 This repository is split into two main modules:
