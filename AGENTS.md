@@ -4,14 +4,14 @@
 
 This repository is split into two main modules:
 
-- `BackEnd/`: Spring Boot API. Java source lives in `src/main/java/com/example/BackEnd`, configuration and SQL seed files live in `src/main/resources`, and tests live in `src/test/java`.
+- `backend/`: Spring Boot API. Java source lives in `src/main/java/com/example/backend`, configuration and SQL seed files live in `src/main/resources`, and tests live in `src/test/java`.
 - `frontEnd/`: Vite + React client. App code lives in `src`, static files in `public`, production output in `dist`, and dependencies in `node_modules`.
 
 Keep backend controller, service, repository, DTO, payload, security, and config classes in their existing package folders. Keep frontend API helpers, components, store/context code, and assets under the matching `frontEnd/src` subfolders.
 
 ## Build, Test, and Development Commands
 
-Run backend commands from `BackEnd/`:
+Run backend commands from `backend/`:
 
 - `.\mvnw.cmd spring-boot:run`: start the Spring Boot API on the configured port.
 - `.\mvnw.cmd test`: run backend tests.
@@ -33,7 +33,7 @@ React components use `PascalCase` filenames such as `Profile.jsx`; hooks and hel
 
 ## Testing Guidelines
 
-Backend tests use Spring Boot Test/JUnit. Name new backend tests `*Tests.java` or `*Test.java` and place them under the same package path in `BackEnd/src/test/java`. Run `.\mvnw.cmd test` before submitting backend changes.
+Backend tests use Spring Boot Test/JUnit. Name new backend tests `*Tests.java` or `*Test.java` and place them under the same package path in `backend/src/test/java`. Run `.\mvnw.cmd test` before submitting backend changes.
 
 The frontend currently has linting but no test runner configured. For frontend changes, run `npm run lint` and `npm run build`; add a test framework only as a deliberate project change.
 
@@ -41,8 +41,8 @@ The frontend currently has linting but no test runner configured. For frontend c
 
 Recent commits use short imperative/descriptive messages such as `add qa prod properties` or `mod customer_order`. Keep commits focused and concise.
 
-Pull requests should include a brief summary, affected module (`BackEnd`, `frontEnd`, or both), commands run, and screenshots or screen recordings for visible UI changes. Mention any configuration changes, new environment variables, or security-sensitive files.
+Pull requests should include a brief summary, affected module (`backend`, `frontEnd`, or both), commands run, and screenshots or screen recordings for visible UI changes. Mention any configuration changes, new environment variables, or security-sensitive files.
 
 ## Security & Configuration Tips
 
-Do not commit real secrets. Review `BackEnd/src/main/resources/*.properties`, `stripe.properties`, and `frontEnd/.env` before committing. Keep local database files, logs, build outputs, and dependency folders out of reviews unless they are intentionally changed.
+Do not commit real secrets. Review `backend/src/main/resources/*.properties`, `stripe.properties`, and `frontEnd/.env` before committing. Keep local database files, logs, build outputs, and dependency folders out of reviews unless they are intentionally changed.

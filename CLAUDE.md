@@ -17,7 +17,7 @@
 - Tailwind CSS
 - React Toastify (通知)
 
-### 後端 (BackEnd/)
+### 後端 (backend/)
 - Spring Boot 3
 - Spring Security + JWT 認證
 - MySQL 資料庫
@@ -33,7 +33,7 @@ npm install
 npm run dev
 
 # 後端
-cd BackEnd
+cd backend
 mvn spring-boot:run
 ```
 
@@ -46,8 +46,8 @@ reactSpringBoot/
 │       ├── api/           # Axios client
 │       ├── components/    # React 元件
 │       └── store/         # Context (auth-context)
-└── BackEnd/
-    └── src/main/java/com/example/BackEnd/
+└── backend/
+    └── src/main/java/com/example/backend/
         ├── controller/    # REST API
         ├── service/       # 業務邏輯
         ├── repository/    # JPA Repository
