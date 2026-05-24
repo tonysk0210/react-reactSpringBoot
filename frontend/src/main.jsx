@@ -1,4 +1,4 @@
-import "./index.css"; // 引入全局 CSS 樣式
+import "./index.css"; // 引入全局 CSS 樣式，main.jsx 是整個 React app 的入口，這裡引入的 CSS 會在整個 app 載入前先套用
 
 // import "bootstrap/dist/css/bootstrap.min.css"; // 引入 Bootstrap 的 CSS；
 // 注意：這裡引入的是「整個 Bootstrap 的 CSS」，而不是「Bootstrap 的 React 組件」
@@ -172,6 +172,7 @@ const appRouter = createBrowserRouter(routeDefinitions); // 使用 createBrowser
 //   totalQuantity: 0,
 // };
 
+// 把 React app 掛載到 index.html 裡 id 為 root 的真實 DOM 節點上「這個 DOM 節點是 React 要管理的根節點。」
 createRoot(document.getElementById("root")).render(
   // 使用 StrictMode 包裹 App 組件，呼叫兩次 render 是 React 18 中 StrictMode 的一個特性，
   // 可以幫助開發者更早地發現潛在的問題，例如：不安全的生命週期方法、過時的 API 等等。
