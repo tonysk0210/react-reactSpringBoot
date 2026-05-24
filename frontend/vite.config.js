@@ -1,18 +1,18 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import tailwindcss from "@tailwindcss/vite"; // 引入 Tailwind CSS 的 Vite 插件
+import tailwindcss from "@tailwindcss/vite";
 
 // https://vite.dev/config/
+
+// 這是 Vite 的配置文件，類似於 Spring Boot 的 application.properties
 export default defineConfig({
-  plugins: [react(), tailwindcss()], // tailwindcss () 使用 Tailwind CSS 的 Vite 插件
-  // 設定開發伺服器的port為3000
-  // server: {
-  //   port: 3000,
-  // },
+  plugins: [react(), tailwindcss()], // 使用 React 和 Tailwind CSS 的 Vite 插件
+
+  // 部屬環境優化設定
   build: {
-    outDir: "dist",
+    outDir: "dist", // 設定輸出目錄為 dist
     sourcemap: false,
-    minify: "esbuild",
+    minify: "esbuild", // 使用 esbuild 進行壓縮
     rollupOptions: {
       output: {
         manualChunks(id) {
@@ -42,6 +42,6 @@ export default defineConfig({
     },
   },
   base: "/",
-  server: { port: 5173 },
-  preview: { port: 5173 },
+  server: { port: 5173 }, // 開發伺服器 (Dev Server)
+  preview: { port: 5173 }, // 預覽 production build
 });
