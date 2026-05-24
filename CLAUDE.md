@@ -10,7 +10,7 @@
 
 ## 技術棧
 
-### 前端 (frontEnd/)
+### 前端 (frontend/)
 - React 18 + Vite
 - React Router v6 (Data API: loader, action)
 - Axios (API 請求)
@@ -28,7 +28,7 @@
 
 ```bash
 # 前端
-cd frontEnd
+cd frontend
 npm install
 npm run dev
 
@@ -41,7 +41,7 @@ mvn spring-boot:run
 
 ```
 reactSpringBoot/
-├── frontEnd/
+├── frontend/
 │   └── src/
 │       ├── api/           # Axios client
 │       ├── components/    # React 元件
