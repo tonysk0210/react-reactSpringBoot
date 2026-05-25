@@ -9,6 +9,10 @@ import "./index.css"; // 引入全局 CSS 樣式，main.jsx 是整個 React app 
 
 // import "./custom.scss"; // 引入 custom.scss；這個檔案裡面有「改變 Bootstrap 預設樣式的 SCSS 變數」
 
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import App from "./App.jsx";
+
 import {
   createBrowserRouter,
   RouterProvider,
@@ -62,10 +66,6 @@ import { Elements } from "@stripe/react-stripe-js"; // 引入 Elements 組件；
 
 import store from "./store/store.js"; // 引入 Redux store；這個 store 是用來管理應用程式的全局狀態的，這裡我們將 store 作為 value 傳入 Provider 組件，這樣在整個應用程式中就可以使用 store 來訪問和修改全局狀態了。
 import { Provider } from "react-redux"; // 引入 Provider 組件；這個組件是用來提供 Redux store 的，會在 App 組件中使用這個組件來提供 Redux store。
-
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import App from "./App.jsx";
 
 // 初始化 Stripe
 const stripePromise = loadStripe(
