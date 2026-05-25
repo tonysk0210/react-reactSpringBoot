@@ -1,5 +1,4 @@
 import Header from "./components/Header";
-import Home from "./components/home/Home";
 import Footer from "./components/footer/Footer";
 
 import { Outlet } from "react-router-dom"; // 引入 Outlet 組件；Outlet 是 React Router 中的一個組件，用於在父路由中渲染子路由的內容

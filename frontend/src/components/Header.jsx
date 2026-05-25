@@ -1,11 +1,12 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // 引入 FontAwesomeIcon 組件
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faShoppingCart,
   faNoteSticky,
   faSun,
   faMoon,
   faAngleDown,
-} from "@fortawesome/free-solid-svg-icons"; // 匯入 實際的 icon 定義（資料物件; 有 @ 的 import → 來自「npm 套件（node_modules）」
+} from "@fortawesome/free-solid-svg-icons";
+
 import { useState, useEffect, useRef } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom"; // 引入 Link 和 NavLink 組件；
 import { toast } from "react-toastify";
@@ -113,14 +114,11 @@ export default function Header() {
   return (
     <header className="header border-gray-300 dark:border-gray-600 bg-normalbg dark:bg-darkbg">
       <div className="container">
-        {/* logo 是一個連結，點擊後會導向首頁（"/"） */}
+        {/* Logo 導向（"/"） */}
         <Link to="/" className={`link ${DarkModeClass}`}>
           <FontAwesomeIcon icon={faNoteSticky} className="fa-icon" />
-          {/* 使用 React Component：FontAwesomeIcon; 傳入 props：icon={faTags} → 指定要顯示哪個 icon */}
           <span className="brand-title">React 貼紙商城</span>
         </Link>
-
-        {/* navbar 是一個導航欄，包含多個連結，分別導向不同的頁面（"/", "/about", "/contact", "/login", "/cart"） */}
         <nav className="myNav">
           {/* Theme 切換按鈕，點擊後會觸發 toggleTheme 函式來切換主題（暗模式和亮模式） */}
           <div className="py-1.5 mx-3">
@@ -138,19 +136,19 @@ export default function Header() {
 
           <ul>
             <li>
-              {/* home 導向（"/"） */}
+              {/* 首頁 導向（"/"） */}
               <NavLink to="/" className={getNavLinkClass}>
                 首頁
               </NavLink>
             </li>
             <li>
-              {/* about 導向（"/about"） */}
+              {/* 關於我們 導向（"/about"） */}
               <NavLink to="/about" className={getNavLinkClass}>
                 關於我們
               </NavLink>
             </li>
             <li>
-              {/* contact 導向（"/contact"） */}
+              {/* 聯絡我們 導向（"/contact"） */}
               <NavLink to="/contact" className={getNavLinkClass}>
                 聯絡我們
               </NavLink>
@@ -261,7 +259,7 @@ export default function Header() {
               )}
             </li>
             <li>
-              {/* cart 導向（"/cart"） */}
+              {/* 購物車 導向（"/cart"） */}
               <NavLink
                 to="/cart"
                 className={`navLink ${DarkModeClass} relative text-brand py-2`}
@@ -271,7 +269,7 @@ export default function Header() {
                   size="lg"
                   className="text-brand dark:text-light w-6"
                 />
-                {/* 使用 FontAwesomeIcon 組件 */}
+
                 <div className="absolute -top-2 -right-6 text-xs bg-yellow-400 text-black font-semibold rounded-full px-2 py-1 leading-none">
                   {totalQuantity}
                 </div>

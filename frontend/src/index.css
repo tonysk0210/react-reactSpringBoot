@@ -20,7 +20,7 @@
    :where(.dark, .dark *) = 1️⃣ 元素本身有 class="dark" 2️⃣ 元素在某個 class="dark" 裡面*/
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* vanilla css 全局樣式，設定字體、背景色、文字顏色等基本樣式 */
+/* 宣告全局 CSS variables / CSS custom properties */
 :root {
   --primary-color: #5b21b6;
   --hover-color: #9668db;
