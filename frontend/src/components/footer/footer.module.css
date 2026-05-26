@@ -13,10 +13,6 @@
   transition: color 0.3s;
 }
 
-.footer a:hover {
-  /* color: #1a202c; */
-}
-
 .footer-icon {
   color: #dc2626;
   margin: 0 0.25rem;
