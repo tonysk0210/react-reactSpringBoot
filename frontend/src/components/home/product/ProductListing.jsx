@@ -56,7 +56,6 @@ export default function ProductListing({ products }) {
 
   return (
     <div className="product-listings-container">
-      {/* 搜尋和排序區域，使用 Tailwind CSS 的類來定義佈局和間距 */}
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-12">
         {/* 1. 載入 SearchBox 組件，並傳遞相關的 props，包括 label、placeholder、value 和 handleSearch。 */}
         <SearchBox
@@ -77,21 +76,14 @@ export default function ProductListing({ products }) {
         />
       </div>
 
-      {/* 3. 產品列表區域，使用 Tailwind CSS 的類來定義網格佈局和間距 */}
+      {/* 3. 產品列表區域 */}
       <div className="product-listings-grid">
-        {/* 檢查 products 陣列是否有資料 */}
+        {/* 檢查 filteredAndSortedProducts 陣列是否有資料，如果有則渲染 ProductCard 組件，否則顯示提示訊息 */}
         {filteredAndSortedProducts.length > 0 ? (
-          filteredAndSortedProducts.map(
-            // 使用 map 方法來遍歷 products 陣列
-            (p) => (
-              <ProductCard key={p.id} product={p} />
-              // 為每個產品渲染一個 ProductCard 元件。
-              // key 屬性使用 → p.productId，確保每個 ProductCard 都有一個獨特的識別符。
-              // key 是給 React 用來追蹤元素的變化，不是給子組件使用的 props，所以不會傳遞給 ProductCard 組件。
-            ),
-          )
+          filteredAndSortedProducts.map((p) => (
+            <ProductCard key={p.id} product={p} /> // key 是給 React 用來追蹤元素的變化，不是給子組件使用的 props，所以不會傳遞給 ProductCard 組件。
+          ))
         ) : (
-          // 如果 products 陣列是空的，顯示提示訊息
           <p className="product-listings-empty text-brand dark:text-lights">
             尚未有產品上架！
           </p>

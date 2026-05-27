@@ -83,7 +83,7 @@ export default function Home() {
         {/* children 就是標籤之間的內容 */}
       </PageHeading>
 
-      {/* 產品列表 */}
+      {/* 產品列表 component 帶入 products array 需要從後端 API 獲取 */}
       <ProductListing products={products} />
     </div>
   );

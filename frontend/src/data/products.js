@@ -1,5 +1,8 @@
 // Product data array
 
+const stickerPath = (fileName) =>
+  `${import.meta.env.BASE_URL}stickers/${fileName}`;
+
 const products = [
   {
     id: 1,
@@ -7,7 +10,7 @@ const products = [
     description: "Code Wizard!",
     price: 5.0,
     popularity: "85",
-    imageUrl: "/stickers/developer.png", // 產品圖片網址，指向 public/stickers
+    imageUrl: stickerPath("developer.png"), // 產品圖片網址，指向 public/stickers
   },
   {
     id: 2,
@@ -15,7 +18,7 @@ const products = [
     description: "Hey, lets take a breather and start fresh on the next line",
     price: 4.5,
     popularity: "40",
-    imageUrl: "/stickers/break.png",
+    imageUrl: stickerPath("break.png"),
   },
   {
     id: 3,
@@ -23,7 +26,7 @@ const products = [
     description: "It's a surprise functionality.",
     price: 6.0,
     popularity: "98",
-    imageUrl: "/stickers/itsnotabug.png",
+    imageUrl: stickerPath("itsnotabug.png"),
   },
   {
     id: 4,
@@ -31,7 +34,7 @@ const products = [
     description: "They exist!",
     price: 5.0,
     popularity: "72",
-    imageUrl: "/stickers/EatSleepCode.png",
+    imageUrl: stickerPath("EatSleepCode.png"),
   },
   {
     id: 5,
@@ -39,7 +42,7 @@ const products = [
     description: "Fearless developer!",
     price: 7.5,
     popularity: "88",
-    imageUrl: "/stickers/BreakingCode.png",
+    imageUrl: stickerPath("BreakingCode.png"),
   },
   {
     id: 6,
@@ -47,7 +50,7 @@ const products = [
     description: "Without you, I'm incomplete!",
     price: 2.0,
     popularity: "79",
-    imageUrl: "/stickers/youaremycss.png",
+    imageUrl: stickerPath("youaremycss.png"),
   },
   {
     id: 7,
@@ -55,7 +58,7 @@ const products = [
     description: "Phenomenal!",
     price: 8.0,
     popularity: "55",
-    imageUrl: "/stickers/Mbappe.png",
+    imageUrl: stickerPath("Mbappe.png"),
   },
   {
     id: 8,
@@ -63,7 +66,7 @@ const products = [
     description: "Cool for gravity!",
     price: 3.0,
     popularity: "52",
-    imageUrl: "/stickers/CoolAstraunaut.png",
+    imageUrl: stickerPath("CoolAstraunaut.png"),
   },
   {
     id: 9,
@@ -71,7 +74,7 @@ const products = [
     description: "Legendary!",
     price: 8.0,
     popularity: "100",
-    imageUrl: "/stickers/ronaldo.png",
+    imageUrl: stickerPath("ronaldo.png"),
   },
   {
     id: 10,
@@ -79,7 +82,7 @@ const products = [
     description: "They exist!",
     price: 5.0,
     popularity: "65",
-    imageUrl: "/stickers/MyDrivingScaresMeToo.png",
+    imageUrl: stickerPath("MyDrivingScaresMeToo.png"),
   },
   {
     id: 11,
@@ -87,7 +90,7 @@ const products = [
     description: "Targaryen dynasty strength",
     price: 9.0,
     popularity: "98",
-    imageUrl: "/stickers/HouseOfTheDragonSymbol.png",
+    imageUrl: stickerPath("HouseOfTheDragonSymbol.png"),
   },
   {
     id: 12,
@@ -95,7 +98,7 @@ const products = [
     description: "Lets play",
     price: 5.0,
     popularity: "70",
-    imageUrl: "/stickers/SquidGame.png",
+    imageUrl: stickerPath("SquidGame.png"),
   },
   {
     id: 13,
@@ -103,7 +106,7 @@ const products = [
     description: "Mischievous!",
     price: 5.0,
     popularity: "70",
-    imageUrl: "/stickers/Shinchan.png",
+    imageUrl: stickerPath("Shinchan.png"),
   },
   {
     id: 14,
@@ -111,7 +114,7 @@ const products = [
     description: "Game over!",
     price: 5.0,
     popularity: "50",
-    imageUrl: "/stickers/GameOver.png",
+    imageUrl: stickerPath("GameOver.png"),
   },
   {
     id: 15,
@@ -119,7 +122,7 @@ const products = [
     description: "Magical!",
     price: 10.0,
     popularity: "99",
-    imageUrl: "/stickers/Messi.png",
+    imageUrl: stickerPath("Messi.png"),
   },
   {
     id: 16,
@@ -127,7 +130,7 @@ const products = [
     description: "King",
     price: 9.0,
     popularity: "99",
-    imageUrl: "/stickers/Virat.png",
+    imageUrl: stickerPath("Virat.png"),
   },
   {
     id: 17,
@@ -135,7 +138,7 @@ const products = [
     description: "Not Today",
     price: 6.0,
     popularity: "60",
-    imageUrl: "/stickers/LazyCat.png",
+    imageUrl: stickerPath("LazyCat.png"),
   },
   {
     id: 18,
@@ -143,7 +146,7 @@ const products = [
     description: "Overthinker!",
     price: 4.0,
     popularity: "50",
-    imageUrl: "/stickers/OverThinker.png",
+    imageUrl: stickerPath("OverThinker.png"),
   },
   {
     id: 19,
@@ -151,7 +154,7 @@ const products = [
     description: "Ninja!",
     price: 6.0,
     popularity: "60",
-    imageUrl: "/stickers/Naruto.png",
+    imageUrl: stickerPath("Naruto.png"),
   },
   {
     id: 20,
@@ -159,7 +162,7 @@ const products = [
     description: "Warrior!",
     price: 6.0,
     popularity: "60",
-    imageUrl: "/stickers/Goku.png",
+    imageUrl: stickerPath("Goku.png"),
   },
   {
     id: 21,
@@ -167,7 +170,7 @@ const products = [
     description: "Persistent!",
     price: 6.0,
     popularity: "60",
-    imageUrl: "/stickers/IamOkay.png",
+    imageUrl: stickerPath("IamOkay.png"),
   },
   {
     id: 22,
@@ -175,7 +178,7 @@ const products = [
     description: "Disapproval!",
     price: 6.0,
     popularity: "60",
-    imageUrl: "/stickers/Boo.png",
+    imageUrl: stickerPath("Boo.png"),
   },
   {
     id: 23,
@@ -183,7 +186,7 @@ const products = [
     description: "Disgust!",
     price: 6.0,
     popularity: "60",
-    imageUrl: "/stickers/EwFeelings.png",
+    imageUrl: stickerPath("EwFeelings.png"),
   },
   {
     id: 24,
@@ -191,7 +194,7 @@ const products = [
     description: "Unleashed!",
     price: 6.0,
     popularity: "60",
-    imageUrl: "/stickers/BeWild.png",
+    imageUrl: stickerPath("BeWild.png"),
   },
   {
     id: 25,
@@ -199,7 +202,7 @@ const products = [
     description: "Heatwave Whiskers",
     price: 6.0,
     popularity: "60",
-    imageUrl: "/stickers/AestheticSummerCat.png",
+    imageUrl: stickerPath("AestheticSummerCat.png"),
   },
   {
     id: 26,
@@ -207,7 +210,7 @@ const products = [
     description: "Your opinion means nothing",
     price: 6.0,
     popularity: "60",
-    imageUrl: "/stickers/YourOpinonMeansNothing.png",
+    imageUrl: stickerPath("YourOpinonMeansNothing.png"),
   },
   {
     id: 27,
@@ -215,7 +218,7 @@ const products = [
     description: "Awkward and Weird",
     price: 6.0,
     popularity: "60",
-    imageUrl: "/stickers/SociallyAwkward.png",
+    imageUrl: stickerPath("SociallyAwkward.png"),
   },
   {
     id: 28,
@@ -223,7 +226,7 @@ const products = [
     description: "Gracewing",
     price: 6.0,
     popularity: "60",
-    imageUrl: "/stickers/Butterfly.png",
+    imageUrl: stickerPath("Butterfly.png"),
   },
   {
     id: 29,
@@ -231,7 +234,7 @@ const products = [
     description: "Always ready to take charge!",
     price: 6.0,
     popularity: "60",
-    imageUrl: "/stickers/IWon_tHesitateSticker.png",
+    imageUrl: stickerPath("IWon_tHesitateSticker.png"),
   },
   {
     id: 30,
@@ -239,7 +242,7 @@ const products = [
     description: "Protective power of the evil eye",
     price: 6.0,
     popularity: "60",
-    imageUrl: "/stickers/EvilEye.png",
+    imageUrl: stickerPath("EvilEye.png"),
   },
 ];
 
