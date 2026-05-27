@@ -4,8 +4,6 @@ import ProductListing from "./product/ProductListing";
 // import products from "../../data/products"; // 從 data/products.js 匯入產品資料
 import apiClient from "../../api/apiClient"; // 從 api/apiClient.js 匯入 API 客戶端
 
-import { useState, useEffect } from "react";
-
 import { useLoaderData } from "react-router-dom"; // 引入 useLoaderData hook；
 // 這個 hook 是 React Router 中用於在組件中獲取由 loader 函式加載的資料的 hook，當路由匹配到 Home 組件時，會調用 productsLoader 函式來獲取產品資料，然後在 Home 組件中使用 useLoaderData 來獲取這些資料並存儲在 products 變數中。
 
