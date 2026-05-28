@@ -1,8 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import tailwindcss from "@tailwindcss/vite";
-
-// https://vite.dev/config/
+import tailwindcss from "@tailwindcss/vite"; // 引入 Tailwind CSS 的 Vite 插件
 
 // 這是 Vite 的配置文件，類似於 Spring Boot 的 application.properties
 export default defineConfig({

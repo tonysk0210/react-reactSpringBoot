@@ -2,16 +2,15 @@
 
 @import "tailwindcss"; /* 引入 Tailwind CSS 的基礎樣式 */
 
-/* 自定義 Tailwind CSS 變數，這些變數可以在整個應用中使用，方便統一管理顏色、字體等樣式 */
+/* Theme variables - 自定義 Tailwind CSS 變數，這些變數可以在整個應用中使用，方便統一管理顏色、字體等樣式 */
 @theme {
-  --font-brand: "Josefin Sans"; /* brand = 定義一個品牌字體叫 brand，用 Josefin Sans */
-  --color-brand: #5b21b6; /* brand = 品牌主色是這個紫色 */
-  --color-dark: #4c1d95; /* dark = 深一點的紫色（可能用在 hover / 按鈕） */
-  --color-lighter: #f5f3ff; /* lighter = 比較淡的紫色（背景、卡片用） */
-  --color-light: #ddd6fe; /* light = 比較淡的紫色（背景、卡片用） */
-
-  --color-normalbg: #f3f4f6; /* normalbg = 一般背景色，這裡是淡灰色 */
-  --color-darkbg: #1e2939; /* darkbg = 深色背景，這裡是深藍灰色 */
+  --font-brand: "Josefin Sans";
+  --color-brand: #5b21b6;
+  --color-dark: #4c1d95;
+  --color-lighter: #f5f3ff;
+  --color-light: #ddd6fe;
+  --color-normalbg: #f3f4f6;
+  --color-darkbg: #1e2939;
 }
 
 /* 這是 Tailwind CSS 的自定義變體，允許在 dark 模式下應用樣式。
