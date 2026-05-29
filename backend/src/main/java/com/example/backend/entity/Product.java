@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @Table(name = "PRODUCTS")
 @NoArgsConstructor
 public class Product extends BaseEntity {
-    @Id // 代表這個欄位是主鍵
+    @Id // 這個欄位是主鍵
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 代表這個欄位的值會自動生成，使用資料庫的自增功能
     @Column(name = "PRODUCT_ID", nullable = false)
     private Long id;
