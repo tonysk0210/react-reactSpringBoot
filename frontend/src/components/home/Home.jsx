@@ -1,7 +1,6 @@
 import PageHeading from "./PageHeading";
 import ProductListing from "./product/ProductListing";
 
-// import products from "../../data/products"; // 從 data/products.js 匯入產品資料
 import apiClient from "../../api/apiClient"; // 從 api/apiClient.js 匯入 API 客戶端
 
 import { useLoaderData } from "react-router-dom"; // 引入 useLoaderData hook；

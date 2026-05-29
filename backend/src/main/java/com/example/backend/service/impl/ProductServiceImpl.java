@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor(onConstructor_ = @Autowired) // 只會產生一個包含 final 欄位的建構子，並且使用 @Autowired 來自動注入依賴
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepo productRepo;
