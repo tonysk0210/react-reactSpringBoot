@@ -8,11 +8,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { useState, useEffect, useRef } from "react";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom"; // 引入 Link 和 NavLink 組件；
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-
-// 這些組件是 React Router 中用於創建導航連結的組件，Link 用於一般的連結，
-// 而 NavLink 可以根據當前路由自動添加 active 類，以便進行樣式上的區分。
 
 // import { useContext } from "react"; // 引入 useContext hook；這個 hook 是 React 中用於在函式組件中訪問 Context 的 hook，Context 是 React 中用於在組件樹中傳遞數據的一種方式，可以讓你在組件之間共享數據，而不需要通過 props 一層一層地傳遞。
 // import { CartContext } from "../store/cart-context.jsx"; // 引入 CartContext；這個 Context 是用來在組件之間共享購物車狀態的，這樣就不需要通過 props 一層一層地傳遞購物車數據了。
@@ -39,10 +36,17 @@ const getNavLinkClass = ({ isActive }) =>
   }`;
 
 export default function Header() {
-  // 建立 theme 狀態，初始值從 localStorage 讀取，如果沒有則預設為 "light"
+  // 1. 定義一個狀態來存儲主題模式（暗模式或亮模式），初始值從 localStorage 讀取
   const [mode, setMode] = useState(() => {
-    return localStorage.getItem("mode") === "dark" ? "dark" : "light"; // 從 localStorage 讀取 mode 的值
+    return localStorage.getItem("mode") === "dark" ? "dark" : "light";
   });
+
+  // 1-1. 切換 mode 的值並將新的值存儲到 localStorage 中
+  const toggleMode = () => {
+    const newMode = mode === "light" ? "dark" : "light";
+    localStorage.setItem("mode", newMode);
+    setMode(newMode);
+  };
 
   // 用戶菜單狀態
   const [isUserMenuOpen, setUserMenuOpen] = useState(false);
@@ -58,16 +62,6 @@ export default function Header() {
 
   // 是否為管理員
   const isAdmin = user?.role?.includes("ROLE_ADMIN"); // 從 user 物件中取得 role 屬性，並檢查是否包含 "ROLE_ADMIN"
-
-  // toggleMode 函式用於切換主題模式（暗模式和亮模式）。當用戶點擊切換按鈕時，這個函式會被觸發，根據當前的 mode 狀態來切換到另一個模式，並將新的模式存儲到 localStorage 中，以便在頁面重新載入後保持用戶的選擇。
-  const toggleMode = () => {
-    setMode((prevMode) => {
-      // 使用 setMode 更新 mode 狀態，prevMode 是當前的 mode 狀態
-      const newMode = prevMode === "light" ? "dark" : "light"; // 根據當前模式切換到另一個模式
-      localStorage.setItem("mode", newMode); // 將新的模式存儲到 localStorage 中
-      return newMode; // 更新狀態為新的模式
-    });
-  };
 
   // 切換管理員菜單
   const toggleAdminMenu = () => {
@@ -86,11 +80,12 @@ export default function Header() {
     navigate("/home");
   };
 
-  // 監聽 theme 狀態的變化，當 theme 改變時更新 document.documentElement 的 class 列表，以切換主題樣式。
-  // 當第一次渲染組件時，useEffect 會檢查 mode 的值，如果是 "dark"，就會在 <html> 元素上添加 "dark" 類，這樣 Tailwind CSS 的暗模式樣式就會生效；如果 mode 是 "light"，則會移除 "dark" 類。
+  // 使用 useEffect 來監聽 mode 和 location.pathname 的變化，當這些值改變時，執行相應的副作用
   useEffect(() => {
+    // 1-3. 根據 mode 的值來添加或移除 "dark" 類，這樣 Tailwind CSS 的暗模式樣式就會生效
     if (mode === "dark") {
-      document.documentElement.classList.add("dark"); // 如果 theme 是 "dark"，就添加 "dark" 類到 <html> 元素，這樣 Tailwind CSS 的 dark 模式樣式就會生效
+      // document.documentElement 代表 HTML 根元素，classList 是一個 DOMTokenList，提供了操作元素類名的方法。add("dark") 是將 "dark" 類添加到 HTML 根元素的 class 列表中，這樣 Tailwind CSS 的暗模式樣式就會生效。
+      document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
     }
@@ -114,13 +109,13 @@ export default function Header() {
   return (
     <header className="header border-gray-300 dark:border-gray-600 bg-normalbg dark:bg-darkbg">
       <div className="container">
-        {/* Logo 導向（"/"） */}
+        {/* 1. Logo 導向（"/"） */}
         <Link to="/" className={`link ${DarkModeClass}`}>
           <FontAwesomeIcon icon={faNoteSticky} className="fa-icon" />
           <span className="brand-title">React 貼紙商城</span>
         </Link>
         <nav className="myNav">
-          {/* Theme 切換按鈕，點擊後會觸發 toggleTheme 函式來切換主題（暗模式和亮模式） */}
+          {/* 2. DarkMode 切換按鈕，點擊後會觸發 toggleTheme 函式來切換主題（暗模式和亮模式） */}
           <div className="py-1.5 mx-3">
             <button
               className="flex items-center justify-center mx-3 w-7 h-7 rounded-full border border-brand dark:border-light transition duration-300 hover:bg-gray-300 dark:hover:bg-gray-600"

@@ -13,7 +13,7 @@ export default function ProductListing({ products }) {
 
   // 2. 定義一個名為 filteredAndSortedProducts 的變量。使用 useMemo 來優化性能，只有當 searchText、sortValue 或 products 發生變化時才會重新計算 filteredAndSortedProducts 的值。
   const filteredAndSortedProducts = useMemo(() => {
-    // 2.1 先根據 searchText 的值來過濾 products 陣列中的產品。
+    // 2-1 先根據 searchText 的值來過濾 products 陣列中的產品。
     const filteredProducts = (products ?? []).filter((p) => {
       // products ?? [] 這個表達式會回傳 products 本身；只有當 products 是 null 或 undefined 時，才會回傳 []。
       return (
@@ -22,7 +22,7 @@ export default function ProductListing({ products }) {
       );
     });
 
-    // 2.2 接著根據 sortValue 的值來對過濾後的產品進行排序。slice() 是用來創建一個新的陣列副本
+    // 2-2 接著根據 sortValue 的值來對過濾後的產品進行排序。slice() 是用來創建一個新的陣列副本
     return filteredProducts.slice().sort((p1, p2) => {
       // 根據 sortValue 的值來決定排序方式
       switch (sortValue) {

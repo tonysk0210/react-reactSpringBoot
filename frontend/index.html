@@ -6,9 +6,21 @@
     <title>frontend</title>
   </head>
   <body>
-    <!-- 這裡的 class 是使用 Tailwind CSS 的暗模式功能來設定背景顏色。 -->
+    <!-- 根據 Tailwind CSS 的暗模式設定，當 html 元素有 dark 類時，bg-darkbg 會生效，否則 bg-normalbg 會生效。 -->
     <div id="root" class="bg-normalbg dark:bg-darkbg"></div>
     <!-- 瀏覽器載入 index.html 後，會去執行：/src/main.jsx 也就是 React 的入口檔案。 -->
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
+
+<!-- 
+.bg-normalbg {
+  background-color: lightgray;
+}
+
+.dark .bg-darkbg {
+  background-color: darkgray;
+}
+
+dark:bg-darkbg 會贏，主要是因為 Tailwind 產生的 dark variant 規則在 cascade 裡會覆蓋一般 utility。
+-->

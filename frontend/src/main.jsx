@@ -18,7 +18,7 @@ import {
   RouterProvider,
   createRoutesFromElements,
   Route,
-} from "react-router-dom"; // 引入 React Router 的相關函式和組件
+} from "react-router-dom";
 
 // 引入各個頁面的組件；這些組件會在路由匹配時被渲染出來
 import Home from "./components/home/Home";

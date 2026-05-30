@@ -460,3 +460,6 @@ Consider defining a bean of type 'com.example.backend.dto.ContactInfoDto' in you
 2026-05-30T10:37:18.892+08:00  INFO 21088 --- [backend] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2026-05-30T10:37:18.895+08:00  INFO 21088 --- [backend] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
 2026-05-30T13:11:23.109+08:00  WARN 21088 --- [backend] [HikariPool-11:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-11 - Thread starvation or clock leap detected (housekeeper delta=8m46s696ms515µs500ns).
+2026-05-30T15:36:55.637+08:00  WARN 21088 --- [backend] [HikariPool-11:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-11 - Thread starvation or clock leap detected (housekeeper delta=50m32s378ms617µs900ns).
+2026-05-30T18:02:11.200+08:00  WARN 21088 --- [backend] [HikariPool-11:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-11 - Thread starvation or clock leap detected (housekeeper delta=1h15m45s462ms196µs800ns).
+2026-05-30T18:15:18.477+08:00  WARN 21088 --- [backend] [http-nio-8080-exec-3] c.e.b.security.JWTTokenValidatorFilter   : JWT Token 已過期: JWT expired 158893474 milliseconds ago at 2026-05-28T14:07:05.000Z. Current time: 2026-05-30T10:15:18.474Z. Allowed clock skew: 0 milliseconds.
