@@ -1,14 +1,16 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
+// 1. 建立一個 Axios 實例，設定 baseURL、timeout、headers 等預設值
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL, // 從環境變數讀取 API 基礎 URL; meta.env 是 Vite 提供的方式來讀取環境變數
-  timeout: 10000, // 10 秒 timeout
+  // import.meta.env 是 Vite 提供的環境變數存取方式，VITE_ 開頭的變數會被 Vite 注入到前端程式碼中
+  baseURL: import.meta.env.VITE_API_BASE_URL, // 從環境變數讀取 API 基礎 URL
+  timeout: 10000, // request 最多等 10 秒
   headers: {
-    "Content-Type": "application/json", // 設定請求頭為 JSON 格式；我傳給後端的資料格式是 JSON
-    Accept: "application/json", // 設定回應頭為 JSON 格式；我想要後端回傳的資料格式是 JSON
+    "Content-Type": "application/json", // 傳給後端的資料格式是 JSON
+    Accept: "application/json", // 後端回傳的資料格式是 JSON
   },
-  withCredentials: true, // 啟用 Axios 的 withCredentials 設定
+  withCredentials: true, // 允許 browser 在跨網域 request 時帶上 credentials（cookies、HTTP auth 等）
 });
 
 // 註冊一個 request interceptor

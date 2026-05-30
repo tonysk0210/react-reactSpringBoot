@@ -1,7 +1,7 @@
 import PageHeading from "./PageHeading";
 import ProductListing from "./product/ProductListing";
 
-import apiClient from "../../api/apiClient"; // 從 api/apiClient.js 匯入 API 客戶端
+import apiClient from "../../api/apiClient";
 
 import { useLoaderData } from "react-router-dom"; // 引入 useLoaderData hook；
 // 這個 hook 是 React Router 中用於在組件中獲取由 loader 函式加載的資料的 hook，當路由匹配到 Home 組件時，會調用 productsLoader 函式來獲取產品資料，然後在 Home 組件中使用 useLoaderData 來獲取這些資料並存儲在 products 變數中。
@@ -86,18 +86,25 @@ export default function Home() {
   );
 }
 
-// 定義一個 loader 函數，這個函數會在路由匹配到 Home 組件時被調用，用來預先獲取產品資料
+// 1. 定義 loader 函式 productsLoader；當路由匹配到 Home 時，React Router 會在 render Home 前先執行它取得產品資料。
 export async function productsLoader({ params, request }) {
   try {
-    const response = await apiClient.get("/products"); // Axios GET Request
-    return response.data;
+    const response = await apiClient.get("/products"); // 從後端 API 的 /products 端點獲取產品資料
+    return response.data; // 1.1. React Router 會把這個 return 值提供給 Home，Home 再用 useLoaderData() 取得
   } catch (error) {
+    // 這裡的 error 是 apiClient.get(...) 這個 Promise rejected 後，由 await 丟出的 Axios error
+
+    // 1.2. React Router 會捕捉 loader throw 出來的 Response，並讓 ErrorPage 透過 useRouteError() 取得
     throw new Response(
-      error.response?.data?.errorMessage || // 從後端錯誤響應中提取錯誤消息，如果沒有則使用 Axios error 物件中的 message 屬性，如果還沒有則使用一個默認的錯誤消息 "無法獲取產品資料，請稍後再試。"
-        error.message ||
+      error.response?.data?.errorMessage || // 後端 ExceptionResponseDto 回傳的錯誤訊息
+        error.message || // Axios error object 自己的錯誤訊息
         "無法獲取產品資料，請稍後再試。",
-      { status: error.response?.status || error.status || 500 },
-    ); // useRouterError 會接住這個 Response，並將其轉換成 routeError，然後在 ErrorPage 組件中使用 useRouteError 來獲取這些錯誤信息並顯示給用戶。
+      {
+        status:
+          error.response?.status || // Axios 從後端 HTTP response 讀到的數字 status code
+          500,
+      },
+    );
   }
 }
 
