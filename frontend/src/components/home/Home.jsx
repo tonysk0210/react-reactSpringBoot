@@ -108,42 +108,6 @@ export async function productsLoader({ params, request }) {
   }
 }
 
-// Spring Boot 後端
-//    ↓
-// HTTP 錯誤回應
-//    ↓
-// Axios 包裝成 error 物件
-//    ↓
-// loader catch 到 error
-//    ↓
-// throw new Response(...)
-//    ↓
-// React Router 接住並轉成 routeError
-//    ↓
-// ErrorPage 用 useRouteError() 顯示
-
-// 1. 如果你沒有自訂全域錯誤格式，Spring Boot 常見會回這種預設錯誤 JSON：
-// {
-//   "timestamp": "2026-04-19T12:00:00",
-//   "status": 500,
-//   "error": "Internal Server Error",
-//   "path": "/products"
-// }
-
-// 2. Axios：把 HTTP 錯誤包成 error 物件。因為後端回 500，Axios 不會進 try 的 return response.data，而是直接丟到 catch
-// error = {
-//   message: "Request failed with status code 500",　　　　　　　// Axios 自己產生的技術訊息
-//   response: {
-//     status: 500,
-//     data: {                                                   // 後端回傳的 body
-//       timestamp: "2026-04-19T12:00:00",
-//       status: 500,
-//       error: "Internal Server Error",
-//       path: "/products"
-//     }
-//   }
-// }
-
 // 3 Loader：把 Axios error 轉成 Response error
 // throw new Response(
 //   "無法獲取產品資料，請稍後再試。",                               // routeError.data - 第一個參數 body

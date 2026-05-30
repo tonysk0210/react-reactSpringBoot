@@ -201,3 +201,24 @@ createRoot(document.getElementById("root")).render(
     </Elements>
   </StrictMode>,
 );
+
+/**
+ * 
+StrictMode 在 development 會故意多做一次 mount/render/effect cycle 來檢查 side effects。
+
+mount
+↓
+render
+↓
+commit
+↓
+effect
+↓
+cleanup (fake unmount)
+↓
+render again
+↓
+commit again
+↓
+effect again
+ */
