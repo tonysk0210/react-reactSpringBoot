@@ -13,6 +13,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
 
+// 引入 React Router 的相關函式和組件
 import {
   createBrowserRouter,
   RouterProvider,
@@ -20,7 +21,7 @@ import {
   Route,
 } from "react-router-dom";
 
-// 引入各個頁面的組件；這些組件會在路由匹配時被渲染出來
+// 引入各個頁面的組件
 import Home from "./components/home/Home";
 import About from "./components/about/About";
 import Contact from "./components/contact/Contact";
@@ -37,18 +38,19 @@ import Message from "./components/login/admin/Message.jsx";
 import Register from "./components/login/Register.jsx";
 import OrderSuccess from "./components/cart/OrderSuccess.jsx";
 
-// 從 Home 組件中匯入 productsLoader 函式；這個函式是用來在路由匹配時加載產品資料的，會在 Home 組件中使用 useLoaderData hook來獲取這些資料。
+// 引入 loader functions；這些函式是用來在路由匹配時加載數據的，會在對應的組件中使用 useLoaderData hook 來獲取這些數據。
 import { productsLoader } from "./components/home/Home";
-import { profileLoader } from "./components/login/Profile"; // 從 Profile 組件中匯入 profileLoader 函式；這個函式是用來在路由匹配時加載用戶資料的，會在 Profile 組件中使用 useLoaderData hook 來獲取這些數據。
-import { ordersLoader } from "./components/login/Orders"; // 從 Orders 組件中匯入 ordersLoader 函式；這個函式是用來在路由匹配時加載訂單資料的，會在 Orders 組件中使用 useLoaderData hook 來獲取這些數據。
-import { orderManageLoader } from "./components/login/admin/OrderManage.jsx"; // 從 OrderManage 組件中匯入 adminOrdersLoader 函式；這個函式是用來在路由匹配時加載管理員訂單資料的，會在 OrderManage 組件中使用 useLoaderData hook 來獲取這些數據。
-import { messagesLoader } from "./components/login/admin/Message.jsx"; // 從 Message 組件中匯入 messagesLoader 函式；這個函式是用來在路由匹配時加載管理員消息資料的，會在 Message 組件中使用 useLoaderData hook 來獲取這些數據。
-import { contactLoader } from "./components/contact/Contact"; // 從 Contact 組件中匯入 contactLoader 函式；這個函式是用來在路由匹配時加載聯繫資料的，會在 Contact 組件中使用 useLoaderData hook 來獲取這些數據。
+import { profileLoader } from "./components/login/Profile";
+import { ordersLoader } from "./components/login/Orders";
+import { orderManageLoader } from "./components/login/admin/OrderManage.jsx";
+import { messagesLoader } from "./components/login/admin/Message.jsx";
+import { contactLoader } from "./components/contact/Contact";
 
-import { contactAction } from "./components/contact/Contact"; // 從 Contact 組件中匯入 contactAction 函式；這個函式是用來在表單提交時處理表單數據的，會在 Contact 組件中使用 useActionData hook 來獲取這些數據。
-import { loginAction } from "./components/login/Login"; // 從 Login 組件中匯入 loginAction 函式；這個函式是用來在表單提交時處理表單數據的，會在 Login 組件中使用 useActionData hook 來獲取這些數據。
-import { registerAction } from "./components/login/Register"; // 從 Register 組件中匯入 registerAction 函式；這個函式是用來在表單提交時處理表單數據的，會在 Register 組件中使用 useActionData hook 來獲取這些數據。
-import { profileAction } from "./components/login/Profile"; // 從 Profile 組件中匯入 profileAction 函式；這個函式是用來在表單提交時處理表單數據的，會在 Profile 組件中使用 useActionData hook 來獲取這些數據。
+// 引入 action functions；這些函式是用來在表單提交時處理數據的，會在對應的組件中使用 useActionData hook 來獲取這些數據。
+import { contactAction } from "./components/contact/Contact";
+import { loginAction } from "./components/login/Login";
+import { registerAction } from "./components/login/Register";
+import { profileAction } from "./components/login/Profile";
 
 // 引入 react-toastify 的 ToastContainer 組件和 Bounce 動畫效果；ToastContainer 是用來顯示 toast 通知的組件，Bounce 是一種動畫效果，可以讓 toast 通知以彈跳的方式出現和消失。
 import { ToastContainer, Bounce } from "react-toastify";
@@ -72,12 +74,13 @@ const stripePromise = loadStripe(
   "pk_test_51TVvD6FMVB3vMe2eBCgg8DEUVgDD6dvffycHPSCh41qeoDWzY77pDkoRw6KbVqwpxw176v2HyaciVBjYcoqdUtnT00N0NJf4oQ",
 );
 
-// 定義路由配置；這裡使用 createRoutesFromElements 函式來創建一個路由器，並且定義了路由的結構和對應的組件
+// ***** 定義路由配置 *****
+// 1-1. 把 JSX Route 寫法轉成 route config (整理路由設定)
 const routeDefinitions = createRoutesFromElements(
   <Route path="/" element={<App />} errorElement={<ErrorPage />}>
-    {/* 定義一個路由，當路由匹配到 "/" 時，會渲染 App 組件；如果路由匹配失敗，會渲染 ErrorPage 組件 */}
+    {/* errorElement : 這個父路由底下如果發生「路由錯誤」，就不要正常渲染 <App />，改渲染 <ErrorPage /> */}
     <Route index element={<Home />} loader={productsLoader} />
-    {/* loader={productsLoader} 是 React Router 中用於在路由匹配時加載資料的函式，這個函式會在路由匹配到 "/" 時被調用，用於獲取產品資料，並且在 Home 組件中使用 useLoaderData 鉤子來獲取這些資料。 */}
+    {/* index : 當路由匹配到 "/" 時，會渲染 Home 組件 */}
     <Route path="/home" element={<Home />} loader={productsLoader} />
     <Route path="/about" element={<About />} />
     <Route
@@ -86,11 +89,10 @@ const routeDefinitions = createRoutesFromElements(
       action={contactAction}
       loader={contactLoader}
     />
-    {/* action={contactAction} 是 React Router 中用於在表單提交時處理表單數據的函式，這個函式會在 Contact 組件中的 Form 組件提交時被調用，用於處理表單數據，並且在 Contact 組件中使用 useActionData 鉤子來獲取這些數據。 */}
     <Route path="/login" element={<Login />} action={loginAction} />
     <Route path="/cart" element={<Cart />} />
     <Route path="/products/:productId" element={<ProductDetail />} />
-    {/* 當路由匹配到 "/products/:productId" 時，會渲染 ProductDetail 組件；:productId 是一個動態路由參數，可以在 ProductDetail 組件中使用 useParams hook 來獲取這個參數的值。 */}
+    {/* :productId : 是一個動態路由參數，可以在 ProductDetail 組件中使用 useParams hook 來獲取這個參數的值。 */}
     <Route path="/register" element={<Register />} action={registerAction} />
 
     {/* 需要登入才能訪問的路由 */}
@@ -124,42 +126,8 @@ const routeDefinitions = createRoutesFromElements(
   </Route>,
 );
 
-const appRouter = createBrowserRouter(routeDefinitions); // 使用 createBrowserRouter 函式來創建一個路由器，並且將 routeDefinitions 傳入作為路由配置
-
-// 定義路由配置；這裡使用 createBrowserRouter 函式來創建一個路由器，並且定義了路由的結構和對應的組件
-// const appRouter = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: <App />,
-//     errorElement: <ErrorPage />, // 當路由匹配失敗時，會渲染 ErrorPage 組件
-//     children: [
-//       {
-//         index: true, // index: true 表示這個路由是父路由的默認子路由，也就是當路由匹配到 "/" 時，會自動渲染 Home 組件
-//         element: <Home />,
-//       },
-//       {
-//         path: "/home",
-//         element: <Home />,
-//       },
-//       {
-//         path: "/about",
-//         element: <About />,
-//       },
-//       {
-//         path: "/contact",
-//         element: <Contact />,
-//       },
-//       {
-//         path: "/login",
-//         element: <Login />,
-//       },
-//       {
-//         path: "/cart",
-//         element: <Cart />,
-//       },
-//     ],
-//   },
-// ]);
+// 1-2. 用 route config 建立真正的 router 物件 (建立會運作的路由器)
+const appRouter = createBrowserRouter(routeDefinitions);
 
 // 定義購物車上下文的初始值，這裡是一個空對象，可以根據需要添加購物車的狀態和方法，例如：items、addItem、removeItem 等等
 // const initialCartContext = {
@@ -183,7 +151,7 @@ createRoot(document.getElementById("root")).render(
         {/* 使用 Provider 包裹 RouterProvider，這樣整個應用程式都能夠使用 Redux 的功能 */}
         <Provider store={store}>
           <RouterProvider router={appRouter} />
-          {/* 使用 RouterProvider 組件，將 appRouter 傳入 router 屬性，讓整個應用程式都能夠使用 React Router 的功能 */}
+          {/* 1-3. 把 router 掛進 React app，讓路由開始運作 (把路由器接到 React 畫面) */}
           {/* 這是 CartProvider 的 children，RouterProvider 組件會被渲染在 CartProvider 組件內部，這樣 RouterProvider 就可以訪問到 CartContext 中的值了。*/}
         </Provider>
       </AuthProvider>

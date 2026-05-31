@@ -24,9 +24,8 @@ public class ContactServiceImpl implements ContactService {
     @Override
     public boolean saveContact(ContactPayload contactPayload) {
         Contact contact = new Contact();
-        BeanUtils.copyProperties(contactPayload, contact); // 這行的作用是將 contactPayload 物件的屬性值複製到 contact 物件中。。
-        // contact.setCreatedAt(Instant.now()); // AuditorAware
-        // contact.setCreatedBy(contactPayload.getName()); // AuditorAware
+        // 1. 將 ContactPayload 轉換成 Contact
+        BeanUtils.copyProperties(contactPayload, contact);
 
         // 2. 設定狀態為 OPEN
         contact.setStatus(ApplicationConstants.OPEN_MESSAGE);

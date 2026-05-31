@@ -58,7 +58,6 @@ export default function Login() {
   return (
     <div className="min-h-213 flex items-center justify-center font-brand dark:bg-darkbg">
       <div className="bg-white dark:bg-gray-700 shadow-md rounded-lg max-w-md w-full px-8 py-6">
-        {/* Title */}
         <PageTitle title="登入" />
         {/* 表單 */}
         <Form method="post" className="space-y-6">

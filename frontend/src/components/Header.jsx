@@ -19,7 +19,7 @@ import { useAuth } from "../store/auth-context"; // 引入 useAuth custom hook�
 import { useSelector } from "react-redux"; // 引入 useSelector hook；這個 hook 是 React Redux 中用於在組件中訪問 Redux store 中的 state 的 hook，可以用來在組件中讀取 store 中的數據。
 import { selectTotalQuantity } from "../store/cart-slice"; // 引入 selectTotalQuantity 選擇器函式；這個函式是用來從 Redux store 中選擇購物車的總數量，可以用來在購物車圖示旁邊顯示一個徽章，提示用戶購物車中有多少件商品。
 
-// Tailwind CSS 的類，用於設定導航連結在暗模式下的樣式。
+// Tailwind CSS 的類，用於設定導航連結在暗模式下的 className 樣式。
 const DarkModeClass =
   "text-brand dark:text-light hover:text-dark dark:hover:text-lighter";
 const dropdownLinkClass =
@@ -27,9 +27,7 @@ const dropdownLinkClass =
 const menuClass =
   "text-center text-lg font-brand font-semibold text-brand py-2 hover:text-dark";
 
-// getNavLinkClass 函式用於根據 NavLink 的狀態（是否為當前路由）來動態生成 className 字串，
-// 這樣可以讓當前路由的連結有不同的樣式（例如：字體加粗和下劃線）。
-// NavLinkRenderProps 有兩個屬性：isActive（布林值，表示當前 NavLink 是否匹配當前路由）和 isPending（布林值，表示當前 NavLink 是否正在匹配過程中）。在這裡，我們只使用了 isActive 來決定是否添加特定的樣式類。
+// NavLink 的 className 可以傳入函式，這個函式會接收一個物件，裡面有一個屬性 isActive用來判斷是否加上目前頁面的樣式。
 const getNavLinkClass = ({ isActive }) =>
   `navLink ${DarkModeClass} py-2 ${
     isActive ? "underline decoration-2 underline-offset-4 font-bold" : ""
@@ -109,13 +107,13 @@ export default function Header() {
   return (
     <header className="header border-gray-300 dark:border-gray-600 bg-normalbg dark:bg-darkbg">
       <div className="container">
-        {/* 1. Logo 導向（"/"） */}
+        {/* Logo 導向（"/"） */}
         <Link to="/" className={`link ${DarkModeClass}`}>
           <FontAwesomeIcon icon={faNoteSticky} className="fa-icon" />
           <span className="brand-title">React 貼紙商城</span>
         </Link>
         <nav className="myNav">
-          {/* 2. DarkMode 切換按鈕，點擊後會觸發 toggleTheme 函式來切換主題（暗模式和亮模式） */}
+          {/* DarkMode 切換按鈕，點擊後會觸發 toggleTheme 函式來切換主題（暗模式和亮模式） */}
           <div className="py-1.5 mx-3">
             <button
               className="flex items-center justify-center mx-3 w-7 h-7 rounded-full border border-brand dark:border-light transition duration-300 hover:bg-gray-300 dark:hover:bg-gray-600"
@@ -132,7 +130,7 @@ export default function Header() {
           <ul>
             <li>
               {/* 首頁 導向（"/"） */}
-              <NavLink to="/" className={getNavLinkClass}>
+              <NavLink to="/home" className={getNavLinkClass}>
                 首頁
               </NavLink>
             </li>
@@ -149,7 +147,7 @@ export default function Header() {
               </NavLink>
             </li>
             <li className="flex items-center">
-              {/* 用戶菜單（如果已登入） */}
+              {/* 用戶菜單（如果已登入顯示菜單內容） */}
               {isAuthenticated ? (
                 <>
                   {/* userMenuRef 代表下拉選單的 DOM 元素 */}
@@ -187,7 +185,7 @@ export default function Header() {
                               我的訂單
                             </Link>
                           </li>
-                          {isAdmin && (
+                          {isAdmin && ( // 如果 isAdmin 為 true，則顯示管理者選單
                             <li>
                               <button
                                 onClick={toggleAdminMenu}
@@ -255,9 +253,9 @@ export default function Header() {
             </li>
             <li>
               {/* 購物車 導向（"/cart"） */}
-              <NavLink
+              <Link
                 to="/cart"
-                className={`navLink ${DarkModeClass} relative text-brand py-2`}
+                className={`navLink ${DarkModeClass} ${getNavLinkClass} relative text-brand py-2`}
               >
                 <FontAwesomeIcon
                   icon={faShoppingCart}
@@ -268,7 +266,7 @@ export default function Header() {
                 <div className="absolute -top-2 -right-6 text-xs bg-yellow-400 text-black font-semibold rounded-full px-2 py-1 leading-none">
                   {totalQuantity}
                 </div>
-              </NavLink>
+              </Link>
             </li>
           </ul>
         </nav>

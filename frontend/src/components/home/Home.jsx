@@ -1,77 +1,22 @@
 import PageHeading from "./PageHeading";
 import ProductListing from "./product/ProductListing";
-
 import apiClient from "../../api/apiClient";
-
-import { useLoaderData } from "react-router-dom"; // 引入 useLoaderData hook；
-// 這個 hook 是 React Router 中用於在組件中獲取由 loader 函式加載的資料的 hook，當路由匹配到 Home 組件時，會調用 productsLoader 函式來獲取產品資料，然後在 Home 組件中使用 useLoaderData 來獲取這些資料並存儲在 products 變數中。
-
-import { useLocation } from "react-router-dom"; // 引入 useLocation hook；
-// 這個 hook 是 React Router 中用於在組件中獲取當前路由的位置信息的 hook，當用戶從其他頁面導航到 Home 組件時，可以使用 useLocation 來獲取導航過程中傳遞的狀態，例如：username: "Anthony
+import { useLoaderData, useLocation } from "react-router-dom";
 
 export default function Home() {
-  // const [products, setProducts] = useState([]); // 定義一個狀態來存儲產品資料
-  // const [loading, setLoading] = useState(true); // 定義一個狀態來表示是否正在加載資料
-  // const [error, setError] = useState(null); // 定義一個狀態來表示是否發生錯誤
-
-  // // 定義一個函數來從後端 API 獲取產品資料
-  // const fetchProducts = async () => {
-  //   try {
-  //     setLoading(true); // 設置加載狀態為 true
-  //     const response = await apiClient.get("/products"); // 後端 API 的端點是 /products
-  //     setProducts(response.data); // 將獲取到的產品資料存儲到狀態中 }
-  //   } catch (err) {
-  //     console.error("獲取產品資料失敗:", err);
-  //     setError(err.response?.data?.message || "無法獲取產品資料，請稍後再試。"); //
-  //   } finally {
-  //     setLoading(false); // 設置加載狀態為 false
-  //   }
-  // };
-
-  // // 使用 useEffect 在組件掛載時獲取產品資料
-  // useEffect(() => {
-  //   fetchProducts(); // 在組件掛載時從後端 API 獲取產品資料 render 後會執行這個函數
-  // }, []); // 空依賴陣列表示只在組件掛載時執行一次
-
-  // // 1. 顯示加載狀態
-  // if (loading == true) {
-  //   return (
-  //     // 使用 Tailwind CSS 的類來居中顯示內容
-  //     <div className="flex items-center justify-center min-h-screen">
-  //       <span className="text-xl font-semibold text-purple-700 dark:text-light">
-  //         Loading 產品中...
-  //       </span>
-  //     </div>
-  //   );
-  // }
-
-  // // 2. 顯示錯誤訊息 if (value) 不是檢查 true/false，而是檢查 truthy / falsy。
-  // // 如果 error 是 null 或 undefined，這裡的 if 就不會進入，直接跳過到 return 的部分。
-  // if (error) {
-  //   return (
-  //     <div className="flex items-center justify-center min-h-screen">
-  //       <span className="text-xl font-semibold text-red-500">
-  //         Error: {error}
-  //       </span>
-  //     </div>
-  //   );
-  // }
-
-  // 從 useLoaderData 鉤子中獲取由 productsLoader 函式加載的產品資料，並存儲在 products 變數中。
+  // 2. useLoaderData() 來獲取 productsLoader return 的產品資料; 所有 Home 的子組件都可以用 useLoaderData() 來獲取這些資料。
   const products = useLoaderData();
 
-  const location = useLocation(); // 使用 useLocation hook 來獲取當前路由的位置信息，這個信息包含了導航過程中傳遞的狀態，例如：username: "Anthony"，可以在這裡使用 location.state 來獲取這些狀態並在 UI 上顯示出來。
-  // location = {
-  //   pathname: "/home",   // 路徑
-  //   search: "?q=abc",    // query string
-  //   hash: "#section1",   // hash
-  //   state: {...},        // 👈 你傳的東西
-  //   key: "abc123"        // 每次導航的唯一 id
-  // }
+  const location = useLocation(); // 使用 useLocation hook 來獲取當前路由的位置信息，這個信息包含了導航過程中傳遞的 state
+  /* location = {
+    pathname: "/home",   // 路徑
+    search: "?q=abc",    // query string
+    hash: "#section1",   // hash
+    state: {...},        // 👈 你傳的東西
+    key: "abc123"        // 每次導航的唯一 id
+  } */
+  console.log("Cart.jsx 「返回商品」回傳的 state", location.state); // 在控制台輸出當前路由的位置信息，這樣你就可以看到導航過程中傳遞的狀態，例如：username: "Anthony"，從而可以確認是否成功獲取到這些狀態。
 
-  console.log("Home 組件的 location:", location.state); // 在控制台輸出當前路由的位置信息，這樣你就可以看到導航過程中傳遞的狀態，例如：username: "Anthony"，從而可以確認是否成功獲取到這些狀態。
-
-  // 3. 正常顯示產品列表
   return (
     <div className="home-container">
       <PageHeading title="歡迎來到首頁！">
@@ -96,7 +41,7 @@ export async function productsLoader({ params, request }) {
 
     // 1.2. React Router 會捕捉 loader throw 出來的 Response，並讓 ErrorPage 透過 useRouteError() 取得
     throw new Response(
-      error.response?.data?.errorMessage || // 後端 ExceptionResponseDto 回傳的錯誤訊息
+      error.response?.data?.errorMessage || // 後端 ExceptionResponseDto 回傳的錯誤訊息 (GlobalExceptionHandler 裡面定義的 handleGlobalException() 會回傳一個 ExceptionResponseDto 物件，裡面有 errorMessage 屬性)
         error.message || // Axios error object 自己的錯誤訊息
         "無法獲取產品資料，請稍後再試。",
       {
@@ -107,35 +52,6 @@ export async function productsLoader({ params, request }) {
     );
   }
 }
-
-// 3 Loader：把 Axios error 轉成 Response error
-// throw new Response(
-//   "無法獲取產品資料，請稍後再試。",                               // routeError.data - 第一個參數 body
-//   { status: 500 }                                              // routeError.status - status
-// );
-
-//***
-// new Response(body, { status })
-// ↓
-// Response {
-//   body: error.response?.data || "無法獲取產品資料，請稍後再試。"                ← 你給的
-//   status: error.response?.status || 500                                      ← 你給的
-//   statusText: 自動補                                                         ← 瀏覽器
-// }
-// ↓
-// routeError {
-//   data: body
-//   status: status
-//   statusText: statusText
-// }
-//***
-
-// 4. React Router：接住 Response，轉成 routeError
-// routeError = {
-//   status: error.response?.status || 500,
-//   statusText: "Internal Server Error",
-//   data: error.response?.data || "無法獲取產品資料，請稍後再試。"
-// }
 
 // Response.body → routeError.data
 // Response.status → routeError.status

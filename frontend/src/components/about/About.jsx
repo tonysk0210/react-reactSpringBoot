@@ -13,21 +13,19 @@ export default function About() {
         <span className="text-lg font-semibold text-brand dark:text-light">
           貼紙商城
         </span>{" "}
-        由
+        由{" "}
         <span className="text-lg font-semibold text-brand dark:text-light">
-          Designs by Anthony
+          Designs by Anthony{" "}
         </span>
         旗下的創意品牌，我們一心想把那些最熱門、大家最想要的貼紙和海報帶給各位！
       </p>
 
-      {/* 為何選擇我們? */}
       <h2 className="text-2xl leading-8 font-bold text-brand dark:text-light mb-6">
         為何選擇我們?
       </h2>
 
       {/* 特點 */}
       <div className="space-y-8">
-        {/* Feature: Premium Quality */}
         <div>
           <h3 className={h3Style}>優質選材</h3>
           <p className={pStyle}>
@@ -35,7 +33,6 @@ export default function About() {
           </p>
         </div>
 
-        {/* Feature: Product Innovation */}
         <div>
           <h3 className={h3Style}>產品創新</h3>
           <p className={pStyle}>
@@ -43,7 +40,6 @@ export default function About() {
           </p>
         </div>
 
-        {/* Feature: Excellent Service */}
         <div>
           <h3 className={h3Style}>卓越服務</h3>
           <p className={pStyle}>
@@ -51,7 +47,6 @@ export default function About() {
           </p>
         </div>
 
-        {/* Feature: Designs You’ll Love */}
         <div>
           <h3 className={h3Style}>精心設計</h3>
           <p className={pStyle}>

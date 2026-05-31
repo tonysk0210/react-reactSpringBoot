@@ -2,32 +2,47 @@ import React from "react";
 import Header from "./Header";
 import Footer from "./footer/Footer";
 import PageTitle from "./home/PageTitle";
-
 import errorImage from "../assets/util/error.png"; // 引入錯誤圖片；
 
 import { Link, useRouteError, isRouteErrorResponse } from "react-router-dom";
-// 引入 useRouteError 鉤子；這個鉤子是 React Router 中用於獲取路由錯誤信息的鉤子，當路由匹配失敗或發生錯誤時，可以使用這個鉤子來獲取錯誤的詳細信息，例如：錯誤狀態碼、錯誤消息等等。
 
 export default function ErrorPage() {
-  const routeError = useRouteError(); // 使用 useRouteError hook 來獲取當前路由的錯誤信息，這個錯誤信息會在路由匹配失敗或發生錯誤時被填充，包含了錯誤的狀態碼、錯誤消息等詳細信息，可以用來在錯誤頁面中顯示給用戶。
+  /**
+  會觸發 errorElement 的情況包含：
+  1. route loader 裡 throw error
+  2. route action 裡 throw error
+  3. route component render 時出錯
+  4. 使用者進入不存在的路由
+   */
+  const routeError = useRouteError(); // useRouteError 取得當前路由的錯誤資訊
+
   let errorTitle = "喔喔！發生錯誤了！";
   let errorMessage = "請稍後再試一次，或聯絡客服人員。";
 
-  // isRouteErrorResponse ===  true 包含 throw new Response() & URL 不存在
+  /**
+  isRouteErrorResponse(routeError) 回傳 true 的條件就是「被 throw 的是 new Response()」
+  → 通常有 status / statusText / data
+
+  routeError instanceof Error
+  → 通常有 message
+
+  ErrorPage 讀取	        來源
+  routeError.status	      new Response 的 status
+  routeError.data	        new Response 的第一個參數（body）
+  routeError.statusText	  new Response 的 statusText
+   */
   if (isRouteErrorResponse(routeError)) {
-    // Response 型錯誤（404/500）
-    errorTitle = routeError.status; // 錯誤狀態碼，例如：404、500 等等
-    errorMessage = routeError.data || routeError.statusText; // 錯誤消息，優先使用 data 屬性，如果沒有則使用 statusText 屬性
+    // throw new Response(...) 的錯誤
+    errorTitle = routeError.status || errorTitle; // 錯誤標題，通常是 404、500 這種 HTTP status code
+    errorMessage = routeError.data || errorMessage; // 錯誤信息，通常是後端 API 回傳的錯誤訊息，或者 HTTP statusText（例如：Not Found、Internal Server Error），如果都沒有就使用預設的錯誤訊息
   } else if (routeError instanceof Error) {
-    // Error 物件型錯誤（JS 錯誤）
-    errorMessage = routeError.message; // 錯誤消息，使用 Error 物件的 message 屬性
+    // throw new Error(...) 的錯誤
+    errorMessage = routeError.message || errorMessage; // 錯誤訊息，可以是 JavaScript Error 物件的 message 屬性，如果沒有就使用預設的錯誤訊息
   }
 
   return (
     <div className="flex flex-col min-h-245">
       <Header />
-
-      {/* Main Content */}
       <main className="grow">
         <div className="py-12 bg-normalbg dark:bg-darkbg font-primary">
           <div className="max-w-4xl mx-auto px-4">
@@ -51,8 +66,21 @@ export default function ErrorPage() {
           </div>
         </div>
       </main>
-
       <Footer />
     </div>
   );
 }
+
+/**
+ * 某個 route 的 loader / action / component 發生錯誤
+ * ↓
+ * throw new Response(...) 或 throw new Error(...)
+ * ↓
+ * React Router 捕捉錯誤
+ * ↓
+ * 找到最近的 errorElement
+ * ↓
+ * 渲染 <ErrorPage />
+ * ↓
+ * ErrorPage 裡用 useRouteError() 取得剛剛那個錯誤
+ */

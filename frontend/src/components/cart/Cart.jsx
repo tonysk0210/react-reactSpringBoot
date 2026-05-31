@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import PageTitle from "../home/PageTitle";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom"; // 引入 useNavigate hook；這個 hook 是 React Router 中用於在組件中進行導航的 hook，當用戶點擊返回商品按鈕時，會使用 useNavigate 來導航到 "/home" 路由，並且可以傳遞一些狀態，例如：username: "madan"，這些狀態可以在目標路由的組件中使用 useLocation hook 來獲取和使用。
+import { useNavigate } from "react-router-dom";
 import emptyCartImage from "../../assets/util/emptycart.png";
 import { useCart } from "../../store/cart-context"; // 引入 useCart custom hook；這個 hook 是用來在組件中訪問 CartContext 中的 totalQuantity 屬性，這個屬性表示購物車中商品的總數量，可以用來在購物車圖示旁邊顯示一個徽章，提示用戶購物車中有多少件商品。
 import CartTable from "./CartTable"; // 引入 CartTable 組件；這個組件是用來渲染購物車表格的，當購物車不是空的時候，會渲染購物車表格，當購物車是空的時候，會渲染空購物車提示和返回商品按鈕。
@@ -14,7 +14,7 @@ import {
 } from "../../store/cart-slice";
 
 export default function Cart() {
-  const navigate = useNavigate(); // 使用 useNavigate hook 來獲取導航函式，這個函式可以用來在組件中進行導航，例如：當用戶點擊返回商品按鈕時，可以使用 navigate("/home") 來導航到 "/home" 路由，並且可以傳遞一些狀態，例如：navigate("/home", { state: { username: "madan" } })，這些狀態可以在目標路由的組件中使用 useLocation hook 來獲取和使用。
+  const navigate = useNavigate(); // useNavigate 與 Link 的差別在可程式化導航且可以傳遞狀態
 
   const { isAuthenticated, user } = useAuth();
 
@@ -36,9 +36,9 @@ export default function Cart() {
   // 當購物車中商品的列表發生變化時，isCartEmpty 的值會變化，這樣可以避免重複計算，提高性能。
 
   const handleClick = () => {
-    navigate("/home", { state: { username: "Anthony" } });
-    // navigate(path, options) option: { replace: true" } 「不要記住現在這一頁」
-    // 當用戶點擊返回商品按鈕時，使用 navigate 函式來導航到 "/home" 路由，並且傳遞一個狀態object { username: "Anthony" }，這些狀態可以在目標路由的組件以及他的子組件中使用 useLocation hook 來獲取和使用。
+    navigate("/home", { state: { source: "useNavigate" } });
+    // navigate(path, options) option: { replace: true" } 「這次導航不要新增一筆瀏覽器歷史紀錄，而是取代目前這一筆 history entry。」
+    // 當用戶點擊返回商品按鈕時，使用 navigate 函式來導航到 "/home" 路由，並且傳遞一個狀態object { source: "useNavigate" }，這些狀態可以在目標路由的組件以及他的子組件中使用 useLocation hook 來獲取和使用。
   };
 
   return (
@@ -59,6 +59,7 @@ export default function Cart() {
               {/* Back to Products Button */}
               <Link
                 to="/home"
+                state={{ source: "Link" }}
                 className="py-2 px-4 bg-brand dark:bg-light text-white dark:text-black text-xl font-semibold rounded-sm flex justify-center items-center hover:bg-dark dark:hover:bg-lighter transition"
               >
                 返回商品
@@ -66,12 +67,12 @@ export default function Cart() {
               {/* Proceed to Checkout Button */}
               <Link
                 to={isAddressIncomplete ? "#" : "/checkout"} // 地址不完整時跳轉到當前頁面
-                className={`py-2 px-4 text-xl font-semibold rounded-sm flex justify-center items-center transition
-                                    ${
-                                      isAddressIncomplete
-                                        ? "bg-gray-400 cursor-not-allowed" // 地址不完整時禁用按鈕 所以按鈕會變灰色，滑鼠也會變成禁止符號，但可以按
-                                        : "bg-brand dark:bg-light hover:bg-dark dark:hover:bg-lighter"
-                                    } text-white dark:text-black`}
+                className={`py-2 px-4 text-xl font-semibold rounded-sm flex justify-center items-center transition 
+                   text-white dark:text-black ${
+                     isAddressIncomplete
+                       ? "bg-gray-400 cursor-not-allowed" // 地址不完整時禁用按鈕 所以按鈕會變灰色，滑鼠也會變成禁止符號，但可以按
+                       : "bg-brand dark:bg-light hover:bg-dark dark:hover:bg-lighter"
+                   }`}
                 onClick={(e) => {
                   if (isAddressIncomplete) {
                     e.preventDefault(); // 阻止跳轉到結帳頁面 不要跳轉頁面，多加層防止跳轉
@@ -94,7 +95,7 @@ export default function Cart() {
               className="max-w-75 mx-auto mb-6 dark:bg-light dark:rounded-md"
             />
             <button
-              onClick={handleClick} // 當用戶點擊返回商品按鈕時，會觸發 handleClick 函式，這個函式會使用 navigate 函式來導航到 "/home" 路由，並且傳遞一個狀態object { username: "madan" }，這些狀態可以在目標路由的組件中使用 useLocation hook 來獲取和使用。
+              onClick={handleClick} // 觸發 handleClick 函式來導航到 "/home" 路由，並且傳遞一個狀態 object { source: "useNavigate" }
               className="py-2 px-4 bg-brand dark:bg-light text-white dark:text-black text-xl font-semibold rounded-sm flex justify-center items-center hover:bg-dark dark:hover:bg-lighter transition"
             >
               返回商品
