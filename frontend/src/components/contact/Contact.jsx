@@ -122,7 +122,6 @@ export default function Contact() {
             )}
           </div>
 
-          {/* Email and mobile Row */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {/* Email Field */}
             <div>

@@ -1,40 +1,36 @@
-import { useParams, useLocation } from "react-router-dom"; // 從 react-router-dom 庫中引入 useParams 這個 Hook，用於獲取 URL 中的參數。
-// useLocation 這個 Hook 用於獲取當前路由的位置信息，包括 pathname、search、hash 和 state 等等，可以用來在組件中獲取導航過程中傳遞的狀態，例如：當用戶從產品列表頁面導航到產品詳細頁面時，可以使用 useLocation 來獲取傳遞過去的產品資料，從而在產品詳細頁面中顯示對應的產品資訊。
+import React, { useState, useRef } from "react";
+import { useParams, useLocation, useNavigate, Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowLeft,
   faShoppingCart,
-  faShoppingBasket,
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link, useNavigate } from "react-router-dom";
-import React, { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useRef } from "react";
 
 import { useCart } from "../../../store/cart-context"; // 引入 useCart custom hook；這個 hook 是用來在組件中訪問 CartContext 中的 addToCart 方法，這個方法用於將產品添加到購物車中，當用戶點擊「加入購物車」按鈕時，就會調用這個方法，並且將當前的產品作為參數傳入，從而將產品添加到購物車中。
-
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../../store/cart-slice";
 
 export default function ProductDetail() {
-  const params = useParams(); // 使用 useParams Hook 獲取 URL 中的參數，並將其存儲在 params 變量中。這些參數通常是在路由定義中指定的，例如 /products/:id，其中 :id 就是一個參數。
-  const location = useLocation(); // 使用 useLocation Hook 獲取當前路由的位置信息，並將其存儲在 location 變量中。這些位置信息包括 pathname、search、hash 和 state 等等，可以用來在組件中獲取導航過程中傳遞的狀態，例如：當用戶從產品列表頁面導航到產品詳細頁面時，可以使用 useLocation 來獲取傳遞過去的產品資料，從而在產品詳細頁面中顯示對應的產品資訊。
-  const product = location.state?.product; // 從 location.state 中獲取傳遞過去的產品資料，這些資料是在產品列表頁面中使用 Link 組件導航到產品詳細頁面時傳遞過去的，例如：<Link to={`/products/${product.id}`} state={{ product: product }}>，這樣在產品詳細頁面中就可以使用 location.state.product 來獲取這個產品資料並顯示對應的產品資訊。
+  // const params = useParams(); // 從 /products/:productId 取得 productId，例如 /products/123 會得到 params.productId === "123"。
+
+  const location = useLocation();
+  const product = location.state?.product; // 從 location.state 中獲取 Link 組件傳遞過來的 product 物件
 
   const navigate = useNavigate();
   const handleViewCart = () => navigate("/cart"); // 導航到購物車頁面
 
+  const zoomRef = useRef(null); // 定義一個 ref 來引用產品圖片容器 DOM，這樣我們就可以在 handleMouseMove 函式中使用 zoomRef.current 來獲取這個元素的位置信息和尺寸，從而實現圖片放大效果。
   const [quantity, setQuantity] = useState(1); // 定義一個狀態來存儲產品的數量，默認值為 1，當用戶在產品詳細頁面中選擇數量時，可以使用 setQuantity 來更新這個狀態，從而在添加到購物車時可以獲取到正確的數量資訊。
 
-  const zoomRef = useRef(null); // 定義一個 ref 來引用產品圖片的容器元素，這個 ref 可以用來獲取這個元素的位置信息和尺寸，從而在實現圖片放大效果時可以根據鼠標的位置來動態調整背景圖片的位置，讓用戶可以更清晰地查看產品的細節。不會觸發重新渲染，因為 useRef 返回的 ref 物件在整個組件的生命周期內保持不變，當我們修改 ref.current 的值時，不會觸發組件的重新渲染，這樣可以避免不必要的性能開銷，特別是在處理 DOM 元素或第三方庫時非常有用。
-  const [isHovering, setIsHovering] = useState(false);
   const [backgroundPosition, setBackgroundPosition] = useState("center");
+  const [isHovering, setIsHovering] = useState(false);
 
   const handleMouseMove = (e) => {
     const { left, top, width, height } =
-      zoomRef.current.getBoundingClientRect(); // 使用 zoomRef.current.getBoundingClientRect() 來獲取產品圖片容器元素的位置信息和尺寸，這個方法會返回一個包含元素的 left、top、width 和 height 等屬性的物件，這些屬性分別表示元素的左邊距、上邊距、寬度和高度，這些信息可以用來計算鼠標在圖片上的位置，從而動態調整背景圖片的位置，實現圖片放大效果。
-    const x = ((e.clientX - left) / width) * 100; // 計算鼠標在圖片上的水平位置，這裡的 e.clientX 是鼠標相對於視口的水平位置，left 是圖片容器元素相對於視口的左邊距，width 是圖片容器元素的寬度，通過這個計算可以得到鼠標在圖片上的水平位置的百分比，從而動態調整背景圖片的位置。
-    const y = ((e.clientY - top) / height) * 100; // 計算鼠標在圖片上的垂直位置，這裡的 e.clientY 是鼠標相對於視口的垂直位置，top 是圖片容器元素相對於視口的上邊距，height 是圖片容器元素的高度，通過這個計算可以得到鼠標在圖片上的垂直位置的百分比，從而動態調整背景圖片的位置。
+      zoomRef.current.getBoundingClientRect(); // 取得圖片容器在瀏覽器視窗中的位置與大小
+    const x = ((e.clientX - left) / width) * 100; // 「滑鼠目前在圖片內部的百分比位置」。
+    const y = ((e.clientY - top) / height) * 100; // 「滑鼠目前在圖片內部的百分比位置」。
     setBackgroundPosition(`${x}% ${y}%`); // 根據鼠標在圖片上的位置來動態設置背景圖片的位置，這樣就可以實現圖片的放大和移動效果，當用戶將鼠標移動到圖片上時，圖片會根據鼠標的位置進行放大和移動，從而讓用戶可以更清晰地查看產品的細節。 決定你「看哪一塊」
   };
 
@@ -56,15 +52,12 @@ export default function ProductDetail() {
 
   return (
     <>
-      {/* <div>ProductDetail {params.productId}</div> */}
-      {/*  從 URL 中獲取的 productId 參數，這個參數是在路由定義中指定的，例如 /products/:productId，其中 :productId 就是一個參數，當用戶導航到 /products/123 時，params.productId 的值就會是 "123"。 */}
-
       <div className="min-h-screen flex items-center justify-center px-6 py-8 font-brand bg-normalbg dark:bg-darkbg">
         <div className="max-w-5xl w-full mx-auto flex flex-col md:flex-row md:space-x-8 px-6 p-8">
-          {/* Product Image with Zoom Effect */}
+          {/* 產品圖片 縮放效果 */}
           <div
-            ref={zoomRef} // 將這個 div 元素引用到 zoomRef 這個 ref 中，這樣我們就可以在 handleMouseMove 函式中使用 zoomRef.current 來獲取這個元素的位置信息和尺寸，從而實現圖片放大效果。
-            onMouseMove={isHovering ? handleMouseMove : null} // 當鼠標在圖片上移動時，如果正在懸停，則觸發 handleMouseMove 函式來更新背景圖片的位置，從而實現圖片的放大和移動效果，當用戶將鼠標移動到圖片上時，圖片會根據鼠標的位置進行放大和移動，從而讓用戶可以更清晰地查看產品的細節。
+            ref={zoomRef} // 將這個 div 元素引用到 zoomRef 這個 ref 中
+            onMouseMove={isHovering ? handleMouseMove : null} // 若果正在懸停，則當鼠標在圖片上移動時，觸發圖片的放大和移動效果了。
             onMouseEnter={handleMouseEnter} // 當鼠標進入圖片區域時，觸發 handleMouseEnter 函式來設置 isHovering 狀態為 true，這樣就會啟用圖片的放大效果。
             onMouseLeave={handleMouseLeave} // 當鼠標離開圖片區域時，觸發 handleMouseLeave 函式來設置 isHovering 狀態為 false，並將背景圖片的位置重置為中心，這樣就會禁用圖片的放大效果。
             className="w-full md:w-1/2 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg overflow-hidden bg-cover"
