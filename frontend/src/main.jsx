@@ -52,7 +52,6 @@ import { loginAction } from "./components/login/Login";
 import { registerAction } from "./components/login/Register";
 import { profileAction } from "./components/login/Profile";
 
-// 引入 react-toastify 的 ToastContainer 組件和 Bounce 動畫效果；ToastContainer 是用來顯示 toast 通知的組件，Bounce 是一種動畫效果，可以讓 toast 通知以彈跳的方式出現和消失。
 import { ToastContainer, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // 引入 react-toastify 的 CSS；這樣才能讓 toast 通知顯示出來並且有樣式
 
@@ -155,15 +154,15 @@ createRoot(document.getElementById("root")).render(
           {/* 這是 CartProvider 的 children，RouterProvider 組件會被渲染在 CartProvider 組件內部，這樣 RouterProvider 就可以訪問到 CartContext 中的值了。*/}
         </Provider>
       </AuthProvider>
+
+      {/* ToastContainer 是用來顯示 toast 通知的組件，這裡我們把它放在 App 的外面，這樣不管在哪個頁面都可以顯示 toast 通知了。 */}
       <ToastContainer
-        // ToastContainer 是用來顯示 toast 通知的組件，這裡配置了一些屬性來定義 toast 通知的行為和樣式，例如：position 定義了通知出現的位置，autoClose 定義了通知自動關閉的時間，theme 定義了通知的主題等等。
         position="top-center"
-        autoClose={3000} // autoClose={3000} 表示通知會在 3000 毫秒（也就是 3 秒）後自動關閉
-        hideProgressBar={false} // hideProgressBar={false} 表示通知會顯示一個進度條，這個進度條會隨著 autoClose 的時間逐漸減少，直到通知自動關閉
-        newestOnTop={false} // newestOnTop={false} 表示新的通知會出現在舊的通知下面，如果設置為 true，則新的通知會出現在舊的通知上面
-        draggable // draggable 表示通知可以被拖動，這樣用戶就可以通過拖動來關閉通知或者重新排列通知的位置
-        pauseOnHover // pauseOnHover 表示當用戶將鼠標懸停在通知上時，autoClose 的計時會暫停，這樣用戶就有更多的時間來閱讀通知內容；當鼠標離開通知後，autoClose 的計時會繼續，直到通知自動關閉
-        theme={localStorage.getItem("theme") === "dark" ? "dark" : "light"}
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        draggable
+        pauseOnHover
         transition={Bounce}
       />
     </Elements>

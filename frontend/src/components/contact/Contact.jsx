@@ -9,7 +9,7 @@ import {
   useSubmit,
 } from "react-router-dom";
 import { useEffect, useRef } from "react";
-import { toast } from "react-toastify"; // 引入 react-toastify 的 toast 函數；這個函數是用來顯示 toast 通知的，可以用來在表單提交成功或者失敗時給用戶一個提示。
+import { toast } from "react-toastify";
 
 // style variables
 const labelStyle =
@@ -226,7 +226,7 @@ export async function contactAction({ request, params }) {
     // 1-3. 發送 POST 請求到 "/contacts" 端點，將 contactPayload 作為請求體
     await apiClient.post("/contacts", contactPayload);
     return { success: true }; // 返回一個 success 的響應，表示表單提交成功。 useActionData hook 可以捕獲這個響應
-    // return redirect("/home");
+    // return redirect("/home"); // redirect 是一個 function，可以用來在 action 中進行頁面重定向；當 contactAction 成功後，會重定向到 "/home" 頁面。
   } catch (error) {
     if (error.response?.status === 400) {
       // Axios 從後端 HTTP response 讀到的數字 status code (Backend Validation fails)
