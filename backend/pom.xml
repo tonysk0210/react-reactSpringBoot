@@ -72,12 +72,14 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- 監控與診斷 Spring Boot 應用程式。 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
         <!--  http://localhost:8080/swagger-ui/index.html  -->
+        <!-- 根據你的 Spring MVC controller 自動產生 OpenAPI 文件與 Swagger UI。 -->
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
