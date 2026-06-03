@@ -18,7 +18,7 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
-    
+
     @GetMapping("/products")
     public ResponseEntity<List<ProductDto>> getProducts() {
         return ResponseEntity.status(HttpStatus.OK).body(productService.getProducts());
