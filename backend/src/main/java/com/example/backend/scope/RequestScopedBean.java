@@ -5,9 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
-// 定義一個 「每個 HTTP request 都會建立一個新的 Bean」。
-// 這意味著每當有一個新的 HTTP 請求進來時，Spring 都會創建一個新的 RequestScopedBean 實例，並且在該請求結束後，這個實例將被銷毀。
-// 這種作用域非常適合用於存儲與當前請求相關的數據，例如用戶信息、請求參數等，確保每個請求都有自己的獨立數據，不會互相干擾。
+// 定義 request scope bean：每個 HTTP request 都會有自己獨立的 RequestScopedBean 實例。
+// 在同一個 request 期間，取用到的是同一個實例；不同 request 會取得不同實例。
+// 若此 bean 被注入到 singleton bean（例如 Controller），Spring 會透過 scoped proxy 在每次 request 中解析出當前 request 對應的實例。
+// request 結束後，該 request scope 內的實例會結束生命週期。
+// 適合暫存只屬於當前 request 的資料，例如目前使用者、request metadata、流程中間狀態等。
 @RequestScope
 @Component
 @Data

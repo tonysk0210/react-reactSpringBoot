@@ -110,7 +110,7 @@ public class GlobalExceptionHandler {
          *             "param.p": "p 長度必須介於 5 到 30 個字元"
          *         }
          */
-
+        // 4. 建立一個 ResponseEntity 對象，用於返回驗證錯誤信息
         return ResponseEntity.badRequest().body(validationErrors);
     }
 

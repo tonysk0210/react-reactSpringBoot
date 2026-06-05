@@ -5,11 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
-// 定義一個 「每個 HTTP session 都會建立一個新的 Bean」。
-// 這意味著每當有一個新的 HTTP session 被創建時，Spring 都會創建一個新的 SessionScopedBean 實例，並且在該 session 結束後，這個實例將被銷毀。
-// 這種作用域非常適合用於存儲與當前 session 相關的數據，例如用戶信息、購物車內容等，確保每個 session 都有自己的獨立數據，不會互相干擾。
-@Component
+// 定義 session scope bean：每個 HTTP session 都會有自己獨立的 SessionScopedBean 實例。
+// 在同一個 session 期間，多次 request 取用到的是同一個實例；不同 session 會取得不同實例。
+// 若此 bean 被注入到 singleton bean（例如 Controller），Spring 會透過 scoped proxy 在每次 request 中解析出目前 session 對應的實例。
+// 該 bean 通常會在 session 第一次取用時建立，並在 session 失效、過期或被清除時結束生命週期。
+// 適合存放與目前 session 相關的暫態資料，例如購物車、精簡的使用者狀態、流程狀態等。
 @SessionScope
+@Component
 @Data
 @Slf4j
 public class SessionScopedBean {
