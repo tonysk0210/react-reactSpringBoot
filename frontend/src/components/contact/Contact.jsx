@@ -114,10 +114,10 @@ export default function Contact() {
               minLength={2}
               maxLength={30}
             />
+            {/* 如果 actionData 中有 name 字段的錯誤信息，獲取 name 字段的錯誤信息，並且使用 join(", ") 將錯誤信息列表轉換成一個以逗號分隔的字符串 */}
             {actionData?.error?.name && (
               <p className="text-red-500 text-sm mt-1">
                 {actionData.error.name.join(", ")}
-                {/* 從 actionData 中獲取 name 字段的錯誤信息，並且使用 join(", ") 將錯誤信息列表轉換成一個以逗號分隔的字符串，這樣就可以在 UI 上顯示具體的錯誤信息給用戶，而不是顯示一個通用的錯誤消息。 */}
               </p>
             )}
           </div>
@@ -136,10 +136,10 @@ export default function Contact() {
                 className={textFieldStyle}
                 required
               />
+              {/* 如果 actionData 中有 email 字段的錯誤信息，獲取 email 字段的錯誤信息，並且使用 join(", ") 將錯誤信息列表轉換成一個以逗號分隔的字符串 */}
               {actionData?.error?.email && (
                 <p className="text-red-500 text-sm mt-1">
                   {actionData.error.email.join(", ")}
-                  {/* 從 actionData 中獲取 email 字段的錯誤信息，並且使用 join(", ") 將錯誤信息列表轉換成一個以逗號分隔的字符串，這樣就可以在 UI 上顯示具體的錯誤信息給用戶，而不是顯示一個通用的錯誤消息。 */}
                 </p>
               )}
             </div>
@@ -159,10 +159,10 @@ export default function Contact() {
                 placeholder="Your Mobile Number"
                 className={textFieldStyle}
               />
+              {/* 如果 actionData 中有 mobileNumber 字段的錯誤信息，獲取 mobileNumber 字段的錯誤信息，並且使用 join(", ") 將錯誤信息列表轉換成一個以逗號分隔的字符串 */}
               {actionData?.error?.mobileNumber && (
                 <p className="text-red-500 text-sm mt-1">
                   {actionData.error.mobileNumber.join(", ")}
-                  {/* 從 actionData 中獲取 mobileNumber 字段的錯誤信息，並且使用 join(", ") 將錯誤信息列表轉換成一個以逗號分隔的字符串，這樣就可以在 UI 上顯示具體的錯誤信息給用戶，而不是顯示一個通用的錯誤消息。 */}
                 </p>
               )}
             </div>
@@ -183,10 +183,10 @@ export default function Contact() {
               minLength={5}
               maxLength={500}
             ></textarea>
+            {/* 如果 actionData 中有 message 字段的錯誤信息，獲取 message 字段的錯誤信息，並且使用 join(", ") 將錯誤信息列表轉換成一個以逗號分隔的字符串 */}
             {actionData?.error?.message && (
               <p className="text-red-500 text-sm mt-1">
                 {actionData.error.message.join(", ")}
-                {/* 從 actionData 中獲取 message 字段的錯誤信息，並且使用 join(", ") 將錯誤信息列表轉換成一個以逗號分隔的字符串，這樣就可以在 UI 上顯示具體的錯誤信息給用戶，而不是顯示一個通用的錯誤消息。 */}
               </p>
             )}
           </div>
@@ -244,7 +244,7 @@ export async function contactAction({ request, params }) {
       */
     }
 
-    // 非 400 的錯誤 處理方式 轉 useRouteError 處理由 ErrorPage.jsx 顯示
+    // 非 400 的錯誤 處理方式 轉 useRouteError 處理由 ErrorPage.jsx 顯示 因為是
     const backendMessage =
       error.response?.data?.errorMessage ||
       error.message ||

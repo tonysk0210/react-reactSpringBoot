@@ -16,7 +16,9 @@ import java.time.Instant;
 @Getter
 @Setter
 @MappedSuperclass // 這個 class 不是一張 table，但它的 mapping 欄位要被子類 Entity 繼承
-@EntityListeners(AuditingEntityListener.class) // 把 auditing listener 掛到 entity lifecycle 上。意思是當 entity 被新增或更新時，會觸發 auditing listener
+@EntityListeners(AuditingEntityListener.class)
+// 將 Spring Data JPA auditing listener 掛到繼承此類別的 entity lifecycle 上。
+// 當 entity 新增或更新時，會自動填入 @CreatedDate、@CreatedBy、@LastModifiedDate、@LastModifiedBy 欄位。
 public class BaseEntity {
 
     // updatable = false 代表這個欄位在更新時不會被修改
@@ -38,12 +40,7 @@ public class BaseEntity {
     private String updatedBy;
 }
 /**
- * @EnableJpaAuditing
- * = 打開 auditing 系統
- *
- * @EntityListeners(AuditingEntityListener.class)
- * = 讓某個 entity 在新增/更新時觸發 auditing
- *
- * AuditorAwareImpl
- * = 告訴 auditing 系統目前使用者是誰
+ * @EnableJpaAuditing = 打開 auditing 系統
+ * @EntityListeners(AuditingEntityListener.class) = 讓某個 entity 在新增/更新時觸發 auditing
+ * AuditorAwareImpl = 告訴 auditing 系統目前使用者是誰
  */
