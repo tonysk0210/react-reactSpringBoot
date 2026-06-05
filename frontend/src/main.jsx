@@ -52,19 +52,17 @@ import { loginAction } from "./components/login/Login";
 import { registerAction } from "./components/login/Register";
 import { profileAction } from "./components/login/Profile";
 
+// 引入 react-toastify 的 CSS；這樣才能讓 toast 通知顯示出來並且有樣式
 import { ToastContainer, Bounce } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; // 引入 react-toastify 的 CSS；這樣才能讓 toast 通知顯示出來並且有樣式
+import "react-toastify/dist/ReactToastify.css";
 
-// 引入 CartContext；這個 Context 是用來在組件之間共享購物車狀態的，這樣就不需要通過 props 一層一層地傳遞購物車數據了。
-import { CartContext } from "./store/cart-context.jsx";
-
-// 引入 CartProvider；這個組件用於提供購物車上下文的值，這裡我們將 initialCartContext 作為 value 傳入 CartContext.Provider 組件，這樣在整個應用程式中就可以使用 CartContext 來訪問和修改購物車的狀態了。
-import { CartProvider } from "./store/cart-context.jsx";
-import { AuthProvider } from "./store/auth-context.jsx"; // 引入 AuthProvider；這個組件用於提供認證上下文的值，這裡我們將 initialAuthContext 作為 value 傳入 AuthContext.Provider 組件，這樣在整個應用程式中就可以使用 AuthContext 來訪問和修改認證的狀態了。
+// 引入 AuthProvider；這個組件用於提供認證上下文的值，這裡我們將 initialAuthContext 作為 value 傳入 AuthContext.Provider 組件，這樣在整個應用程式中就可以使用 AuthContext 來訪問和修改認證的狀態了。
+import { AuthProvider } from "./store/auth-context.jsx";
 
 import { loadStripe } from "@stripe/stripe-js"; // 引入 loadStripe 函式；這個函式是用來加載 Stripe 的 JavaScript SDK 的，會在 Payment 組件中使用這個函式來加載 Stripe 的 JavaScript SDK。
 import { Elements } from "@stripe/react-stripe-js"; // 引入 Elements 組件；這個組件是用來包裝支付表單的，會在 Payment 組件中使用這個組件來包裝支付表單。
 
+// 引入 Redux store 和 Provider 組件；這樣在整個應用程式中就可以使用 Redux 的功能了。
 import store from "./store/store.js"; // 引入 Redux store；這個 store 是用來管理應用程式的全局狀態的，這裡我們將 store 作為 value 傳入 Provider 組件，這樣在整個應用程式中就可以使用 store 來訪問和修改全局狀態了。
 import { Provider } from "react-redux"; // 引入 Provider 組件；這個組件是用來提供 Redux store 的，會在 App 組件中使用這個組件來提供 Redux store。
 
@@ -127,17 +125,6 @@ const routeDefinitions = createRoutesFromElements(
 
 // 1-2. 用 route config 建立真正的 router 物件 (建立會運作的路由器)
 const appRouter = createBrowserRouter(routeDefinitions);
-
-// 定義購物車上下文的初始值，這裡是一個空對象，可以根據需要添加購物車的狀態和方法，例如：items、addItem、removeItem 等等
-// const initialCartContext = {
-//   cart: [],
-//   setCart: () => {},
-//   addToCart: () => {
-//     console.log("addToCart function is not implemented yet.");
-//   },
-//   removeFromtCart: () => {},
-//   totalQuantity: 0,
-// };
 
 // 把 React app 掛載到 index.html 裡 id 為 root 的真實 DOM 節點上「這個 DOM 節點是 React 要管理的根節點。」
 createRoot(document.getElementById("root")).render(

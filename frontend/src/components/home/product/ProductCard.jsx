@@ -1,7 +1,5 @@
 import Price from "./Price";
 import { Link } from "react-router-dom";
-// import { useContext } from "react"; // 引入 useContext hook；這個 hook 是 React 中用於在函式組件中訪問 Context 的 hook，Context 是 React 中用於在組件樹中傳遞數據的一種方式，可以讓你在組件之間共享數據，而不需要通過 props 一層一層地傳遞。
-// import { CartContext } from "../../../store/cart-context"; // 引入 CartContext；這個 Context 是用來在組件之間共享購物車狀態的，這樣就不需要通過 props 一層一層地傳遞購物車數據了。
 
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../../store/cart-slice";

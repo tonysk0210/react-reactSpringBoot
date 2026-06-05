@@ -15,7 +15,7 @@ export default function Home() {
     state: {...},        // 👈 你傳的東西
     key: "abc123"        // 每次導航的唯一 id
   } */
-  console.log("Cart.jsx 「返回商品」回傳的 state", location.state); // 在控制台輸出當前路由的位置信息，這樣你就可以看到導航過程中傳遞的狀態，例如：username: "Anthony"，從而可以確認是否成功獲取到這些狀態。
+  console.log("Cart.jsx 「返回商品」回傳的 state: ", location.state); // 在控制台輸出當前路由的位置信息，這樣你就可以看到導航過程中傳遞的狀態，例如：username: "Anthony"，從而可以確認是否成功獲取到這些狀態。
 
   return (
     <div className="home-container">

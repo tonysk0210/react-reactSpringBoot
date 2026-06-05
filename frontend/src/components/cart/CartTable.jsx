@@ -19,11 +19,11 @@ export default function CartTable() {
     .reduce((acc, item) => acc + item.price * item.quantity, 0) // 使用 reduce 方法來計算購物車中商品的總價，acc 是累加器，item 是當前商品，0 是初始值。
     .toFixed(2); // 使用 toFixed 方法來將總價格式化為兩位小數。
 
-  // 更新購物車中商品的數量
+  // 更新購物車中某個商品的數量
   const updateCartQuantity = (productId, quantity) => {
     const product = cart.find((item) => item.id === productId); // 使用 find 方法來找到購物車中商品的列表，productId 是商品的 id，quantity 是商品的數量。
     dispatch(
-      addToCart({ product, quantity: quantity - (product?.quantity || 0) }),
+      addToCart({ product, quantity: quantity - (product?.quantity || 0) }), // minus 的原因是：把使用者輸入的新數量，轉成 Redux reducer 需要的「增加或減少多少」。 新數量 - 舊數量 = 增加或減少多少。
     );
   };
 
@@ -38,7 +38,6 @@ export default function CartTable() {
         {/* 表格標題 */}
         <thead>
           <tr className="uppercase text-sm text-brand dark:text-light border-b border-brand dark:border-light">
-            {/* 表格標題的文字大小 */}
             <th className="px-6 py-4 text-2xl">產品</th>
             <th className="px-6 py-4 text-2xl">數量</th>
             <th className="px-6 py-4 text-2xl">價格</th>
@@ -52,14 +51,14 @@ export default function CartTable() {
               item, // 使用 map 方法來遍歷購物車中商品的列表，item 是當前商品。
             ) => (
               <tr
-                key={item.id} // 使用 key 屬性來標識每個商品，這樣就可以確保每個商品都有唯一的標識符，從而避免重複渲染的問題。
+                key={item.id} // 使用 key 屬性來標識每個商品
                 className="text-sm sm:text-base text-brand dark:text-light text-center"
               >
                 {/* 產品名稱和圖片 */}
                 <td className="px-4 sm:px-6 py-4">
                   <Link
                     to={`/products/${item.id}`}
-                    state={{ product: item }}
+                    state={{ product: item }} // 使用 state 屬性將整個 item 物件傳遞給目標路由，這樣在 ProductDetail 組件中就可以使用 useLocation 來獲取這個 item 物件並顯示對應的產品詳細資訊。
                     className="flex items-center"
                   >
                     <img
@@ -81,7 +80,7 @@ export default function CartTable() {
                     onChange={(e) =>
                       updateCartQuantity(
                         item.id,
-                        parseInt(e.target.value, 10) || 1,
+                        parseInt(e.target.value, 10) || 1, // 把 input 裡的文字轉成 10 進位整數；如果轉不出有效數字，就用 1
                       )
                     }
                     className="w-16 px-2 py-1 border rounded-md focus:ring focus:ring-light dark:focus:ring-gray-600 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
@@ -104,6 +103,7 @@ export default function CartTable() {
               </tr>
             ),
           )}
+          {/* 小計 */}
           {cart.length > 0 && (
             <tr className="text-center">
               <td></td>
