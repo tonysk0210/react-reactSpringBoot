@@ -55,6 +55,7 @@ public class MySecurityConfig {
         // Spring Security 會比對 header 裡的 token 是否正確，正確才放行。
         http.csrf(csrfConfig ->
                 csrfConfig.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) // 儲存/取得 token
+                        .ignoringRequestMatchers("/api/v1/contacts", "/api/v1/contacts/**")
                         .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())); // 將 CSRF Token 放進 request attribute（例如 _csrf）， 方便讓 Controller、Filter、Thymeleaf、JSP 等可以透過 request 取得 token。
 
 

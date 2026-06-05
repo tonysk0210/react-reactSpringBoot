@@ -17,15 +17,7 @@ public class ContactController {
 
     private final ContactService contactService;
     private final ContactInfoDto contactInfoDto; // 聯繫信息 DTO 做 autowiring
-
-    /**
-     * 儲存請求內容中提供的聯繫資訊。
-     *
-     * @param contactPayload 包含姓名、電子郵件、手機號碼與訊息等聯繫詳細資料的 {@link ContactPayload} 物件。
-     *                       系統會對此 payload 進行驗證，以確保其符合定義的約束條件。
-     * @return 如果聯繫資訊成功儲存，則回傳包含成功訊息的 {@link ResponseEntity}；如果儲存過程發生失敗，
-     * 則拋出例外並交由全域錯誤處理產生錯誤回應。
-     */
+    
     @PostMapping("/contacts")
     public ResponseEntity<String> saveContact(@Valid @RequestBody ContactPayload contactPayload) {
         // (@Valid = 驗證「物件」) 前端送 JSON → @RequestBody 幫你變成 Java 物件; @Valid 會幫你驗證這個 Java 物件裡面的資料是否符合 ContactPayload 裡面定義的驗證規則，如果不符合，Spring 會自動返回一個包含錯誤訊息的 JSON 格式的響應給前端。
