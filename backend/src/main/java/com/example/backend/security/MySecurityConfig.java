@@ -43,7 +43,7 @@ public class MySecurityConfig {
         this.publicPaths = publicPaths;
     }
 
-    // Filter = 可以攔截 HTTP request / response 並做前後處理的元件
+    // SecurityFilterChain = 建立一條自訂的 Spring Security 過濾鏈，告訴 Spring Security 每個 HTTP request 要經過哪些安全檢查。
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         //http.csrf(csrfConfig -> csrfConfig.disable()); // 把 Spring Security 的 CSRF 保護關掉。
@@ -62,16 +62,20 @@ public class MySecurityConfig {
         // 在 Spring Security 中開啟 CORS，並指定它使用 corsConfigurationSource() 這份跨域設定。
         http.cors(corsConfig -> corsConfig.configurationSource(corsConfigurationSource()));
 
-        http.authorizeHttpRequests((auth) -> {
+        // 3. 設定哪些路徑不需要驗證；越具體、越嚴格的規則放前面；越籠統、fallback 的規則放後面；anyRequest() 永遠放最後
+        http.authorizeHttpRequests((request) -> {
+            // 公開路徑
             publicPaths.forEach(path ->
-                    auth.requestMatchers(path).permitAll()); // publicPaths 裡面的路徑，全部公開
-            auth.requestMatchers(
+                    request.requestMatchers(path).permitAll());
+            // 限制路徑：需要 ADMIN 角色
+            request.requestMatchers(
                     "/api/v1/admin/**",
                     "/actuator/**",
                     "/swagger-ui.html",
                     "/swagger-ui/**",
-                    "/v3/api-docs/**").hasRole("ADMIN"); // /api/v1/admin/** 路徑，需要有 ADMIN 角色
-            auth.anyRequest().hasAnyRole("USER", "ADMIN"); // 其他所有 request，需要有 USER 或 ADMIN 角色
+                    "/v3/api-docs/**").hasRole("ADMIN");
+            // 其他路徑：需要 USER 或 ADMIN 角色
+            request.anyRequest().hasAnyRole("USER", "ADMIN");
         });
 
         // 把自訂 JWT 驗證 Filter 插入到 Spring Security filter chain 中， 並且在 BasicAuthenticationFilter 前執行。

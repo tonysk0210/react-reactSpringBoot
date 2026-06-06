@@ -7,8 +7,8 @@ const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL, // 從環境變數讀取 API 基礎 URL
   timeout: 10000, // request 最多等 10 秒
   headers: {
-    "Content-Type": "application/json", // 傳給後端的資料格式是 JSON
-    Accept: "application/json", // 後端回傳的資料格式是 JSON
+    "Content-Type": "application/json", // request body 的資料格式是 JSON
+    Accept: "application/json", // 告訴後端希望 response 回傳 JSON
   },
   withCredentials: true, // 允許 browser 在跨網域 request 時帶上 credentials（cookies、HTTP auth 等）
 });
