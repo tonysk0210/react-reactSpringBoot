@@ -124,7 +124,8 @@ public class MySecurityConfig {
     }
 
     // authenticationManager 這個 Bean 是在告訴 Spring Security：登入時，請用我的 UserDetailsService 找使用者，再用 BCryptPasswordEncoder 檢查密碼。
-    // #2. 自定義 AuthenticationManager 作為 Spring Security 的驗證系統
+    // #2. 自定義 AuthenticationManager 
+    // #3. 將自定義的 AuthenticationProvider 設定到 AuthenticationManager 作為 Spring Security 的驗證系統
     @Bean
     public AuthenticationManager authenticationManager(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder, MyAuthenticationProvider authenticationProvider) {
 

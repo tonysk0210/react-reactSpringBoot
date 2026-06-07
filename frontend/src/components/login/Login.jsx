@@ -23,36 +23,40 @@ export default function Login() {
   const navigate = useNavigate();
   const { loginSuccess } = useAuth(); // 從 context 中取得 loginSuccess 函數
 
+  // 從 sessionStorage 中獲取 skipRedirectPath 的值，這個值是用來決定是否跳過重定向的，如果是 "true" 就跳過，否則就正常重定向。
   const skipRedirectPath =
     sessionStorage.getItem("skipRedirectPath") === "true";
 
-  // 獲取 sessionStorage 中的 redirectPath，如果沒有則預設為 "/home"
+  // 從 sessionStorage 中獲取 redirectPath 的值，這個值是用來在登入成功後導航到用戶原本想去的頁面，如果沒有這個值，就默認導航到 "/home"。
   const from = skipRedirectPath
     ? "/home"
     : sessionStorage.getItem("redirectPath") || "/home";
 
-  // 處理登入成功後的導航
+  // 2. 處理登入成功或失敗的情況，根據 actionData 的內容來決定下一步的行動
   useEffect(() => {
+    // 2.1 如果 actionData 中的 success 屬性為 true，表示登入成功；將 jwtToken 和 user 存入 context
     if (actionData?.success) {
-      loginSuccess(actionData.jwtToken, actionData.user); // 將 jwtToken 和 user 存入 context
+      loginSuccess(actionData.jwtToken, actionData.user);
 
+      // 2.2 根據 from 的值來決定導航的目標頁面，如果 from 是 "/checkout" 且用戶地址不完整，則導航到 "/cart"，否則導航到 from 指定的頁面
       const redirectTarget =
         from === "/checkout" && isAddressIncomplete(actionData.user)
           ? "/cart"
           : from; // 如果是從結帳頁面過來且地址不完整，則導向購物車頁面
 
-      // 清除 sessionStorage 中的 redirectPath 目的是避免下次登入時還帶有上次的路徑
+      // 2.3 清除 sessionStorage 中的 redirectPath 目的是避免下次登入時還帶有上次的路徑
       sessionStorage.removeItem("redirectPath");
       sessionStorage.removeItem("skipRedirectPath");
 
-      // 延遲導航，確保 context 更新完成：jwtToken 和 user 存入 auth-context 避免 401 unauthorized
+      // 2.4 延遲導航，確保 context 更新完成：jwtToken 和 user 存入 auth-context 避免 401 unauthorized
       setTimeout(() => {
         navigate(redirectTarget); // 登入成功後導航到原本要前往的頁面
       }, 100);
     } else if (actionData?.error) {
+      // 2.5 如果 actionData 中的 success 屬性為 false，表示登入失敗；使用 react-toastify 顯示錯誤訊息
       toast.error(actionData.error.message || "登入失敗");
     }
-  }, [actionData]);
+  }, [actionData]); // 這個 useEffect 的依賴是 actionData，當 actionData 發生變化時會重新執行，這樣就能在登入成功或失敗後做出相應的處理。
 
   return (
     <div className="min-h-213 flex items-center justify-center font-brand dark:bg-darkbg">
