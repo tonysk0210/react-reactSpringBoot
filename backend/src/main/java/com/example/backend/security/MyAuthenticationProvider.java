@@ -34,7 +34,7 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
 
         // 2. 根據帳號從資料庫查詢使用者物件(email)，如果找不到就丟出 UsernameNotFoundException
         Customer customer = customerRepo.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("無法找到該使用者: " + username));
+                .orElseThrow(() -> new UsernameNotFoundException("無法找到該使用者: " + username)); // AuthenticationException
 
         Set<Role> roles = customer.getRoles();
         // 3. 將角色名稱轉換成 SimpleGrantedAuthority 並包裝成 List

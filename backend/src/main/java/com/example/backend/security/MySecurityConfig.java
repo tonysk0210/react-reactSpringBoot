@@ -123,19 +123,17 @@ public class MySecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // authenticationManager 這個 Bean 是在告訴 Spring Security：登入時，請用我的 UserDetailsService 找使用者，再用 BCryptPasswordEncoder 檢查密碼。
-    // #2. 自定義 AuthenticationManager 
-    // #3. 將自定義的 AuthenticationProvider 設定到 AuthenticationManager 作為 Spring Security 的驗證系統
+    // AuthenticationManager = 當 AuthController 呼叫 authenticate() 時，使用 ProviderManager 調度自訂的 MyAuthenticationProvider。
     @Bean
-    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder, MyAuthenticationProvider authenticationProvider) {
+    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder, MyAuthenticationProvider myAuthenticationProvider) {
 
         /*// 1. 提供一個 DaoAuthenticationProvider 來處理帳密登入的驗證流程
         var daoAuthenticationProvider = new DaoAuthenticationProvider(); // 1. 負責 username/password 登入驗證流程
         daoAuthenticationProvider.setUserDetailsService(userDetailsService); // 2. 指定它要透過哪個 UserDetailsService 取得使用者資料
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder); // 3. 指定它要用哪個 PasswordEncoder 比對密碼*/
 
-        // 2. 建立一個 AuthenticationManager，套用剛剛設定好的 MyAuthenticationProvider 來管理驗證提供者
-        var providerManager = new ProviderManager(authenticationProvider); // 這個 AuthenticationManager 調度員 會使用 DaoAuthenticationProvider 來驗證登入
+        // 建立一個 AuthenticationManager，套用 MyAuthenticationProvider 來驗證登入。
+        var providerManager = new ProviderManager(myAuthenticationProvider); // 這個 AuthenticationManager 調度員會使用 MyAuthenticationProvider 驗證帳號密碼。
         return providerManager;
     }
 

@@ -50,15 +50,27 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestPayload loginRequestPayload) {
         try {
-            // 1. 取得使用者輸入的帳號密碼，並包成一個 AuthenticationToken 物件 (還未通過驗證)
+            // 1. 將使用者輸入的帳號密碼包成尚未驗證的 Authentication 物件。這裡只是建立驗證請求，還沒有比對資料庫密碼。
             Authentication authenticationToken = new UsernamePasswordAuthenticationToken(loginRequestPayload.userName(), loginRequestPayload.password());
 
-            // 2. 由自訂義的 AuthenticationManager bean 來執行驗證剛包好的 Authentication 物件 ( 若驗證成功產生已通過驗證的 Authentication 物件)
+            // 2. 交給 AuthenticationManager 執行驗證。目前會由 MyAuthenticationProvider 呼叫 MyAuthenticationProvider.authenticate(...) 查詢 Customer、比對密碼，成功後回傳已驗證的 Authentication。
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
-            // 驗證錯誤丟出 org.springframework.security.authentication.BadCredentialsException: 憑證錯誤
+            // 密碼錯誤會丟出 BadCredentialsException；帳號不存在等其他驗證失敗會丟出 AuthenticationException
 
-            // 3. 從 Authentication 物件中取出通過驗證的使用者物件，並包在 UserDto 物件中
+            // 3. 從已驗證的 Authentication 取出登入使用者。MyAuthenticationProvider 成功時會把 Customer 放進 principal
             var loggedInUser = (Customer) authentication.getPrincipal(); // 「目前通過驗證的主要身份」
+            /**
+             * loggedInUser 是從 MyAuthenticationProvider 來的，登入時用 email 從資料庫查出來的 Customer
+             *
+             * 原因在 MyAuthenticationProvider 裡：
+             * return new UsernamePasswordAuthenticationToken(
+             *         customer,
+             *         null,
+             *         authorities
+             * );
+             */
+
+            // 3.1 將登入使用者的資料包在 UserDto 物件中
             UserDto userDto = new UserDto();
             BeanUtils.copyProperties(loggedInUser, userDto);
 
@@ -66,7 +78,7 @@ public class AuthController {
                     .map(Role::getName)
                     .collect(Collectors.joining(","))); // 取得使用者角色 (source: Customer entity)
 
-            // 3.1 如果使用者有地址資料，則將地址資料包在 UserDto 物件中 (loggedInUser 是從 MyAuthenticationProvider 來的，登入時用 email 從資料庫查出來的 Customer)
+            // 3.2 如果使用者有地址資料，則將地址資料包在 UserDto 物件中 (loggedInUser 是從 MyAuthenticationProvider 來的，登入時用 email 從資料庫查出來的 Customer)
             if (loggedInUser.getAddress() != null) {
                 AddressDto addressDto = new AddressDto();
                 BeanUtils.copyProperties(loggedInUser.getAddress(), addressDto);
@@ -82,13 +94,14 @@ public class AuthController {
                     .status(HttpStatus.OK)
                     .body(new LoginResponseDto(HttpStatus.OK.getReasonPhrase(), userDto, jwtToken));
         } catch (BadCredentialsException e) {
-            return buildErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage()); // 排除 global exception handler (500) 攔截防止轉向 ErrorPage.jsx
+            return buildErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage()); // 來自 MyAuthenticationProvider throw new BadCredentialsException("密碼錯誤");
         } catch (AuthenticationException e) {
-            return buildErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage()); // status 401
-            // 其餘 Exception 轉由 Global Exception Handler 處理
+            return buildErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage()); // 來自 MyAuthenticationProvider 捕捉其他 AuthenticationException 例如 throw new UsernameNotFoundException("無法找到該使用者: " + username)
         }
+        // 其他非 AuthenticationException 的例外會交由 Global Exception Handler 處理。
     }
- 
+
+    // 建立一個回應錯誤的 ResponseEntity 物件
     private ResponseEntity<LoginResponseDto> buildErrorResponse(HttpStatus status, String message) {
         return ResponseEntity
                 .status(status)
