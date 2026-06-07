@@ -50,8 +50,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestPayload loginRequestPayload) {
         try {
-
-            // 1. 取得使用者輸入的帳號密碼，並包成一個 AuthenticationToken 物件 ( 還未通過驗證)
+            // 1. 取得使用者輸入的帳號密碼，並包成一個 AuthenticationToken 物件 (還未通過驗證)
             Authentication authenticationToken = new UsernamePasswordAuthenticationToken(loginRequestPayload.userName(), loginRequestPayload.password());
 
             // 2. 由自訂義的 AuthenticationManager bean 來執行驗證剛包好的 Authentication 物件 ( 若驗證成功產生已通過驗證的 Authentication 物件)
@@ -74,7 +73,7 @@ public class AuthController {
                 userDto.setAddress(addressDto);
             }
 
-            // 4. 用 Authentication 物件 生成 JWT Token 並回傳給前端
+            // 4. 用 Authentication 物件 生成 JWT Token 並回傳給前端；不用每次請求都重新送帳號密碼
             String jwtToken = jwtUtil.generateJwtToken(authentication); // JWT 內容可以被看見，但不能被隨便修改。
             // JWT 可以用來證明「這個使用者之前已經登入成功」。只要 token 還沒過期，前端就可以帶著它呼叫 API，後端驗證 token 成功後，就不用要求使用者重新登入。
 
@@ -89,7 +88,7 @@ public class AuthController {
             // 其餘 Exception 轉由 Global Exception Handler 處理
         }
     }
-
+ 
     private ResponseEntity<LoginResponseDto> buildErrorResponse(HttpStatus status, String message) {
         return ResponseEntity
                 .status(status)

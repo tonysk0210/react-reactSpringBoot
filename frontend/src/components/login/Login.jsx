@@ -7,10 +7,9 @@ import {
   useNavigation,
   useNavigate,
 } from "react-router-dom";
-
-import apiClient from "../../api/apiClient"; // 這是 axios 的封裝
+import apiClient from "../../api/apiClient";
 import { toast } from "react-toastify";
-import { useAuth } from "../../store/auth-context"; // 從 store 中引入 useAuth hook
+import { useAuth } from "../../store/auth-context"; // 從 auth-context 中取得 useAuth hook，這個 hook 提供了 loginSuccess 函數用於更新登入狀態和用戶信息
 
 export default function Login() {
   const labelStyle =
@@ -18,10 +17,10 @@ export default function Login() {
   const textFieldStyle =
     "w-full px-4 py-2 text-base border rounded-md transition border-brand dark:border-light focus:ring focus:ring-dark dark:focus:ring-lighter focus:outline-none text-gray-800 dark:text-lighter bg-white dark:bg-gray-600 placeholder-gray-400 dark:placeholder-gray-300";
 
-  const actionData = useActionData(); // 獲取表單提交後的數據 (from loginAction function)
-  const navigation = useNavigation(); // 獲取表單提交的狀態
-  const isSubmitting = navigation.state === "submitting"; // 獲取表單提交的狀態
-  const navigate = useNavigate(); // 獲取導航函數
+  const actionData = useActionData();
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submitting";
+  const navigate = useNavigate();
   const { loginSuccess } = useAuth(); // 從 context 中取得 loginSuccess 函數
 
   const skipRedirectPath =
@@ -94,7 +93,7 @@ export default function Login() {
             />
           </div>
 
-          {/* Submit Button */}
+          {/* Submit 按鈕 */}
           <div>
             <button
               type="submit"
@@ -102,12 +101,11 @@ export default function Login() {
               className="w-full px-6 py-2 text-white dark:text-black text-xl rounded-md transition duration-200 bg-brand dark:bg-light hover:bg-dark dark:hover:bg-lighter"
             >
               {isSubmitting ? "登入中..." : "Login"}
-              {/* 按鈕顯示：登入資料驗證中... 或 登入 */}
             </button>
           </div>
         </Form>
 
-        {/* Register Link */}
+        {/* Register 連結*/}
         <p className="text-center text-gray-600 dark:text-gray-400 mt-4">
           還沒有帳號嗎？{" "}
           <Link
@@ -133,39 +131,41 @@ function isAddressIncomplete(user) {
   return !street || !city || !state || !postalCode || !country; // 地址不完整，返回 true
 }
 
-// 從 Login 組件中匯入 loginAction 函式；這個函式是用來在表單提交時處理表單數據的，會在 Login 組件中使用 useActionData hook 來獲取這些數據。
+// 1. 定義一個 loginAction 函數，這個函數會在 Login 組件的 Form 提交時被呼叫，負責處理登入邏輯
 export async function loginAction({ request, params }) {
-  const data = await request.formData(); // 從 request 中提取表單數據
+  // 1.1 從 request 中獲取表單數據，這些數據是使用者在登入表單中輸入的帳號和密碼
+  const data = await request.formData();
 
-  // 將表單數據轉換為後端所需的格式
+  // 1.2 將表單數據轉換為後端所需的格式
   const loginPayload = {
     userName: data.get("username"),
     password: data.get("password"),
   };
 
+  // 1.3 使用 apiClient 發送 POST 請求到後端的登入 API，並處理響應
   try {
-    // 發送 POST 請求到 "/auth/login" 端點，將 loginPayload 作為請求體
     const response = await apiClient.post("/auth/login", loginPayload);
 
-    // response.data 的 data 是 後端 API 回傳的 response body，再由 Axios 包裝在 response.data 裡面。
     const { message, user, jwtToken } = response.data; // 從響應中 response 提取數據
     return { success: true, message, user, jwtToken }; // 返回成功結果 給到 actionData
   } catch (error) {
+    // 1.4 處理錯誤情況，401 Unauthorized 是最常見的錯誤，表示帳號或密碼錯誤
     if (error.response?.status === 401) {
       return {
         success: false,
         error: {
-          message: error.response?.data?.message || "輸入的帳號或密碼錯誤", // data?.message 來自 buildErrorResponse.message
-        }, // 401 狀態碼表示驗證失敗，返回錯誤信息
+          message: error.response?.data?.message || "輸入的帳號或密碼錯誤", // data?.message 來自 LoginResponseDto 的 message 欄位
+        },
       };
     }
 
+    // 1.5 處理其他類型的錯誤，例如網絡錯誤或伺服器錯誤，這裡我們從 error 對象中提取錯誤訊息，並提供一個預設的錯誤訊息
     const backendMessage =
       error.response?.data?.errorMessage || // errorMessage 是後端回傳的錯誤訊息 (Global Exception Handler 回傳 dto 欄位)
       error.message || // error.message 是 axios 的錯誤訊息
       "登入失敗，請稍後再試"; // 預設錯誤訊息
 
-    // 將錯誤訊息包裝成 Response 物件，並設定狀態碼用於顯示於 ErrorPage 元件 (throw new Response()->ErrorPage)
+    // 將錯誤訊息包裝成一個 Response 物件，並丟出這個錯誤，讓 useRouteError 在 ErrorPage.jsx 中捕獲並顯示錯誤訊息
     throw new Response(backendMessage, {
       status: error.response?.status || 500,
     });

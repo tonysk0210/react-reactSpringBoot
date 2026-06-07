@@ -96,7 +96,6 @@ public class MySecurityConfig {
         config.setAllowedHeaders(List.of("*")); // 允許前端 request 可以帶哪些 header
         config.setAllowCredentials(true); // 允許瀏覽器在跨來源 request 攜帶 credentials，例如 cookies、HTTP auth。這需要前端也設定 axios withCredentials: true，否則瀏覽器仍不會送 cookies。
         config.setMaxAge(3600L); // preflight OPTIONS 檢查結果可被瀏覽器快取 3600 秒，減少重複預檢請求。
-        // OPTIONS預檢 = 瀏覽器在真正請求前，先問 server「這樣的 request 可以嗎？」
 
         // 2. 創建一個 UrlBasedCorsConfigurationSource 物件，用於註冊 CORS 設置
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -104,10 +103,7 @@ public class MySecurityConfig {
         return source;
     }
 
-    // 有哪些使用者可以登入，以及他們的帳號、密碼和角色是什麼。
-    // 自己定義的 UserDetailsService 通常會讓 (application.properties) spring.security.user.* 那組預設帳號設定失效。所以不是兩套一起並存，而是你手寫的那套會優先生效。
-    // {noop} 這個密碼是明文，不做編碼。
-    // #1. 自定義 UserDetailsService 作為 Spring Security 的使用者資料來源
+    // UserDetailsService = 用於從資料庫或記憶體中取得使用者資料。注意：目前專案的實際登入流程是走 MyAuthenticationProvider，這個 bean 不參與現行登入驗證。
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
         UserDetails user = User.builder()
@@ -116,12 +112,12 @@ public class MySecurityConfig {
                 .roles("USER").build(); // 把原始密碼 user 先經過 passwordEncoder 編碼後再保存。
         UserDetails admin = User.builder()
                 .username("admin")
-                .password("$2a$12$L51S8Z2JvzSN.pKQSXOgBOa6Iol5R5.dlOpFEkYO8i/J6UufT4TAa")
-                .roles("USER", "ADMIN").build(); // 把一串已經編碼好的 BCrypt 密碼寫進去。
+                .password("$2a$12$L51S8Z2JvzSN.pKQSXOgBOa6Iol5R5.dlOpFEkYO8i/J6UufT4TAa") // 把一串已經編碼好的 BCrypt 密碼寫進去。original t ext: admin
+                .roles("USER", "ADMIN").build();
         return new InMemoryUserDetailsManager(user, admin); // 使用者資料只存在記憶體裡
     }
 
-    // 當 Spring Security 系統需要 PasswordEncoder 時，請使用 BCryptPasswordEncoder (會直接影響{noop}造成衝突: Encoded password does not look like BCrypt)
+    // PasswordEncoder = 當 Spring Security 系統需要 PasswordEncoder 時，請使用 BCryptPasswordEncoder (會直接影響{noop}造成衝突: Encoded password does not look like BCrypt)
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
