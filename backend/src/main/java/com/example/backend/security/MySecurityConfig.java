@@ -52,14 +52,14 @@ public class MySecurityConfig {
         // withHttpOnlyFalse() 代表允許前端 JavaScript 讀取這個 Cookie。
         // 前端在送 POST / PUT / DELETE 等非安全請求時，
         // 需要把這個 token 放到 request header：X-XSRF-TOKEN。
-        // Spring Security 會比對 header 裡的 token 是否正確，正確才放行。
+        // Spring Security 會比對 header 裡的 token 是否正確，正確才放行。CSRF：確認發出請求的人真的是已登入使用者本人，而不是惡意網站代發。
         http.csrf(csrfConfig ->
                 csrfConfig.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) // 儲存/取得 token
-                        .ignoringRequestMatchers("/api/v1/contacts", "/api/v1/contacts/**")
-                        .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())); // 將 CSRF Token 放進 request attribute（例如 _csrf）， 方便讓 Controller、Filter、Thymeleaf、JSP 等可以透過 request 取得 token。
+                        .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()) // 將 CSRF Token 放進 request attribute（例如 _csrf）， 方便讓 Controller、Filter、Thymeleaf、JSP 等可以透過 request 取得 token。
+                        .ignoringRequestMatchers("/api/v1/contacts", "/api/v1/contacts/**"));
 
 
-        // 在 Spring Security 中開啟 CORS，並指定它使用 corsConfigurationSource() 這份跨域設定。
+        // 2. 在 Spring Security 中開啟 CORS，並指定它使用 corsConfigurationSource() 這份跨域設定。CORS：限制哪些網站可以存取我的 API。
         http.cors(corsConfig -> corsConfig.configurationSource(corsConfigurationSource()));
 
         // 3. 設定哪些路徑不需要驗證；越具體、越嚴格的規則放前面；越籠統、fallback 的規則放後面；anyRequest() 永遠放最後
@@ -86,22 +86,21 @@ public class MySecurityConfig {
         return http.build();
     }
 
-    // CorsConfigurationSource = 提供「規則」（configuration provider 推薦搭配 Security）
-    // 後端用來決定「要不要允許這個跨域請求」以及「要回哪些 CORS response headers」的規則
-    // Browser（帶 Origin） → Server（判斷） → Server 回 CORS headers
-    // 這些設定 = 後端告訴瀏覽器「哪些跨域請求是被允許的」
+    // CorsConfigurationSource = 提供 CORS 規則給 Spring Security 使用。
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
+        // 1. 創建一個 CorsConfiguration 物件，用於配置 CORS 設置
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of(allowedOrigins.split(",")));
-        config.setAllowedMethods(List.of("*")); // 允許哪些 HTTP method（GET / POST / PUT / DELETE）
+        config.setAllowedOrigins(List.of(allowedOrigins.split(","))); // 允許哪些來源的請求，例如 http://localhost:5173。
+        config.setAllowedMethods(List.of("*")); // 允許哪些 HTTP method，例如 GET / POST / PUT / DELETE / OPTIONS。
         config.setAllowedHeaders(List.of("*")); // 允許前端 request 可以帶哪些 header
-        config.setAllowCredentials(true); // 允許攜帶憑證（如 cookie / session）
-        config.setMaxAge(3600L); // 瀏覽器對這個跨域授權檢查結果，可以記 1 小時。(CORS preflight（OPTIONS）結果可以被瀏覽器快取多久。)
+        config.setAllowCredentials(true); // 允許瀏覽器在跨來源 request 攜帶 credentials，例如 cookies、HTTP auth。這需要前端也設定 axios withCredentials: true，否則瀏覽器仍不會送 cookies。
+        config.setMaxAge(3600L); // preflight OPTIONS 檢查結果可被瀏覽器快取 3600 秒，減少重複預檢請求。
         // OPTIONS預檢 = 瀏覽器在真正請求前，先問 server「這樣的 request 可以嗎？」
 
+        // 2. 創建一個 UrlBasedCorsConfigurationSource 物件，用於註冊 CORS 設置
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
+        source.registerCorsConfiguration("/**", config); // 將這組 CORS 規則套用到所有後端路徑。
         return source;
     }
 
