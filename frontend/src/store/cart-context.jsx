@@ -1,7 +1,7 @@
 import { createContext, useEffect, useContext, useReducer } from "react";
 
 // 1. 定義 CartContext 和 useCart custom hook；被 CartProvider 包住的元件可以透過 useCart 取得購物車狀態和操作方法
-export const CartContext = createContext(null);
+const CartContext = createContext(null);
 export const useCart = () => {
   return useContext(CartContext); // 這裡只是定義 custom hook；真正呼叫 useCart() 時，仍必須在 component 或另一個 custom hook 裡
 };
@@ -23,7 +23,7 @@ const CLEAR_CART = "CLEAR_CART";
 
 // **useReducer** 2. 定義購物車狀態的更新函式 寫在 CartProvider 外部，讓狀態更新邏輯集中管理；useState 也能做到，但複雜操作較容易分散
 const cartReducer = (currentState, action) => {
-  // reducer 函式接收當前的狀態和一個 action 物件作為參數，然後根據 action.type 的值來決定如何更新狀態，最後返回新的狀態。 reducer 函式是一個純函式，它不應該有副作用，也不應該直接修改傳入的狀態，而是應該創建一個新的狀態並返回，這樣就符合 React 中狀態不可變的原則了。
+  // reducer 函式接收當前的狀態和一個 action 物件作為參數，然後根據 action.type 的值來決定如何更新 cart 狀態
   switch (action.type) {
     // 加入購物車邏輯
     case ADD_TO_CART: {
