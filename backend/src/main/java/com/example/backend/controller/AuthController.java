@@ -85,9 +85,8 @@ public class AuthController {
                 userDto.setAddress(addressDto);
             }
 
-            // 4. 用 Authentication 物件 生成 JWT Token 並回傳給前端；不用每次請求都重新送帳號密碼
-            String jwtToken = jwtUtil.generateJwtToken(authentication); // JWT 內容可以被看見，但不能被隨便修改。
-            // JWT 可以用來證明「這個使用者之前已經登入成功」。只要 token 還沒過期，前端就可以帶著它呼叫 API，後端驗證 token 成功後，就不用要求使用者重新登入。
+            // 4. 用驗證過的 Authentication 物件產生一個 JWT 給前端保存
+            String jwtToken = jwtUtil.generateJwtToken(authentication);
 
             // 5. 回傳 LoginResponseDto 物件給前端包含了 「使用者資料」 和 「JWT Token」
             return ResponseEntity
