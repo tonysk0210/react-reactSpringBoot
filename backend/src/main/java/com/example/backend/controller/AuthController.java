@@ -74,9 +74,10 @@ public class AuthController {
             UserDto userDto = new UserDto();
             BeanUtils.copyProperties(loggedInUser, userDto);
 
+            // 取得使用者角色 (source: Customer entity)
             userDto.setRole(loggedInUser.getRoles().stream()
                     .map(Role::getName)
-                    .collect(Collectors.joining(","))); // 取得使用者角色 (source: Customer entity)
+                    .collect(Collectors.joining(",")));
 
             // 3.2 如果使用者有地址資料，則將地址資料包在 UserDto 物件中 (loggedInUser 是從 MyAuthenticationProvider 來的，登入時用 email 從資料庫查出來的 Customer)
             if (loggedInUser.getAddress() != null) {
