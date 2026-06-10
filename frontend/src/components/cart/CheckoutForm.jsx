@@ -186,7 +186,7 @@ export default function CheckoutForm() {
       <div
         className={
           isProcessing
-            ? "visible  flex flex-col justify-center items-center my-[200px] " // 顯示處理中訊息
+            ? "visible  flex flex-col justify-center items-center my-50 " // 顯示處理中訊息
             : "hidden" // 隱藏處理中訊息
         }
       >

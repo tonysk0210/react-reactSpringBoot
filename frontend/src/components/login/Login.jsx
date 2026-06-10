@@ -9,7 +9,7 @@ import {
 } from "react-router-dom";
 import apiClient from "../../api/apiClient";
 import { toast } from "react-toastify";
-import { useAuth } from "../../store/auth-context"; // 從 auth-context 中取得 useAuth hook，這個 hook 提供了 loginSuccess 函數用於更新登入狀態和用戶信息
+import { useAuth } from "../../store/auth-context"; // 從 auth-context 中取得 useAuth hook
 
 export default function Login() {
   const labelStyle =
@@ -36,15 +36,15 @@ export default function Login() {
   useEffect(() => {
     // 2.1 如果 actionData 中的 success 屬性為 true，表示登入成功；將 jwtToken 和 user 存入 context
     if (actionData?.success) {
-      loginSuccess(actionData.jwtToken, actionData.user);
+      loginSuccess(actionData.jwtToken, actionData.user); // 呼叫 context 中的 loginSuccess 函數，將 jwtToken 和 user 存入 auth-context.jsx 中的 authState，這樣整個應用都能知道用戶已經登入了。
 
-      // 2.2 根據 from 的值來決定導航的目標頁面，如果 from 是 "/checkout" 且用戶地址不完整，則導航到 "/cart"，否則導航到 from 指定的頁面
+      // 2.2 根據 from 的值來決定導航的目標頁面，如果 from 是 "/checkout" 且地址不完整，則導航到 "/cart"，否則導航到 from 指定的頁面。
       const redirectTarget =
         from === "/checkout" && isAddressIncomplete(actionData.user)
           ? "/cart"
           : from; // 如果是從結帳頁面過來且地址不完整，則導向購物車頁面
 
-      // 2.3 清除 sessionStorage 中的 redirectPath 目的是避免下次登入時還帶有上次的路徑
+      // 2.3 登入後清除 sessionStorage 中的 redirectPath 目的是避免下次登入時還帶有上次的路徑
       sessionStorage.removeItem("redirectPath");
       sessionStorage.removeItem("skipRedirectPath");
 
