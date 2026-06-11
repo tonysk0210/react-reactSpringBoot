@@ -60,13 +60,10 @@ export const AuthProvider = ({ children }) => {
   // 3.2 監聽 authState 變化，並將其保存或從 localStorage 中移除
   useEffect(() => {
     try {
-      // 只有在用戶登入時才將 jwtToken 和 user 保存到 localStorage；當用戶登出時，則從 localStorage 中移除這些信息
+      // 只有在用戶登入時才將 jwtToken 和 user 保存到 localStorage
       if (authState.isAuthenticated) {
         localStorage.setItem("jwtToken", authState.jwtToken);
         localStorage.setItem("user", JSON.stringify(authState.user));
-      } else {
-        localStorage.removeItem("jwtToken");
-        localStorage.removeItem("user");
       }
     } catch (error) {
       console.error("無法將登入狀態保存到 localStorage:", error);
@@ -78,8 +75,12 @@ export const AuthProvider = ({ children }) => {
     dispatch({ type: LOGIN_SUCCESS, payload: { jwtToken, user } }); // 由 Login.jsx 呼叫 /auth/login api，並帶入後端返回的 jwtToken 和 user 來更新前端 context
   };
 
-  // 這是登出時的 action creator - 用於更新 auth 狀態
+  // 這是登出時的 action creator - 用於更新 auth 狀態，並清除 localStorage 和 sessionStorage 中的相關數據
   const logout = () => {
+    localStorage.removeItem("jwtToken");
+    localStorage.removeItem("user");
+    sessionStorage.removeItem("redirectPath");
+    sessionStorage.removeItem("skipRedirectPath");
     dispatch({ type: LOGOUT });
   };
 

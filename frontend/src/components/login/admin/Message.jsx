@@ -3,6 +3,7 @@ import { useLoaderData, useRevalidator } from "react-router-dom";
 import PageTitle from "../../home/PageTitle";
 import apiClient from "../../../api/apiClient";
 import { toast } from "react-toastify";
+import { requireAuth } from "../../../utils/authRouteGuards";
 
 export default function Messages() {
   const messages = useLoaderData(); // 2. 使用 useLoaderData hook 來獲取 List<ContactResponseDto> 資料
@@ -90,6 +91,8 @@ export default function Messages() {
 
 // 1. 定義一個 loader 函式來從後端 API 獲取消息資料，這個函式會在路由匹配時被調用，並且返回獲取到的數據，這些數據會被 Message 組件中的 useLoaderData hook 獲取到並用於渲染 UI。
 export async function messagesLoader() {
+  requireAuth("/admin/messages"); // 確保用戶已經登入了，如果沒有登入，則會將用戶原本想去的路徑存入 sessionStorage 中，然後重定向到 "/login" 頁面。
+
   try {
     const response = await apiClient.get("/admin/messages");
     return response.data; // 返回從 API 獲取的消息資料，這些資料將會在 Message 組件中使用 useLoaderData hook 來獲取和顯示。

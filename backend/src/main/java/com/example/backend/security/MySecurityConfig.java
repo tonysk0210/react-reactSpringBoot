@@ -81,8 +81,8 @@ public class MySecurityConfig {
         // 把自訂 JWT 驗證 Filter 插入到 Spring Security filter chain 中， 並且在 BasicAuthenticationFilter 前執行。
         http.addFilterBefore(new JWTTokenValidatorFilter(publicPaths), BasicAuthenticationFilter.class);
 
-        http.formLogin(withDefaults()); // 瀏覽器表單登入
-        http.httpBasic(withDefaults()); // Client 在 HTTP request header 裡直接帶帳號密碼
+        http.formLogin(withDefaults()); // 啟用 Spring Security 預設表單登入頁面與表單登入流程
+        http.httpBasic(withDefaults()); // 啟用 HTTP Basic Auth，Client 透過 Authorization header 傳送帳號密碼
         return http.build();
     }
 

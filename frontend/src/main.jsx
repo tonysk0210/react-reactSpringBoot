@@ -96,7 +96,6 @@ const routeDefinitions = createRoutesFromElements(
     <Route element={<ProtectedRoute />}>
       <Route path="/checkout" element={<CheckoutForm />} />
       <Route path="/order-success" element={<OrderSuccess />} />
-      {/* 訂單成功 */}
       <Route
         path="/profile"
         element={<Profile />}

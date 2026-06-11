@@ -3,6 +3,7 @@ import { useLoaderData, useRevalidator } from "react-router-dom";
 import PageTitle from "../../home/PageTitle";
 import apiClient from "../../../api/apiClient";
 import { toast } from "react-toastify";
+import { requireAuth } from "../../../utils/authRouteGuards";
 
 export default function OrderManage() {
   const orders = useLoaderData(); // 2. 使用 useLoaderData hook 來獲取 List<OrderResponseDto> 資料
@@ -137,6 +138,8 @@ export default function OrderManage() {
 
 // 1. 取得 List<OrderResponseDto> 資料，這個資料會被 OrderManage 組件中的 useLoaderData hook 獲取到，然後在頁面上顯示每一個訂單的詳細資訊。
 export async function orderManageLoader() {
+  requireAuth("/admin/orderManage"); // 確保用戶已經登入了，如果沒有登入，則會將用戶原本想去的路徑存入 sessionStorage 中，然後重定向到 "/login" 頁面。
+
   try {
     const response = await apiClient.get("/admin/orderManage"); // Axios GET Request
     return response.data;

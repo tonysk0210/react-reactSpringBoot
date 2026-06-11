@@ -11,6 +11,7 @@ import {
 import PageTitle from "../../components/home/PageTitle";
 import { toast } from "react-toastify";
 import { useAuth } from "../../store/auth-context";
+import { requireAuth } from "../../utils/authRouteGuards";
 
 export default function Profile() {
   const initialProfileData = useLoaderData(); // 2. 取得初始資料
@@ -320,6 +321,8 @@ export default function Profile() {
 
 // 1. 這是處理資料載入的函數 - 用於獲取用戶資料
 export async function profileLoader() {
+  requireAuth("/profile"); // 確保用戶已經登入了，如果沒有登入，則會將用戶原本想去的路徑存入 sessionStorage 中，然後重定向到 "/login" 頁面。
+
   try {
     console.log("profileLoader executed");
     const response = await apiClient.get("/profile"); // Axios GET Request
@@ -336,6 +339,8 @@ export async function profileLoader() {
 
 // 4. 這是處理表單提交的函數 - 用於更新用戶資料
 export async function profileAction({ request }) {
+  requireAuth("/profile"); // 如果 token 在使用者停留 /profile 期間被清掉、過期、或某些情況直接提交 action，profileAction 裡的 guard 可以先擋掉，不要再打：apiClient.put("/profile") 這個 API call，避免不必要的後端請求和錯誤訊息。
+
   console.log("profileAction executed");
   const data = await request.formData();
 

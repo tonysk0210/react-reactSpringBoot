@@ -11,7 +11,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { useAuth } from "../store/auth-context"; // 引入 useAuth custom hook；這個 hook 是用來在組件中訪問 AuthContext 中的 user 屬性，這個屬性表示當前登入的用戶，可以用來在導航欄中顯示用戶名稱和登出按鈕。
+import { useAuth } from "../store/auth-context";
 
 import { useSelector } from "react-redux"; // 引入 useSelector hook；這個 hook 是 React Redux 中用於在組件中訪問 Redux store 中的 state 的 hook，可以用來在組件中讀取 store 中的數據。
 import { selectTotalQuantity } from "../store/cart-slice"; // 引入 selectTotalQuantity 選擇器函式；這個函式是用來從 Redux store 中選擇購物車的總數量，可以用來在購物車圖示旁邊顯示一個徽章，提示用戶購物車中有多少件商品。
@@ -42,37 +42,30 @@ export default function Header() {
     localStorage.setItem("mode", newMode);
     setMode(newMode);
   };
-
-  // 用戶菜單狀態
-  const [isUserMenuOpen, setUserMenuOpen] = useState(false);
-  // 管理員菜單狀態
-  const [isAdminMenuOpen, setAdminMenuOpen] = useState(false);
-  // 獲取當前路由位置 告訴我們現在在哪个頁面(tells you where the app currently is in the router)
-  const location = useLocation();
-  const userMenuRef = useRef(null); // userMenuRef 用於存儲用戶菜單的 DOM 元素，以便在點擊外部時關閉菜單
-  const navigate = useNavigate(); // navigate 用於程式化導航
-
   const totalQuantity = useSelector(selectTotalQuantity); // 從 Redux store 中選擇購物車的總數量
-  const { isAuthenticated, logout, user } = useAuth(); // 從 useAuth 鉤子取得認證狀態、登出函式和用戶資訊
 
-  // 是否為管理員
+  // 從 useAuth custom hook 中取得認證狀態、登出函式和用戶資訊
+  const { isAuthenticated, logout, user } = useAuth();
+
+  // menu 狀態和切換函式；這些狀態用於控制用戶菜單和管理者菜單的顯示與隱藏，當用戶點擊菜單按鈕時，會切換對應的狀態，從而顯示或隱藏菜單。
+  const [isUserMenuOpen, setUserMenuOpen] = useState(false);
+  const [isAdminMenuOpen, setAdminMenuOpen] = useState(false);
   const isAdmin = user?.role?.includes("ROLE_ADMIN"); // 從 user 物件中取得 role 屬性，並檢查是否包含 "ROLE_ADMIN"
-
-  // 切換管理員菜單
   const toggleAdminMenu = () => {
     setAdminMenuOpen(!isAdminMenuOpen);
   };
-  // 切換用戶菜單
   const toggleUserMenu = () => {
     setUserMenuOpen(!isUserMenuOpen);
   };
+  const location = useLocation(); // 用於獲取當前路由的資訊，這裡我們會用到 location.pathname 來監聽路由變化，從而在切換頁面時關閉用戶菜單和管理者菜單。
+  const userMenuRef = useRef(null); // 用於連接用戶菜單的 DOM 元素，以便在點擊外部時關閉菜單
 
   // 登出處理
   const handleLogout = () => {
     // e.preventDefault(); // 阻止 Link 立即執行預設導航
     logout();
     toast.success("成功登出!");
-    navigate("/home");
+    window.location.replace("/home"); // 用瀏覽器原生方式把目前頁面換到 /home
   };
 
   // 使用 useEffect 來監聽 mode 和 location.pathname 的變化，當這些值改變時，執行相應的副作用
@@ -85,7 +78,7 @@ export default function Header() {
       document.documentElement.classList.remove("dark");
     }
 
-    // 當主題或路徑改變時，關閉所有菜單
+    // 2. 當路由改變時，關閉用戶菜單和管理者菜單，這樣在切換頁面時不會看到之前打開的菜單了。
     setAdminMenuOpen(false);
     setUserMenuOpen(false);
 
@@ -99,7 +92,7 @@ export default function Header() {
         setAdminMenuOpen(false);
       }
     });
-  }, [mode, location.pathname]); //「只要 mode 或 pathname 改變，就重新執行這段 effect。」
+  }, [mode, location.pathname]); // location.pathname 是當前路由的路徑，當路由改變時，這個值也會改變，這樣 useEffect 就會重新執行，從而關閉菜單。
 
   return (
     <header className="header border-gray-300 dark:border-gray-600 bg-normalbg dark:bg-darkbg">
@@ -159,8 +152,8 @@ export default function Header() {
                         {/* 動態顯示用戶名稱，如果超過5個字就只顯示前5個字 */}
                         {`你好 ${
                           user.name.length > 5
-                            ? `${user.name.slice(0, 5)}...` // 如果用戶名稱超過5個字就只顯示前5個字
-                            : user.name // 如果用戶名稱不超過5個字就顯示完整用戶名稱
+                            ? `${user.name.slice(0, 5)}...`
+                            : user.name
                         }`}
                       </span>
                       <FontAwesomeIcon
@@ -238,6 +231,7 @@ export default function Header() {
                   </div>
                 </>
               ) : (
+                // 如果未登入則顯示登入連結
                 <>
                   {/* login 導向（"/login"） */}
                   <NavLink to="/login" className={getNavLinkClass}>

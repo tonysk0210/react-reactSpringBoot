@@ -2,6 +2,7 @@ import React from "react";
 import apiClient from "../../api/apiClient";
 import { useLoaderData } from "react-router-dom";
 import PageTitle from "../home/PageTitle";
+import { requireAuth } from "../../utils/authRouteGuards";
 
 export default function Orders() {
   const orders = useLoaderData(); // OrderResponseDto; 使用 useLoaderData hook 來獲取由 ordersLoader 函式加載的訂單資料，這些資料會在 Orders 組件中用來顯示用戶的訂單資訊。
@@ -105,6 +106,8 @@ export default function Orders() {
 }
 
 export async function ordersLoader() {
+  requireAuth("/orders"); // 確保用戶已經登入了，如果沒有登入，則會將用戶原本想去的路徑存入 sessionStorage 中，然後重定向到 "/login" 頁面。
+
   try {
     // 1. 從 apiClient 發送 GET 請求到 "/orders" 端點，以獲取用戶的訂單資料。
     const response = await apiClient.get("/orders");
