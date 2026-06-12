@@ -42,7 +42,7 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
     private final InMemoryUserDetailsManager inMemoryUserDetailsManager; // 目前Spring Security 將使用者存在 InMemoryUserDetailsManager
-    private final PasswordEncoder passwordEncoder; // ByCrpt hash encoder
+    private final PasswordEncoder passwordEncoder; // ByCrypt hash encoder
     private final CustomerRepo customerRepo;
     private final CompromisedPasswordChecker compromisedPasswordChecker;
     private final RoleRepo roleRepo;
@@ -112,13 +112,13 @@ public class AuthController {
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequestPayload registerRequestpayload) {
 
         // 新註冊的使用者加入到記憶體版的使用者管理器。
+        // email 當成 username 使用; 明文密碼先做 BCrypt hash 編碼; 指定這個新使用者擁有的權限
         /*inMemoryUserDetailsManager.createUser(new User(
                 registerRequestpayload.email(),
                 passwordEncoder.encode(registerRequestpayload.password()),
                 List.of(new SimpleGrantedAuthority("USER"))));*/
-        // email 當成 username 使用; 明文密碼先做 BCrypt hash 編碼; 指定這個新使用者擁有的權限
 
-        var error = new HashMap<String, List<String>>(); // 建立一個 HashMap 來存放錯誤信息
+        var error = new HashMap<String, List<String>>(); // 建立一個 HashMap 來存放錯誤「電子郵件已經註冊」或「手機號碼已經註冊」信息
         // 0. 檢查密碼是否在「被竊取的密碼清單」裡面
         /*CompromisedPasswordDecision decision = compromisedPasswordChecker.check(registerRequestpayload.password());
         if (decision.isCompromised()) {

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import {
   Form,
   Link,
@@ -12,13 +12,13 @@ import { toast } from "react-toastify";
 import PageTitle from "../home/PageTitle";
 
 export default function Register() {
-  const actionData = useActionData(); // 這是用來獲取後端返回的數據
-  const navigation = useNavigation();
+  const actionData = useActionData();
   const navigate = useNavigate();
   const formRef = useRef(null); // 這是用來獲取表單元素的 ref
   const submit = useSubmit(); // 這是用來提交表單的函數
+  const navigation = useNavigation();
 
-  const isSubmitting = navigation.state === "submitting"; // 這是用來判斷是否正在提交
+  const isSubmitting = navigation.state === "submitting";
 
   // 監聽 actionData，當註冊成功時，導航到登入頁面
   useEffect(() => {
@@ -28,23 +28,17 @@ export default function Register() {
     }
   }, [actionData]);
 
-  // 處理表單提交
+  // 1. 處理表單提交
   const handleSubmit = (event) => {
-    event.preventDefault(); // 阻止瀏覽器用原生方式提交表單，避免整個頁面刷新
-    const formData = new FormData(formRef.current); // 獲取表單數據；　formRef.current　是目前被 ref 指到的實際 form DOM 元素；　React render 完、表單真的出現在 DOM 上之後，React 會把那個實際的 <form> DOM node 放進：formRef.current
+    event.preventDefault();
+    const formData = new FormData(formRef.current); // 獲取表單數據； formRef.current 是目前被 ref 指到的實際 form DOM 元素； React render 完、表單真的出現在 DOM 上之後，React 會把那個實際的 <form> DOM node 放進：formRef.current
     if (!validatePasswords(formData)) {
-      // 驗證密碼是否匹配
       return; // 如果密碼不匹配，則不提交表單
     }
     submit(formData, { method: "post" }); // 提交表單
-    // 這會通知 React Router：然後 React Router 會把 navigation.state 改成 submitting (改變會觸發 re-render)
-    // 常見 navigation.state 有三種：
-    // - idle: 未提交
-    // - submitting: 正在提交
-    // - loading: 頁面 / loader 正在載入
   };
 
-  // 驗證密碼是否匹配函數
+  // 2. 驗證密碼是否匹配函數
   const validatePasswords = (formData) => {
     const password = formData.get("password");
     const confirmPwd = formData.get("confirmPwd");
@@ -66,7 +60,7 @@ export default function Register() {
     <div className="min-h-[752px] flex items-center justify-center font-brand dark:bg-darkbg">
       <div className="bg-white dark:bg-gray-700 shadow-md rounded-lg max-w-md w-full px-8 py-6">
         <PageTitle title="註冊" />
-        {/* 表單 */}
+        {/* 表單開始 */}
         <Form
           method="POST"
           ref={formRef} // 這是用來獲取表單元素的 ref
@@ -205,11 +199,10 @@ export default function Register() {
   );
 }
 
-// 處理註冊表單提交 after handleSubmit
+// 3. 處理註冊表單提交 after handleSubmit
 export async function registerAction({ request }) {
   const data = await request.formData(); // 從 request 中提取表單數據 .formData() 來自 submit 方法 帶入的 formData
 
-  // 構建註冊數據對象
   const registerPayload = {
     name: data.get("name"),
     email: data.get("email"),
@@ -218,26 +211,26 @@ export async function registerAction({ request }) {
   };
 
   try {
-    const response = await apiClient.post("/auth/register", registerPayload); // 發送註冊 Api 請求
+    const response = await apiClient.post("/auth/register", registerPayload);
     return { success: true }; // 返回成功響應
   } catch (error) {
     if (error.response?.status === 400) {
       // 如果後端返回 400 錯誤 (Backend Validation fails: MethodArgumentNotValidException)
-      return { success: false, error: error.response?.data }; // error.response.data 後端返回的錯誤信息
+      return { success: false, error: error.response?.data }; // error.response.data 後端 handleValidationExceptions 返回的錯誤信息
       // 後端返回 400 錯誤 ，表示表單數據驗證失敗，這時候我們不拋出錯誤，而是返回一個包含 success: false 和 error 信息的對象 Map<欄位名稱, 錯誤訊息列表>，這樣 useActionData 就可以捕獲到這個對象，並且在組件中使用它來顯示具體的錯誤信息給用戶，而不是顯示一個通用的錯誤消息。
     }
 
-    // 其他錯誤
+    // 非 400 錯誤
     const backendMessage =
       error.response?.data?.errorMessage || // 後端 Global Exceptiona Handler 返回的錯誤消息
       error.message || // Axios error 物件中的 message 屬性
-      "無法提交聯絡信息，請稍後再試。"; // 默認錯誤消息
+      "無法提交聯絡信息，請稍後再試。";
 
     // 導向 ErrorPage.jsx 來顯示錯誤消息
     throw new Response(backendMessage, {
       status:
         error.response?.status || // Axios error 物件中的 response.status 屬性
-        500, // 默認錯誤狀態碼
+        500,
     });
   }
 }

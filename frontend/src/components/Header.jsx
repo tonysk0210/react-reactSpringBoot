@@ -8,7 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { useState, useEffect, useRef } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { useAuth } from "../store/auth-context";
@@ -59,13 +59,15 @@ export default function Header() {
   };
   const location = useLocation(); // 用於獲取當前路由的資訊，這裡我們會用到 location.pathname 來監聽路由變化，從而在切換頁面時關閉用戶菜單和管理者菜單。
   const userMenuRef = useRef(null); // 用於連接用戶菜單的 DOM 元素，以便在點擊外部時關閉菜單
+  const navigate = useNavigate();
 
   // 登出處理
   const handleLogout = () => {
     // e.preventDefault(); // 阻止 Link 立即執行預設導航
     logout();
     toast.success("成功登出!");
-    window.location.replace("/home"); // 用瀏覽器原生方式把目前頁面換到 /home
+    // window.location.replace("/home"); // 用瀏覽器原生方式把目前頁面換到 /home
+    navigate("/home", { replace: true });
   };
 
   // 使用 useEffect 來監聽 mode 和 location.pathname 的變化，當這些值改變時，執行相應的副作用
