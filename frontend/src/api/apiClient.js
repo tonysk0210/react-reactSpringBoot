@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 const apiClient = axios.create({
   // import.meta.env 是 Vite 提供的環境變數存取方式，VITE_ 開頭的變數會被 Vite 注入到前端程式碼中
   baseURL: import.meta.env.VITE_API_BASE_URL, // 從環境變數讀取 API 基礎 URL
-  timeout: 500000, // request 最多等 10 秒
+  timeout: 50000, // request 最多等 50 秒
   headers: {
     "Content-Type": "application/json", // request body 的資料格式是 JSON
     Accept: "application/json", // 告訴後端希望 response 回傳 JSON

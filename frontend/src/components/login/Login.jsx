@@ -48,7 +48,7 @@ export default function Login() {
       sessionStorage.removeItem("redirectPath");
       sessionStorage.removeItem("skipRedirectPath");
 
-      // 2.4 延遲導航，確保 context 更新完成：jwtToken 和 user 存入 auth-context 避免 401 unauthorized
+      // 2.4 延遲導航，確保 auth-context 先更新完成：jwtToken 和 user 存入 auth-context ( 確保 jwtToken & user 已經存入 localStorage ) 避免導航到 protected route 時出現 401 unauthorized
       setTimeout(() => {
         navigate(redirectTarget); // 登入成功後導航到原本要前往的頁面
       }, 100);

@@ -104,7 +104,7 @@ const routeDefinitions = createRoutesFromElements(
         // 只有當 actionResult?.success 為 false 時才重新執行 profileLoader - 這樣可以避免成功更新後的不必要的重新執行，造成兩次資料載入
         // actionResult 就是 profileAction() 裡面 return 的東西: { success: false, error: error.response?.data }
         shouldRevalidate={({ actionResult }) => {
-          return !actionResult?.success;
+          return !actionResult?.success; // 如果 success 為 false，才重新執行 profileLoader (成功更新後就不需要重新執行)
         }}
       />
       <Route path="/orders" element={<Orders />} loader={ordersLoader} />

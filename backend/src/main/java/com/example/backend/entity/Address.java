@@ -29,6 +29,7 @@ public class Address extends BaseEntity {
     // name = "CUSTOMER_ID"：外鍵欄位名稱叫 CUSTOMER_ID
     // nullable = false：這個欄位不能是 NULL (JPA rule)
     private Customer customer;
+    
 
     @Size(max = 150)
     @NotNull

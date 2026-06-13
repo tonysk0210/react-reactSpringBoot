@@ -22,7 +22,10 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public ProfileResponseDto getProfile() {
+        // 1. 取得當前登入用戶的 Customer 物件
         Customer customer = getAuthenticatedCustomer();
+
+        // 2. 將 customer 物件轉換成 ProfileResponseDto 物件
         return mapCustomerToProfileResponseDto(customer);
     }
 
@@ -31,7 +34,7 @@ public class ProfileServiceImpl implements ProfileService {
         // 1. 取得當前登入用戶的 Customer 物件
         Customer customer = getAuthenticatedCustomer();
 
-        // 2. 檢查 email 是否有更新
+        // 2. 檢查 email 是否有更新：比對原始 email 與更新後的 email
         boolean isEmailUpdated = !customer.getEmail().equals(profileRequestPayload.getEmail().trim());
 
         // 3. 複製 profileRequestPayload 的屬性值到 customer 物件中
@@ -59,6 +62,7 @@ public class ProfileServiceImpl implements ProfileService {
         return profileResponseDto;
     }
 
+    // Helper method : 取得當前登入用戶的 Customer 物件
     public Customer getAuthenticatedCustomer() {
         // 1. 取得當前登入用戶的 Customer 物件
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -71,9 +75,11 @@ public class ProfileServiceImpl implements ProfileService {
                 orElseThrow(() -> new UsernameNotFoundException("無法找到該使用者: " + email));
     }
 
+    // Helper method : 將 Customer 轉換成 ProfileResponseDto
     private ProfileResponseDto mapCustomerToProfileResponseDto(Customer customer) {
         // 1. 建立 ProfileResponseDto 物件
         ProfileResponseDto profileResponseDto = new ProfileResponseDto();
+
         // 2. 複製 customer 的屬性值到 profileResponseDto 物件中
         BeanUtils.copyProperties(customer, profileResponseDto); // 將 customer 物件的屬性值複製到 profileResponseDto 物件中
 
@@ -81,7 +87,7 @@ public class ProfileServiceImpl implements ProfileService {
         if (customer.getAddress() != null) {
             ProfileResponseDto.AddressDto addressDto = new ProfileResponseDto.AddressDto();
             BeanUtils.copyProperties(customer.getAddress(), addressDto);
-            //4. 設定 profileResponseDto 的 address 屬性為 addressDto
+            // 設定 profileResponseDto 的 address 屬性為 addressDto
             profileResponseDto.setAddress(addressDto);
         }
         return profileResponseDto;

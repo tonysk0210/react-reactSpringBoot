@@ -70,4 +70,17 @@ public class Customer extends BaseEntity {
      * 因為 many side 沒有 Java 欄位，所以 @JoinColumn 只能放在 one side 的 collection 上。
      * 但實際 DB 外鍵仍然在 many side table。
      */
+
+    /**
+     * cascade = CascadeType.ALL
+     *   -> JPA 操作時生效
+     *   -> 例如 customerRepo.delete(customer)
+     *   -> Hibernate 負責 cascade
+     *
+     * @OnDelete(action = CASCADE)
+     *   -> DB foreign key 規則
+     *   -> 即使直接用 SQL 刪 Customer，也可能由 DB 自動刪 Address
+     *   -> database 負責 cascade
+     */
+
 }

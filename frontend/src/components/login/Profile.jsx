@@ -30,7 +30,7 @@ export default function Profile() {
       // 6.1 如果 emailUpdated 為 true，表示使用者更新了電子郵件，需要重新登入
       if (actionData.profileData.emailUpdated) {
         logout();
-        sessionStorage.setItem("skipRedirectPath", "true"); // 設定 sessionStorage 來跳過重新導向到 /profile
+        sessionStorage.setItem("skipRedirectPath", "true"); // 設定 sessionStorage 避免重新導向到 /profile
         toast.success("成功更新電子郵件，請重新登入", {
           toastId: "email-update-success", // 防止重複顯示
         });
