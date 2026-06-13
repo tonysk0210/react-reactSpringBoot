@@ -24,7 +24,7 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
     private final CustomerRepo customerRepo;
     private final PasswordEncoder passwordEncoder;
 
-
+    // 驗證使用者帳號密碼
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 

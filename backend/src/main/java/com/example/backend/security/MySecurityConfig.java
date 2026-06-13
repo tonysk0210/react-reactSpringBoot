@@ -127,12 +127,12 @@ public class MySecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder, MyAuthenticationProvider myAuthenticationProvider) {
 
-        /*// 1. 提供一個 DaoAuthenticationProvider 來處理帳密登入的驗證流程
+        /*// 0. 提供一個 DaoAuthenticationProvider 來處理帳密登入的驗證流程
         var daoAuthenticationProvider = new DaoAuthenticationProvider(); // 1. 負責 username/password 登入驗證流程
         daoAuthenticationProvider.setUserDetailsService(userDetailsService); // 2. 指定它要透過哪個 UserDetailsService 取得使用者資料
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder); // 3. 指定它要用哪個 PasswordEncoder 比對密碼*/
 
-        // 建立一個 AuthenticationManager，套用 MyAuthenticationProvider 來驗證登入。
+        // 1. 建立一個 AuthenticationManager，套用 MyAuthenticationProvider 來驗證登入。
         var providerManager = new ProviderManager(myAuthenticationProvider); // 這個 AuthenticationManager 調度員會使用 MyAuthenticationProvider 驗證帳號密碼。
         return providerManager;
     }

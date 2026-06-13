@@ -24,9 +24,10 @@ export default function Register() {
   useEffect(() => {
     if (actionData?.success) {
       navigate("/login");
-      toast.success("註冊成功，請登入");
+      const successMessage = actionData.response;
+      toast.success(successMessage || "註冊成功，請登入");
     }
-  }, [actionData]);
+  }, [actionData, navigate]);
 
   // 1. 處理表單提交
   const handleSubmit = (event) => {
@@ -212,10 +213,10 @@ export async function registerAction({ request }) {
 
   try {
     const response = await apiClient.post("/auth/register", registerPayload);
-    return { success: true }; // 返回成功響應
+    return { success: true, response: response.data }; // 返回成功響應和後端返回的數據
   } catch (error) {
     if (error.response?.status === 400) {
-      // 如果後端返回 400 錯誤 (Backend Validation fails: MethodArgumentNotValidException)
+      // 如果後端返回 400 錯誤 ( return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error); 電子郵件已經註冊 or 手機號碼已經註冊 )
       return { success: false, error: error.response?.data }; // error.response.data 後端 handleValidationExceptions 返回的錯誤信息
       // 後端返回 400 錯誤 ，表示表單數據驗證失敗，這時候我們不拋出錯誤，而是返回一個包含 success: false 和 error 信息的對象 Map<欄位名稱, 錯誤訊息列表>，這樣 useActionData 就可以捕獲到這個對象，並且在組件中使用它來顯示具體的錯誤信息給用戶，而不是顯示一個通用的錯誤消息。
     }

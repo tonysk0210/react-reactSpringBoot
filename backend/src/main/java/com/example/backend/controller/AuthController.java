@@ -23,7 +23,6 @@ import org.springframework.security.authentication.password.CompromisedPasswordC
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,12 +38,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class AuthController {
 
+    // private final InMemoryUserDetailsManager inMemoryUserDetailsManager; // 將使用者存在 InMemoryUserDetailsManager，目前未使用
+    private final CompromisedPasswordChecker compromisedPasswordChecker; // 用於檢查密碼是否在「被竊取的密碼清單」裡面
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
-    private final InMemoryUserDetailsManager inMemoryUserDetailsManager; // 目前Spring Security 將使用者存在 InMemoryUserDetailsManager
     private final PasswordEncoder passwordEncoder; // ByCrypt hash encoder
     private final CustomerRepo customerRepo;
-    private final CompromisedPasswordChecker compromisedPasswordChecker;
     private final RoleRepo roleRepo;
 
     @PostMapping("/login")
@@ -94,9 +93,9 @@ public class AuthController {
                     .status(HttpStatus.OK)
                     .body(new LoginResponseDto(HttpStatus.OK.getReasonPhrase(), userDto, jwtToken));
         } catch (BadCredentialsException e) {
-            return buildErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage()); // 來自 MyAuthenticationProvider throw new BadCredentialsException("密碼錯誤");
+            return buildErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage()); // 401 來自 MyAuthenticationProvider throw new BadCredentialsException("密碼錯誤");
         } catch (AuthenticationException e) {
-            return buildErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage()); // 來自 MyAuthenticationProvider 捕捉其他 AuthenticationException 例如 throw new UsernameNotFoundException("無法找到該使用者: " + username)
+            return buildErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage()); // 401 來自 MyAuthenticationProvider 捕捉其他 AuthenticationException 例如 throw new UsernameNotFoundException("無法找到該使用者: " + username)
         }
         // 其他非 AuthenticationException 的例外會交由 Global Exception Handler 處理。
     }
@@ -108,6 +107,16 @@ public class AuthController {
                 .body(new LoginResponseDto(message, null, null));
     }
 
+    /**
+     * 註冊新帳號。
+     * <p>
+     * 先透過 {@link Valid} 驗證請求資料，再檢查 email 與手機號碼是否已存在。
+     * 若檢查通過，會建立 {@link Customer}、將密碼以 BCrypt hash 後儲存，
+     * 並指派預設的 {@code ROLE_USER} 角色。
+     *
+     * @param registerRequestpayload 前端送出的註冊資料，包含姓名、email、手機號碼與密碼等欄位
+     * @return 註冊成功時回傳 201 Created 與成功訊息；email 或手機號碼重複時回傳 400 Bad Request 與欄位錯誤訊息
+     */
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequestPayload registerRequestpayload) {
 
@@ -118,14 +127,16 @@ public class AuthController {
                 passwordEncoder.encode(registerRequestpayload.password()),
                 List.of(new SimpleGrantedAuthority("USER"))));*/
 
-        var error = new HashMap<String, List<String>>(); // 建立一個 HashMap 來存放錯誤「電子郵件已經註冊」或「手機號碼已經註冊」信息
+        // 1. 建立一個 HashMap 來存放錯誤「電子郵件已經註冊」或「手機號碼已經註冊」信息
+        var error = new HashMap<String, List<String>>();
+
         // 0. 檢查密碼是否在「被竊取的密碼清單」裡面
         /*CompromisedPasswordDecision decision = compromisedPasswordChecker.check(registerRequestpayload.password());
         if (decision.isCompromised()) {
             error.put("password", List.of("密碼在被竊取的密碼清單裡面，請使用其他密碼"));
         }*/
 
-        // 1. 先檢查 email 或手機號碼是否已經註冊
+        // 2. 先檢查 email 或手機號碼是否已經註冊
         if (customerRepo.existsByEmail(registerRequestpayload.email())) {
             error.put("email", List.of("電子郵件已經註冊"));
         }
@@ -135,27 +146,27 @@ public class AuthController {
         // 如果有錯誤，則回傳錯誤信息
         if (!error.isEmpty()) {
             return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
+                    .status(HttpStatus.BAD_REQUEST) // 400~
                     .body(error);
         }
 
-        // 2. 建立 Customer Entity
+        // 3. 建立 Customer Entity
         var customer = new Customer(); // 建立 Customer Entity
         BeanUtils.copyProperties(registerRequestpayload, customer); //只會複製「欄位名稱一樣」的屬性
         customer.setPasswordHash(passwordEncoder.encode(registerRequestpayload.password())); // 將密碼做 Bcrypt hash 編碼後存入 Customer Entity
-
         // 從 RoleRepo 查找 Role 並加入 Customer Entity 的 roles 集合
         roleRepo.findByName("ROLE_USER").ifPresent(role -> customer.setRoles(Set.of(role)));
 
-        // 改為 @ManyToMany 後 comment
+        // 改為 @ManyToMany 後註解
         /*Role role = new Role(); // 建立 Role Entity
         role.setName("ROLE_USER");
         customer.getRoles().add(role); // 將 Role Entity 加入 Customer Entity 的 roles 集合*/
 
-        customerRepo.save(customer); // 將 Customer Entity 儲存到資料庫
+        // 4. 將 Customer Entity 儲存到資料庫
+        customerRepo.save(customer);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED) // status 201
-                .body("帳號註冊成功");
+                .body("帳號註冊成功，請重新登入");
     }
 }

@@ -61,9 +61,25 @@ export default function Header() {
   const userMenuRef = useRef(null); // 用於連接用戶菜單的 DOM 元素，以便在點擊外部時關閉菜單
   const navigate = useNavigate();
 
+  // 定義受保護的路由路徑
+  const protectedPaths = [
+    "/checkout",
+    "/order-success",
+    "/profile",
+    "/orders",
+    "/admin/orderManage",
+    "/admin/messages",
+  ];
+
   // 登出處理
   const handleLogout = () => {
     // e.preventDefault(); // 阻止 Link 立即執行預設導航
+    if (protectedPaths.includes(location.pathname)) {
+      sessionStorage.setItem("logoutRedirect", "true"); // 如果在受保護的路由中登出，則設置標記能夠導向 /home
+    } else {
+      sessionStorage.removeItem("logoutRedirect"); // this is optional - 用於清除標記
+    }
+
     logout();
     toast.success("成功登出!");
     // window.location.replace("/home"); // 用瀏覽器原生方式把目前頁面換到 /home
