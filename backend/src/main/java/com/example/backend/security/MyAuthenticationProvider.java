@@ -51,15 +51,14 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
                     authorities);
             // 代表密碼不重要，因為我們已經驗證過了
         } else {
-            // 5. 如果密碼錯誤，則丟出 BadCredentialsException
+            // 如果密碼錯誤，則丟出 BadCredentialsException
             throw new BadCredentialsException("密碼錯誤");
         }
     }
 
-    // 回傳 false 表示不支援此 Authentication 類型，我這個 Provider 不支援任何 authentication type。
+    // 這個 MyAuthenticationProvider 支援處理 UsernamePasswordAuthenticationToken 這種類型的 Authentication。
     @Override
     public boolean supports(Class<?> authentication) {
         return (UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication));
-        // 支援 UsernamePasswordAuthenticationToken 類型
     }
 }

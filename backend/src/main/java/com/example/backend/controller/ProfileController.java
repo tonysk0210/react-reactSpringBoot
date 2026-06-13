@@ -15,12 +15,14 @@ public class ProfileController {
 
     private final ProfileService profileService;
 
+    // 取得個人資料
     @GetMapping
     public ResponseEntity<ProfileResponseDto> getProfile() {
         ProfileResponseDto profileResponseDto = profileService.getProfile();
         return ResponseEntity.ok(profileResponseDto);
     }
 
+    // 更新個人資料
     @PutMapping
     public ResponseEntity<ProfileResponseDto> updateProfile(@Validated @RequestBody ProfileRequestPayload profileRequestPayload) {
         ProfileResponseDto profileResponseDto = profileService.updateProfile(profileRequestPayload);
