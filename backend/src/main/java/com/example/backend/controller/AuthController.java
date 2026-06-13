@@ -9,7 +9,7 @@ import com.example.backend.payload.LoginRequestPayload;
 import com.example.backend.payload.RegisterRequestPayload;
 import com.example.backend.repository.CustomerRepo;
 import com.example.backend.repository.RoleRepo;
-import com.example.backend.util.JwtUtil;
+import com.example.backend.security.JwtUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;

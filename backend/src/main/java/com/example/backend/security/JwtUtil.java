@@ -1,4 +1,4 @@
-package com.example.backend.util;
+package com.example.backend.security;
 
 import com.example.backend.constant.ApplicationConstants;
 import com.example.backend.entity.Customer;
@@ -22,7 +22,7 @@ public class JwtUtil {
     private final Environment env;
 
     /**
-     * 產生 JWT token 的方法
+     * 登入成功後產生 JWT token 的方法
      */
     public String generateJwtToken(Authentication authentication) {
         String jwt = "";
@@ -38,6 +38,7 @@ public class JwtUtil {
         // 3. 從「已登入成功的驗證結果」裡，取出目前登入的使用者資料。
         Customer fetchedCustomer = (Customer) authentication.getPrincipal();
         /**
+         * AuthController.login
          * return new UsernamePasswordAuthenticationToken(
          *                     customer,
          *                     null,
@@ -63,19 +64,19 @@ public class JwtUtil {
 /**
  * JWT 構造
  * {
- *   "header": {
- *     "alg": "HS256"
- *   },
- *   "payload": {
- *     "iss": "StickerStore",
- *     "sub": "JWT Token",
- *     "username": "John",
- *     "email": "john@example.com",
- *     "mobileNumber": "0912345678",
- *     "roles": "USER",
- *     "iat": 1710000000,
- *     "exp": 1710003600
- *   },
- *   "signature": "用 secretKey 對 header + payload 算出來的簽章"
+ * "header": {
+ * "alg": "HS256"
+ * },
+ * "payload": {
+ * "iss": "StickerStore",
+ * "sub": "JWT Token",
+ * "username": "John",
+ * "email": "john@example.com",
+ * "mobileNumber": "0912345678",
+ * "roles": "USER",
+ * "iat": 1710000000,
+ * "exp": 1710003600
+ * },
+ * "signature": "用 secretKey 對 header + payload 算出來的簽章"
  * }
  */

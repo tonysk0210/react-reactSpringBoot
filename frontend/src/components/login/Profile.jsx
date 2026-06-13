@@ -29,8 +29,8 @@ export default function Profile() {
       // emailUpdated 來自後端：初始值是 false，當使用者更新電子郵件時 (login 時的 username)，後端 ProfileServiceImpl 會將 emailUpdated 設為 true
       // 6.1 如果 emailUpdated 為 true，表示使用者更新了電子郵件，需要重新登入
       if (actionData.profileData.emailUpdated) {
-        sessionStorage.setItem("skipRedirectPath", "true"); // 設定 sessionStorage 來跳過重新導向
         logout();
+        sessionStorage.setItem("skipRedirectPath", "true"); // 設定 sessionStorage 來跳過重新導向到 /profile
         toast.success("成功更新電子郵件，請重新登入", {
           toastId: "email-update-success", // 防止重複顯示
         });
@@ -108,7 +108,7 @@ export default function Profile() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div>
             <label htmlFor="email" className={labelStyle}>
-              Email
+              Email (更新後需要重新登入)
             </label>
             <input
               id="email"

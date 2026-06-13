@@ -78,7 +78,8 @@ public class MySecurityConfig {
             request.anyRequest().hasAnyRole("USER", "ADMIN");
         });
 
-        // 把自訂 JWT 驗證 Filter 插入到 Spring Security filter chain 中， 並且在 BasicAuthenticationFilter 前執行。
+        // 4. 將自訂 JWT 驗證 filter 加入 Spring Security filter chain，並排在 BasicAuthenticationFilter 前面。讓 protected API 可以被授權訪問。
+        // 這樣帶有 Authorization: Bearer <token> 的 request 會先被 JWT filter 驗證，驗證成功後會把 Authentication 放進 SecurityContext，供後續授權規則使用。
         http.addFilterBefore(new JWTTokenValidatorFilter(publicPaths), BasicAuthenticationFilter.class);
 
         http.formLogin(withDefaults()); // 啟用 Spring Security 預設表單登入頁面與表單登入流程

@@ -5,33 +5,32 @@ import Cookies from "js-cookie";
 const apiClient = axios.create({
   // import.meta.env 是 Vite 提供的環境變數存取方式，VITE_ 開頭的變數會被 Vite 注入到前端程式碼中
   baseURL: import.meta.env.VITE_API_BASE_URL, // 從環境變數讀取 API 基礎 URL
-  timeout: 10000, // request 最多等 10 秒
+  timeout: 500000, // request 最多等 10 秒
   headers: {
     "Content-Type": "application/json", // request body 的資料格式是 JSON
     Accept: "application/json", // 告訴後端希望 response 回傳 JSON
   },
-  withCredentials: true, // 允許 browser 在跨網域 request 時帶上 credentials（cookies、HTTP auth 等）
+  withCredentials: true, // 對 CSRF cookie 流程很可能是必要的
 });
 
-// 註冊一個 request interceptor
+// 2. 註冊 request interceptor：在 request 送出前統一補上 JWT 與必要的 CSRF token。
 apiClient.interceptors.request.use(
-  // 第一個 = success response 把 JWT 加進 header。
+  // 第一個函式處理正常情況：會在 request 送出前執行；這裡可以修改 config，讓這次 request 自動帶上 JWT header。
   async (config) => {
-    // config 是這次 request 的設定 object
     const jwtToken = localStorage.getItem("jwtToken");
     if (jwtToken) {
-      config.headers.Authorization = `Bearer ${jwtToken}`; // 在 HTTP request header 加上一個 Authorization 欄位，裡面放 JWT token。
+      // 2.1 在 HTTP request header 加上一個 Authorization 欄位，裡面放 JWT token。
+      config.headers.Authorization = `Bearer ${jwtToken}`;
     }
 
     // Only fetch CSRF token for non-safe methods
     const safeMethods = ["GET", "HEAD", "OPTIONS"];
+    // 只有非安全方法才需要 CSRF token
     if (!safeMethods.includes(config.method.toUpperCase())) {
-      // 只有非安全方法才需要 CSRF token
-
-      // 1. 從 cookies 中取得 CSRF token
+      // 2.2 從 cookies 中取得 CSRF token
       let csrfToken = Cookies.get("XSRF-TOKEN");
       if (!csrfToken) {
-        // 2. 如果 cookies 中沒有 CSRF token，則呼叫 api 從後端取得
+        // 2.3 如果 cookies 中沒有 CSRF token，則呼叫 api 從後端取得
         await axios.get(`${import.meta.env.VITE_API_BASE_URL}/csrf-token`, {
           withCredentials: true, // Axios 設定：允許瀏覽器在跨域請求中帶 cookies，並接收後端的 Set-Cookie: XSRF-TOKEN=abc123; 瀏覽器收到後，自動把 XSRF-TOKEN 存進 cookie
         });
@@ -48,7 +47,7 @@ apiClient.interceptors.request.use(
 
     return config;
   },
-  // 第二個 = failed response 把錯誤繼續往外丟
+  // 第二個函式處理錯誤情況：不要在這裡吞掉錯誤，而是把錯誤繼續往外丟，讓呼叫 apiClient.get(...) / apiClient.post(...) 的地方可以用 catch 或 try...catch 接到。
   (error) => Promise.reject(error),
 );
 
