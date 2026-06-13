@@ -17,5 +17,8 @@ public interface CustomerRepo extends JpaRepository<Customer, Long> {
 
     Optional<Customer> findByEmail(String email); // 尋找電子郵件符合的顧客
 
+    boolean existsByEmailAndIdNot(String email, Long id); // 檢查是否存在其他顧客使用相同 email，排除指定 id 的目前顧客
+
+    boolean existsByMobileNumberAndIdNot(String mobileNumber, Long id); // 檢查是否存在其他顧客使用相同手機號碼，排除指定 id 的目前顧客
 
 }

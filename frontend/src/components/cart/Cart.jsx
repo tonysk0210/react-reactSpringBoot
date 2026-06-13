@@ -48,7 +48,7 @@ export default function Cart() {
             {/* 如果地址不完整，則渲染提示訊息 */}
             {isAddressIncomplete && (
               <p className="text-red-500 text-lg mt-2 text-center">
-                請到「個人檔案」更新您的地址以進行結帳。
+                請到「個人檔案」新增您的收件地址以進行結帳。
               </p>
             )}
             {/* 1. 購物車表格 */}

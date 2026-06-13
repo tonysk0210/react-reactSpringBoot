@@ -3,6 +3,7 @@ package com.example.backend.service.impl;
 import com.example.backend.dto.ProfileResponseDto;
 import com.example.backend.entity.Address;
 import com.example.backend.entity.Customer;
+import com.example.backend.exception.DuplicateFieldException;
 import com.example.backend.payload.ProfileRequestPayload;
 import com.example.backend.repository.CustomerRepo;
 import com.example.backend.service.ProfileService;
@@ -13,6 +14,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
@@ -34,13 +39,29 @@ public class ProfileServiceImpl implements ProfileService {
         // 1. 取得當前登入用戶的 Customer 物件
         Customer customer = getAuthenticatedCustomer();
 
-        // 2. 檢查 email 是否有更新：比對原始 email 與更新後的 email
-        boolean isEmailUpdated = !customer.getEmail().equals(profileRequestPayload.getEmail().trim());
+        // 2. 先檢查 email / mobileNumber 是否與其他帳號重複
+        Map<String, List<String>> duplicateErrors = new HashMap<>(); // 儲存重複的欄位名稱及錯誤訊息
+        String newEmail = profileRequestPayload.getEmail().trim();
+        String newMobile = profileRequestPayload.getMobileNumber();
 
-        // 3. 複製 profileRequestPayload 的屬性值到 customer 物件中
+        if (!customer.getEmail().equals(newEmail) && customerRepo.existsByEmailAndIdNot(newEmail, customer.getId())) {
+            duplicateErrors.put("email", List.of("此 Email： " + newEmail + " 已被其他帳號使用"));
+        }
+        if (!customer.getMobileNumber().equals(newMobile) && customerRepo.existsByMobileNumberAndIdNot(newMobile, customer.getId())) {
+            duplicateErrors.put("mobileNumber", List.of("此手機號碼： " + newMobile + " 已被其他帳號使用"));
+        }
+        // 如果有重複的欄位名稱及錯誤訊息，則拋出 DuplicateFieldException
+        if (!duplicateErrors.isEmpty()) {
+            throw new DuplicateFieldException(duplicateErrors); // 由 handleDuplicateFieldException Global Exception Handler 處理發送 400
+        }
+
+        // 3. 檢查 email 是否有更新：比對原始 email 與更新後的 email
+        boolean isEmailUpdated = !customer.getEmail().equals(newEmail);
+
+        // 4. 複製 profileRequestPayload 的屬性值到 customer 物件中
         BeanUtils.copyProperties(profileRequestPayload, customer);
 
-        // 4. 取得 customer 的 Address 物件，如果不存在則建立一個新的 Address 物件
+        // 5. 取得 customer 的 Address 物件，如果不存在則建立一個新的 Address 物件
         Address address = customer.getAddress();
         if (address == null) {
             address = new Address();
@@ -53,10 +74,10 @@ public class ProfileServiceImpl implements ProfileService {
         address.setCountry(profileRequestPayload.getCountry());
         customer.setAddress(address); // inverse side，維持 Java 物件一致性
 
-        // 5. 保存 customer 物件到資料庫
+        // 6. 保存 customer 物件到資料庫
         customer = customerRepo.save(customer);
 
-        // 6. 將更新後的 customer 物件轉換成 ProfileResponseDto 物件
+        // 7. 將更新後的 customer 物件轉換成 ProfileResponseDto 物件
         ProfileResponseDto profileResponseDto = mapCustomerToProfileResponseDto(customer);
         profileResponseDto.setEmailUpdated(isEmailUpdated);
         return profileResponseDto;

@@ -114,6 +114,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(validationErrors);
     }
 
+    // DuplicateFieldException 異常處理
+    @ExceptionHandler(DuplicateFieldException.class)
+    public ResponseEntity<Map<String, List<String>>> handleDuplicateFieldException(DuplicateFieldException e) {
+        log.error("Global Exception Handler: DuplicateFieldException 發生異常: {}", e.getMessage());
+        return new ResponseEntity<>(e.getErrors(), HttpStatus.BAD_REQUEST); // 400
+    }
+
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ExceptionResponseDto> handleResourceNotFoundException(ResourceNotFoundException exception,
                                                                                 WebRequest webRequest) {
