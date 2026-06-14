@@ -36,8 +36,8 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
         Customer customer = customerRepo.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("無法找到該使用者: " + username)); // AuthenticationException
 
-        Set<Role> roles = customer.getRoles();
         // 3. 將角色名稱轉換成 SimpleGrantedAuthority 並包裝成 List
+        Set<Role> roles = customer.getRoles();
         List<SimpleGrantedAuthority> authorities = roles.stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .toList();

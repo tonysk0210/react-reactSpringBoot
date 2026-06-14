@@ -15,7 +15,7 @@ const apiClient = axios.create({
 
 // 2. 註冊 request interceptor：在 request 送出前統一補上 JWT 與必要的 CSRF token。
 apiClient.interceptors.request.use(
-  // 第一個函式處理正常情況：會在 request 送出前執行；這裡可以修改 config，讓這次 request 自動帶上 JWT header。
+  // 第一個函式處理正常情況：會在 request 送出前執行；這裡可以修改 config，讓這次 request 自動帶上 JWT header。 ** 處理 JWT 認證 **
   async (config) => {
     const jwtToken = localStorage.getItem("jwtToken");
     if (jwtToken) {
@@ -23,25 +23,25 @@ apiClient.interceptors.request.use(
       config.headers.Authorization = `Bearer ${jwtToken}`;
     }
 
-    // Only fetch CSRF token for non-safe methods
+    // 定義安全的 HTTP 方法，這些方法不需要 CSRF token ** 處理 CSRF 攻擊 **
     const safeMethods = ["GET", "HEAD", "OPTIONS"];
     // 只有非安全方法才需要 CSRF token
     if (!safeMethods.includes(config.method.toUpperCase())) {
-      // 2.2 從 cookies 中取得 CSRF token
+      // a. 從 cookies 中取得 CSRF token
       let csrfToken = Cookies.get("XSRF-TOKEN");
       if (!csrfToken) {
-        // 2.3 如果 cookies 中沒有 CSRF token，則呼叫 api 從後端取得
+        // b. 如果 cookies 中沒有 CSRF token，則呼叫 api 從後端取得 CsrfController 提供的 CSRF token
         await axios.get(`${import.meta.env.VITE_API_BASE_URL}/csrf-token`, {
           withCredentials: true, // Axios 設定：允許瀏覽器在跨域請求中帶 cookies，並接收後端的 Set-Cookie: XSRF-TOKEN=abc123; 瀏覽器收到後，自動把 XSRF-TOKEN 存進 cookie
         });
-        // 2.1 從 cookies 中取得 CSRF token
+        // c. 從 cookies 中取得 CSRF token
         csrfToken = Cookies.get("XSRF-TOKEN");
-        // 2.2 如果還是沒有，則拋出錯誤
+        // d. 如果還是沒有，則拋出錯誤
         if (!csrfToken) {
           throw new Error("無法取得 CSRF token");
         }
       }
-      // 3. 將 CSRF token 加入 request header
+      // e. 將 CSRF token 加入 request header 供後端驗證
       config.headers["X-XSRF-TOKEN"] = csrfToken;
     }
 

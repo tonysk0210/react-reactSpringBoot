@@ -10,10 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/csrf-token")
 public class CsrfController {
 
+    // 取得 CSRF Token
+    // 搭配在 MySecurityConfig：.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
+    // 這會讓 Spring Security 的 CSRF filter 把 CsrfToken 放進 HttpServletRequest 的 attribute 裡
     @GetMapping
     public CsrfToken getCsrfToken(HttpServletRequest request) {
-        return (CsrfToken) request.getAttribute(CsrfToken.class.getName());
-        // .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
-        // 這會讓 Spring Security 的 CSRF filter 把 CsrfToken 放進 HttpServletRequest 的 attribute 裡
+        return (CsrfToken) request.getAttribute(CsrfToken.class.getName()); // 所以這才會拿得到。
     }
 }

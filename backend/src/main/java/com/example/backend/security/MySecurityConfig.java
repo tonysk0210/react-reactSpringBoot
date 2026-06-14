@@ -48,33 +48,33 @@ public class MySecurityConfig {
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         //http.csrf(csrfConfig -> csrfConfig.disable()); // 把 Spring Security 的 CSRF 保護關掉。
 
-        // 將 CSRF Token 存到 Cookie，Cookie 名稱預設是 XSRF-TOKEN。
-        // withHttpOnlyFalse() 代表允許前端 JavaScript 讀取這個 Cookie。
-        // 前端在送 POST / PUT / DELETE 等非安全請求時，
-        // 需要把這個 token 放到 request header：X-XSRF-TOKEN。
-        // Spring Security 會比對 header 裡的 token 是否正確，正確才放行。CSRF：確認發出請求的人真的是已登入使用者本人，而不是惡意網站代發。
-        http.csrf(csrfConfig ->
-                csrfConfig.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) // 儲存/取得 token
-                        .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()) // 將 CSRF Token 放進 request attribute（例如 _csrf）， 方便讓 Controller、Filter、Thymeleaf、JSP 等可以透過 request 取得 token。
-                        .ignoringRequestMatchers("/api/v1/contacts", "/api/v1/contacts/**"));
 
+        // 1. 啟用 CSRF 防護：將 token 存在可由前端讀取的 XSRF-TOKEN cookie，讓前端在非安全請求中帶回 X-XSRF-TOKEN header 供後端驗證。(403 without handling CSRF token)
+        http.csrf(csrfConfig ->
+                csrfConfig.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) // 讓 Spring Security 用 cookie 保存 CSRF token。cookie 名稱通常是：XSRF-TOKEN，讓前端 JavaScript 可以讀取這個 Cookie。
+                        .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()) // 讓 Spring Security 把 CsrfToken 放到 HttpServletRequest 的 attribute 裡。 CsrfController，也就是 /api/v1/csrf-token 可以回傳目前的 CSRF token 給前端。
+                        .ignoringRequestMatchers("/api/v1/contacts", "/api/v1/contacts/**")); // 忽略 Swagger 文件與公開 contact API 的 CSRF 檢查，讓 Swagger 測試 contact form 時可不帶 X-XSRF-TOKEN 呼叫。
+        /**
+         * Backend 不另外保存 CSRF token 紀錄；
+         * CookieCsrfTokenRepository 讓 cookie 本身成為 token 的保存來源，後端驗證時比對 UI 帶回來的 cookie token 與 header token 是否一致。
+         */
 
         // 2. 在 Spring Security 中開啟 CORS，並指定它使用 corsConfigurationSource() 這份跨域設定。CORS：限制哪些網站可以存取我的 API。
         http.cors(corsConfig -> corsConfig.configurationSource(corsConfigurationSource()));
 
         // 3. 設定哪些路徑不需要驗證；越具體、越嚴格的規則放前面；越籠統、fallback 的規則放後面；anyRequest() 永遠放最後
         http.authorizeHttpRequests((request) -> {
-            // 公開路徑
+            // 3.1 公開路徑
             publicPaths.forEach(path ->
                     request.requestMatchers(path).permitAll());
-            // 限制路徑：需要 ADMIN 角色
+            // 3.2 限制路徑：需要 ADMIN 角色
             request.requestMatchers(
                     "/api/v1/admin/**",
                     "/actuator/**",
                     "/swagger-ui.html",
                     "/swagger-ui/**",
                     "/v3/api-docs/**").hasRole("ADMIN");
-            // 其他路徑：需要 USER 或 ADMIN 角色
+            // 3.3 其他路徑：需要 USER 或 ADMIN 角色
             request.anyRequest().hasAnyRole("USER", "ADMIN");
         });
 
