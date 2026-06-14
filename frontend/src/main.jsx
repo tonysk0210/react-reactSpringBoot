@@ -59,14 +59,15 @@ import "react-toastify/dist/ReactToastify.css";
 // 引入 AuthProvider；這個組件用於提供認證上下文的值，這裡我們將 initialAuthContext 作為 value 傳入 AuthContext.Provider 組件，這樣在整個應用程式中就可以使用 AuthContext 來訪問和修改認證的狀態了。
 import { AuthProvider } from "./store/auth-context.jsx";
 
-import { loadStripe } from "@stripe/stripe-js"; // 引入 loadStripe 函式；這個函式是用來加載 Stripe 的 JavaScript SDK 的，會在 Payment 組件中使用這個函式來加載 Stripe 的 JavaScript SDK。
-import { Elements } from "@stripe/react-stripe-js"; // 引入 Elements 組件；這個組件是用來包裝支付表單的，會在 Payment 組件中使用這個組件來包裝支付表單。
+// 引入 Stripe 相關組件
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 
 // 引入 Redux store 和 Provider 組件；這樣在整個應用程式中就可以使用 Redux 的功能了。
 import store from "./store/store.js"; // 引入 Redux store；這個 store 是用來管理應用程式的全局狀態的，這裡我們將 store 作為 value 傳入 Provider 組件，這樣在整個應用程式中就可以使用 store 來訪問和修改全局狀態了。
 import { Provider } from "react-redux"; // 引入 Provider 組件；這個組件是用來提供 Redux store 的，會在 App 組件中使用這個組件來提供 Redux store。
 
-// 初始化 Stripe
+// 初始化 Stripe - public key
 const stripePromise = loadStripe(
   "pk_test_51TVvD6FMVB3vMe2eBCgg8DEUVgDD6dvffycHPSCh41qeoDWzY77pDkoRw6KbVqwpxw176v2HyaciVBjYcoqdUtnT00N0NJf4oQ",
 );
@@ -130,14 +131,12 @@ createRoot(document.getElementById("root")).render(
   // 使用 StrictMode 包裹 App 組件，呼叫兩次 render 是 React 18 中 StrictMode 的一個特性，
   // 可以幫助開發者更早地發現潛在的問題，例如：不安全的生命週期方法、過時的 API 等等。
   <StrictMode>
+    {/* Stripe Provider*/}
     <Elements stripe={stripePromise}>
-      {/* <Elements> 很像是 Stripe 專用的 Context Provider。它的作用是建立一個 Stripe 的 context，讓被它包住的元件可以使用 Stripe 提供的功能 */}
       <AuthProvider>
         {/* 使用 Provider 包裹 RouterProvider，這樣整個應用程式都能夠使用 Redux 的功能 */}
         <Provider store={store}>
           <RouterProvider router={appRouter} />
-          {/* 1-3. 把 router 掛進 React app，讓路由開始運作 (把路由器接到 React 畫面) */}
-          {/* 這是 CartProvider 的 children，RouterProvider 組件會被渲染在 CartProvider 組件內部，這樣 RouterProvider 就可以訪問到 CartContext 中的值了。*/}
         </Provider>
       </AuthProvider>
 

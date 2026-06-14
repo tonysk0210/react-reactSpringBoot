@@ -190,7 +190,7 @@ export default function Header() {
                           </li>
                           <li>
                             <Link to="/orders" className={dropdownLinkClass}>
-                              我的訂單
+                              購買記錄
                             </Link>
                           </li>
                           {isAdmin && ( // 如果 isAdmin 為 true，則顯示管理者選單
