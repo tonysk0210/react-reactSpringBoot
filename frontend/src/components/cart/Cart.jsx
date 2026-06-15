@@ -16,7 +16,7 @@ export default function Cart() {
 
   const { isAuthenticated, user } = useAuth();
 
-  // 檢查用戶地址是否完整
+  // 1. 檢查用戶地址是否完整 (用於 /checkout 結帳按鈕的 disabled 狀態)
   const isAddressIncomplete = useMemo(() => {
     if (!isAuthenticated) return false; // 未登入狀態下，不把地址判定為 incomplete & 未登入狀態下，不把地址判定為 incomplete
     if (!user.address) return true; // 有登入，但沒有 address
