@@ -97,6 +97,7 @@ const routeDefinitions = createRoutesFromElements(
     <Route element={<ProtectedRoute />}>
       <Route path="/checkout" element={<CheckoutForm />} />
       <Route path="/order-success" element={<OrderSuccess />} />
+      <Route path="/orders" element={<Orders />} loader={ordersLoader} />
       <Route
         path="/profile"
         element={<Profile />}
@@ -108,7 +109,6 @@ const routeDefinitions = createRoutesFromElements(
           return !actionResult?.success; // 如果 success 為 false，才重新執行 profileLoader (成功更新後就不需要重新執行)
         }}
       />
-      <Route path="/orders" element={<Orders />} loader={ordersLoader} />
       <Route
         path="/admin/orderManage"
         element={<OrderManage />}

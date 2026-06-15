@@ -24,7 +24,7 @@ export default function Cart() {
     const { street, city, state, postalCode, country } = user.address;
 
     return !street || !city || !state || !postalCode || !country; // 有登入，有 address，但地址不完整，返回 true
-  }, [user]); // 使用 useMemo hook 來記住 isAddressIncomplete 的值，這樣在 user 屬性發生變化時，才會重新計算 isAddressIncomplete 的值，這樣可以避免重複計算，提高性能。
+  }, [isAuthenticated, user]); // 只有當 isAuthenticated 或 user 發生變化時，才會重新計算 isAddressIncomplete 的值
 
   const cart = useSelector(selectCartItems); // 從 Redux store 中獲取購物車中的商品列表
 
@@ -65,7 +65,7 @@ export default function Cart() {
               </Link>
               {/* 3. 結帳按鈕 */}
               <Link
-                to={isAddressIncomplete ? "#" : "/checkout"} // 地址不完整時跳轉到當前頁面
+                to={isAddressIncomplete ? "#" : "/checkout"} // 地址不完整時先給一個不進入結帳頁的目標；實際點擊會被 onClick 阻止
                 className={`py-2 px-4 text-xl font-semibold rounded-sm flex justify-center items-center transition 
                    text-white dark:text-black ${
                      isAddressIncomplete

@@ -279,7 +279,7 @@ export default function Profile() {
 
           <div>
             <label htmlFor="country" className={labelStyle}>
-              國家
+              國碼(例:TW)
             </label>
             <input
               id="country"

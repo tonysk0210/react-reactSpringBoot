@@ -16,19 +16,20 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public PaymentResponseDto createPaymentIntent(PaymentRequestPayload paymentRequestPayload) {
         try {
-            // 1. 建立付款意圖 PaymentIntent 時要傳給 Stripe 的參數
+            // 1. 建立付款意圖 PaymentIntent 時要傳給 Stripe API 的參數 (Stripe Java SDK)
             PaymentIntentCreateParams params = PaymentIntentCreateParams.builder()
                     .setAmount(paymentRequestPayload.amount())
                     .setCurrency(paymentRequestPayload.currency())
                     .addPaymentMethodType("card")
                     .build();
 
-            // 2. 呼叫 Stripe API 建立付款意圖
-            PaymentIntent paymentIntent = PaymentIntent.create(params); // 這行會向 Stripe 建立一筆付款意圖，所以需要 secret key 驗證身份。
+            // 2. 呼叫 Stripe API 建立付款意圖 (Stripe Java SDK)
+            PaymentIntent paymentIntent = PaymentIntent.create(params); // Stripe SDK 會使用已設定的 secret key 進行身份驗證
 
             // 3. 回傳付款意圖的客戶端密鑰 ( Stripe 伺服器產生 -> 回傳給你的 Spring Boot 後端 -> 前端使用 )
-            return new PaymentResponseDto(paymentIntent.getClientSecret()); // paymentIntent.getClientSecret() 是付款意圖的客戶端密鑰
+            return new PaymentResponseDto(paymentIntent.getClientSecret()); // paymentIntent.getClientSecret() 是從付款意圖的客戶端取得 secret key 密鑰
         } catch (StripeException e) {
+            // 4. 紀錄錯誤日誌
             log.error("建立 Stripe PaymentIntent 失敗: statusCode={}, code={}, message={}",
                     e.getStatusCode(),
                     e.getCode(),

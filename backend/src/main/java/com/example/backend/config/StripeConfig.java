@@ -7,10 +7,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@PropertySource("classpath:stripe.properties") // 指定 properties 檔案路徑
+@PropertySource("classpath:stripe.properties") // 指定 properties 檔案路徑：stripe.properties 中取
 public class StripeConfig {
 
-    @Value("${stripe.apiKey}") // 從application.properties檔案中取得 Stripe API 金鑰
+    @Value("${stripe.apiKey}") // 從 stripe.properties 檔案中取得 Stripe API secret key 金鑰 (stripe.apikey)
     private String apiKey;
 
     @PostConstruct // 初始化方法，在 Spring 容器初始化 Bean 時執行，建立 Stripe 金鑰

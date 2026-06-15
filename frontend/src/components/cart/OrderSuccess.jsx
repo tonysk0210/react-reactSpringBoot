@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import orderSuccessImg from "../../assets/util/order-confirmed.png";
 import PageTitle from "../home/PageTitle";

@@ -129,7 +129,7 @@ export default function CheckoutForm() {
 
     // 4. 創建付款意向
     try {
-      // 4.1 創建付款意向: 呼叫 Stripe 後端 API 請 Stripe 建立一筆 PaymentIntent
+      // 4.1 創建付款意向: 呼叫後端 PaymentController.createPaymentIntent API 請 Stripe 建立一筆 PaymentIntent
       const response = await apiClient.post(
         "/payment/create-payment-intent", // Payload: 傳送給後端的資料
         {
@@ -138,7 +138,7 @@ export default function CheckoutForm() {
         },
       );
 
-      // 4.2 從後端回傳的資料中取得這筆 PaymentIntent 的 clientSecret，後面會交給 Stripe 用來確認付款
+      // 4.2 從後端回傳的資料中取得這筆 PaymentResponseDto 的 clientSecret，後面會交給 Stripe 用來確認付款
       const { clientSecret } = response.data;
 
       // 4.3 確認付款: 用 Stripe SDK 來處理信用卡付款；把 clientSecret、信用卡欄位、使用者帳單資料交給 Stripe，請 Stripe 確認這筆付款。
