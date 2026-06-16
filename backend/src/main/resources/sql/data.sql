@@ -118,6 +118,15 @@ MERGE INTO products (name, description, price, popularity, image_url, created_at
 KEY(name)
 VALUES ('Wardgaze', 'Protective power of the evil eye', 6.00, 60, '/stickers/EvilEye.png', CURRENT_TIMESTAMP, 'admin', NULL, NULL);
 
+-- 範例聯絡訊息不存在才新增
+MERGE INTO contacts (name, email, mobile_number, message, status, created_at, created_by, updated_at, updated_by)
+KEY(email, message)
+VALUES ('Alex Chen', 'alex.chen@example.com', '0911222333', '想諮詢一下有關我的訂單.', 'OPEN', CURRENT_TIMESTAMP, 'SYSTEM', NULL, NULL);
+
+MERGE INTO contacts (name, email, mobile_number, message, status, created_at, created_by, updated_at, updated_by)
+KEY(email, message)
+VALUES ('Jamie Lin', 'jamie.lin@example.com', '0922333444', '請問貼紙是否能夠客製化?', 'OPEN', CURRENT_TIMESTAMP, 'SYSTEM', NULL, NULL);
+
 
 -- Admin 不存在才新增
 MERGE INTO customers (

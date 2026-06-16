@@ -1,4 +1,3 @@
-import React from "react";
 import { useLoaderData, useRevalidator } from "react-router-dom";
 import PageTitle from "../../home/PageTitle";
 import apiClient from "../../../api/apiClient";
@@ -39,10 +38,17 @@ export default function OrderManage() {
         `/admin/orderManage/${orderId}/cancel`,
       );
       toast.success(response?.data?.statusMsg || "訂單取消成功。");
-      revalidator.revalidate(); // 🔁 這是一個重要的步驟，當訂單狀態被更新後，我們需要重新加載訂單資料，以便頁面上顯示最新的訂單狀態。調用 revalidate 函式會觸發 OrderManage 組件中的 orderManageLoader 函式重新執行，從而獲取最新的訂單資料並更新頁面。
+      revalidator.revalidate(); // 🔁 這是一個重要的步驟，當訂單狀態被更新後，我們需要重新加載訂單資料，以便頁面上顯示最新的訂單狀態。
     } catch (error) {
       toast.error(error.response?.data?.errorMessage || "訂單取消失敗。"); // 失敗時通常會進 GlobalExceptionHandler
     }
+    /**
+     * revalidator.revalidate()
+     * = 我現在主動要求重新跑 loader
+     *
+     * shouldRevalidate()
+     * = action 結束後，React Router 問你「要不要重新跑 loader？」
+     */
   };
 
   return (
@@ -88,13 +94,13 @@ export default function OrderManage() {
                 {/* Action Buttons */}
                 <div className="flex space-x-4 mt-4 lg:mt-0">
                   <button
-                    onClick={() => handleConfirm(order.orderId)}
+                    onClick={() => handleConfirm(order.orderId)} // 實作確認訂單的邏輯
                     className="px-6 py-2 text-white dark:text-dark text-md rounded-md transition duration-200 bg-brand dark:bg-light hover:bg-dark dark:hover:bg-lighter"
                   >
-                    確認
+                    成立
                   </button>
                   <button
-                    onClick={() => handleCancel(order.orderId)}
+                    onClick={() => handleCancel(order.orderId)} // 實作取消訂單的邏輯
                     className="px-6 py-2 text-white text-md rounded-md transition duration-200 bg-red-500 hover:bg-red-600"
                   >
                     取消

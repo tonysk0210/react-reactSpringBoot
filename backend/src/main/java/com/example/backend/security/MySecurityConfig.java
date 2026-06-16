@@ -71,7 +71,6 @@ public class MySecurityConfig {
             request.requestMatchers(
                     "/api/v1/admin/**",
                     "/actuator/**",
-                    "/swagger-ui.html",
                     "/swagger-ui/**",
                     "/v3/api-docs/**").hasRole("ADMIN");
             // 3.3 其他路徑：需要 USER 或 ADMIN 角色

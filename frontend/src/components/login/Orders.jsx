@@ -1,4 +1,3 @@
-import React from "react";
 import apiClient from "../../api/apiClient";
 import { useLoaderData } from "react-router-dom";
 import PageTitle from "../home/PageTitle";
@@ -20,7 +19,7 @@ export default function Orders() {
     );
   }
 
-  // 定義一個函數來根據訂單狀態返回對應的 CSS 類名，以便在頁面上使用不同的顏色來顯示不同狀態的訂單，例如：CREATED 狀態的訂單會顯示為橙色，CANCELLED 狀態的訂單會顯示為紅色，CONFIRMED 狀態的訂單會顯示為綠色，其他狀態的訂單會顯示為灰色。
+  // 定義一個函數來根據訂單狀態返回對應的 CSS 類名，以便在頁面上使用不同的顏色來顯示不同狀態的訂單
   function getStatusClassName(status) {
     switch (status) {
       case "CREATED":
@@ -38,7 +37,7 @@ export default function Orders() {
     <div className="min-h-213 max-w-4xl mx-auto px-6 py-12 font-brand dark:bg-darkbg">
       {orders.length === 0 ? (
         <p className="text-center text-2xl  text-brand dark:text-lighter">
-          暫無訂單
+          暫無購買紀錄
         </p>
       ) : (
         <div className="space-y-6 mt-4">
@@ -72,7 +71,7 @@ export default function Orders() {
                   {formatDate(order.createdAt)}
                 </span>
               </p>
-              {/* // 這裡的 order.orderItems 是 OrderResponseDto
+              {/* // 這裡的 order.orderItems 是 OrderResponseDto.orderItems
               中的訂單項目列表，每一個訂單項目包含了產品的詳細資訊，例如：產品名稱、價格、數量、圖片URL
               等等，這些資訊會被用來在頁面上顯示每一個訂單項目的詳細資訊給用戶。 */}
               <div className="mt-4 space-y-4">

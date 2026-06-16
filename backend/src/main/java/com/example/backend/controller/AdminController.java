@@ -26,6 +26,9 @@ public class AdminController {
         return ResponseEntity.ok().body(orderService.getAllPendingOrders());
     }
 
+    /**
+     * 確認訂單 CONFIRMED
+     */
     @PatchMapping("/orderManage/{orderId}/confirm")
     public ResponseEntity<ResponseDto> confirmOrder(@PathVariable Long orderId) {
         // 1. 更新訂單狀態為 CONFIRMED
@@ -35,6 +38,9 @@ public class AdminController {
         );
     }
 
+    /**
+     * 取消訂單 CANCELLED
+     */
     @PatchMapping("/orderManage/{orderId}/cancel")
     public ResponseEntity<ResponseDto> cancelOrder(@PathVariable Long orderId) {
         // 1. 更新訂單狀態為 CANCELLED
@@ -44,11 +50,17 @@ public class AdminController {
         );
     }
 
+    /**
+     * 取得所有未讀取的留言
+     */
     @GetMapping("/messages")
     public ResponseEntity<List<ContactResponseDto>> getAllOpenMessages() {
         return ResponseEntity.ok(contactService.getAllOpenMessages());
     }
 
+    /**
+     * 關閉留言 CLOSED
+     */
     @PatchMapping("/messages/{contactId}/close")
     public ResponseEntity<ResponseDto> closeMessage(@PathVariable Long contactId) {
         // 1. 更新留言狀態為 CLOSED

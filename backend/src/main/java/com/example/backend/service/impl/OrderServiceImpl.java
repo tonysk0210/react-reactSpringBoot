@@ -27,6 +27,9 @@ public class OrderServiceImpl implements OrderService {
     private final ProductRepo productRepo;
     private final ProfileServiceImpl profileServiceImpl;
 
+    /**
+     * CheckoutForm.jsx 送出 payment 後，建立訂單
+     */
     @Override
     public void createOrder(OrderRequestPayload orderRequestPayload) {
         // 1. 取得當前登入用戶的 Customer 物件
@@ -56,6 +59,9 @@ public class OrderServiceImpl implements OrderService {
         orderRepo.save(order);
     }
 
+    /**
+     * 取得當前用戶的所有訂單（購買紀錄）
+     */
     @Override
     public List<OrderResponseDto> getCustomerOrders() {
         // 1. 取得當前登入用戶的 Customer 物件
@@ -68,6 +74,10 @@ public class OrderServiceImpl implements OrderService {
         return orders.stream().map(this::mapToOrderResponseDTO).collect(Collectors.toList());
     }
 
+    /**
+     * for Admin use
+     * 取得所有狀態為 CREATED 的訂單
+     */
     @Override
     public List<OrderResponseDto> getAllPendingOrders() {
         // 1. 取得所有狀態為 CREATED 的訂單
@@ -76,6 +86,10 @@ public class OrderServiceImpl implements OrderService {
         return orders.stream().map(this::mapToOrderResponseDTO).collect(Collectors.toList());
     }
 
+    /**
+     * for Admin use
+     * 更新訂單狀態 CONFIRMED or CANCELLED
+     */
     @Override
     public Order updateOrderStatus(Long orderId, String orderStatus) {
         // 1. 取得指定 ID 的訂單，若找不到則拋出 ResourceNotFoundException　找不到符合條件的 %s，欄位 %s 的值為 '%s'
@@ -88,8 +102,11 @@ public class OrderServiceImpl implements OrderService {
         return orderRepo.save(order);
     }
 
-    /* Helper method */
-    // 將 Order 轉換成 OrderResponseDto
+
+    /**
+     * Helper method
+     * 將 Order 轉換成 OrderResponseDto
+     */
     private OrderResponseDto mapToOrderResponseDTO(Order order) {
         // 1. 取得 Order 的所有 OrderItem
         List<OrderItemResponseDto> orderItemsDTOs = order.getOrderItems().stream()
@@ -106,7 +123,10 @@ public class OrderServiceImpl implements OrderService {
         return orderResponseDto;
     }
 
-    // 將 OrderItem 轉換成 OrderItemResponseDto
+    /**
+     * Helper method
+     * 將 OrderItem 轉換成 OrderItemResponseDto
+     */
     private OrderItemResponseDto mapToOrderItemResponseDTO(OrderItem orderItem) {
         // 1. 取得 OrderItem 的 Product 名稱、數量、價格及圖片 URL
         OrderItemResponseDto orderItemDto = new OrderItemResponseDto(

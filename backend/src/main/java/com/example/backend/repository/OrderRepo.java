@@ -11,8 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface OrderRepo extends JpaRepository<Order, Long> {
+    // 取得購買紀錄
     List<Order> findByCustomerOrderByCreatedAtDesc(Customer customer);
 
+    // 取得所有狀態為 CREATED 的訂單
     List<Order> findByOrderStatus(String orderStatus);
 
     /* 自定義查詢 - 根據客戶查詢訂單 - JPQL query ( 參照 Entity class: Order) */

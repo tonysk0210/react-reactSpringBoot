@@ -1,4 +1,3 @@
-import React from "react";
 import { useLoaderData, useRevalidator } from "react-router-dom";
 import PageTitle from "../../home/PageTitle";
 import apiClient from "../../../api/apiClient";
@@ -18,7 +17,7 @@ export default function Messages() {
       toast.success(response?.data?.statusMsg || "此信息已關閉。", {
         style: { width: "450px", maxWidth: "calc(100vw - 32px)" },
       });
-      revalidator.revalidate(); // 🔁 Re-run loader
+      revalidator.revalidate(); // 🔁 重新執行 messagesLoader 函式
     } catch (error) {
       toast.error(error.response?.data?.errorMessage || "此信息關閉失敗"); // 失敗時通常會進 GlobalExceptionHandler
     }

@@ -33,6 +33,10 @@ public class ContactServiceImpl implements ContactService {
         return true;
     }
 
+    /**
+     * for Admin use
+     * 取得所有狀態為 OPEN 的 Contact 資料
+     */
     @Override
     public List<ContactResponseDto> getAllOpenMessages() {
         // 1. 從資料庫中查詢所有狀態為 OPEN 的 Contact 資料
@@ -42,6 +46,10 @@ public class ContactServiceImpl implements ContactService {
     }
 
 
+    /**
+     * for Admin use
+     * 更新 Contact 資料的狀態
+     */
     @Override
     public void updateMessageStatus(Long contactId, String status) {
         // 1. 根據 contactId 查找 Contact 資料
@@ -53,7 +61,9 @@ public class ContactServiceImpl implements ContactService {
         contactRepo.save(contact);
     }
 
-    // Helper method : 將 Contact 轉換成 ContactResponseDto
+    /**
+     * Helper method : 將 Contact 轉換成 ContactResponseDto
+     */
     private ContactResponseDto mapToContactResponseDTO(Contact contact) {
         ContactResponseDto dto = new ContactResponseDto(
                 contact.getId(),
