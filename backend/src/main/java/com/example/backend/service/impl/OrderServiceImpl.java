@@ -34,18 +34,18 @@ public class OrderServiceImpl implements OrderService {
 
         // 2. 建立 Order Entity 物件
         Order order = new Order();
-        order.setCustomer(customer);
-        BeanUtils.copyProperties(orderRequestPayload, order); // totalPrice, paymentId, paymentStatus, orderItems
-        order.setOrderStatus(ApplicationConstants.ORDER_STATUS_CREATED);
+        order.setCustomer(customer); // * 設定 Order 所属的 Customer -> 必要 (關係的「真正擁有方」是 Order 這邊)，負責 FK CUSTOMER_ID
+        BeanUtils.copyProperties(orderRequestPayload, order); // 只複製外層且型別相容的欄位（totalPrice, paymentId, paymentStatus）；orderItems 需手動轉成 OrderItem entity
+        order.setOrderStatus(ApplicationConstants.ORDER_STATUS_CREATED); // 訂單建立 CREATED
         // 2.1 遍歷 orderItems 並建立 OrderItem Entity 物件
         List<OrderItem> orderItems = orderRequestPayload.orderItems().stream()
                 .map(item -> {
                     OrderItem orderItem = new OrderItem();
-                    orderItem.setOrder(order); // 設定 OrderItem 所属的 Order -> 必要 (關係的「真正擁有方」是 OrderItem 這邊)，負責 FK ORDER_ID
+                    orderItem.setOrder(order); // * 設定 OrderItem 所属的 Order -> 必要 (關係的「真正擁有方」是 OrderItem 這邊)，負責 FK ORDER_ID
                     Product product = productRepo.findById(item.productId()) // 取得 Product Optional
                             .orElseThrow(() -> new ResourceNotFoundException("Product", "ProductID",
                                     item.productId().toString())); // 如果找不到 Product 則拋出 ResourceNotFoundException: 找不到符合條件的 Product，欄位 ProductID 的值為 item.productId()
-                    orderItem.setProduct(product); // 設定 OrderItem 所属的 Product -> 必要 (關係的「真正擁有方」是 OrderItem 這邊)，負責 FK PRODUCT_ID
+                    orderItem.setProduct(product); // * 設定 OrderItem 所属的 Product -> 必要 (關係的「真正擁有方」是 OrderItem 這邊)，負責 FK PRODUCT_ID
                     orderItem.setQuantity(item.quantity());
                     orderItem.setPrice(item.price());
                     return orderItem;

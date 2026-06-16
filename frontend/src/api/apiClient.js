@@ -51,24 +51,33 @@ apiClient.interceptors.request.use(
   (error) => Promise.reject(error),
 );
 
-// 註冊一個 response interceptor 來處理 401 錯誤  ExpiredJwtException
-// 這裡的 response / error 不是看 backend「有沒有正常寫出 response body」，而是看 Axios 怎麼判斷 HTTP status
+// 3. 註冊 apiClient 的 response interceptor：統一處理透過 apiClient 發出的請求中，後端回傳的 401 Unauthorized，例如 JWT 過期或無效
 apiClient.interceptors.response.use(
-  (response) => response, // 如果成功，就直接回傳 response: 2xx 會進這裡
+  (response) => response, // 2xx response 會進這裡，直接回傳給呼叫端
   async (error) => {
-    // 如果失敗，就檢查 status code: 非 2xx 預設會進這裡; Axios 預設把非 2xx status 當錯誤
+    // 非 2xx response 預設會進這裡；error.response 代表後端有回應，只是 status 被 Axios 視為錯誤
     if (error.response && error.response.status === 401) {
-      // 401 Unauthorized
-      console.log(error.response.data); // "JWT Token 已過期！"
+      console.log(error.response.data); // "JWT Token 已過期！" - 401 Unauthorized 由後端給的 status
 
       const jwtToken = localStorage.getItem("jwtToken");
       if (jwtToken) {
         localStorage.removeItem("jwtToken"); // 移除過期的 JWT token
-        window.location.href = "/login"; // 跳轉到登入頁面；但不會立即停止 JavaScript 執行， ErrorPage 短暫顯示
+        localStorage.removeItem("user"); // 移除使用者資訊
+        setTimeout(() => {
+          window.location.href = "/login"; // 2 秒後跳轉到登入頁面，讓 ErrorPage 有時間短暫顯示
+        }, 2000);
       }
     }
-    return Promise.reject(error); // 把錯誤繼續往外丟 Promise 被 reject，等同於 throw error
+    return Promise.reject(error); // 不吞掉錯誤，讓原本呼叫 apiClient 的地方繼續用 catch / loader errorElement 處理
   },
 );
+/**
+ * 所有「透過這個 apiClient instance 發出去」且後端回傳 401 的 request，都會被這個 response interceptor 攔到。
+ * 這裡的 response / error 不是看 backend「有沒有正常寫出 response body」，而是看 Axios 怎麼判斷 HTTP status。
+ * Axios 預設會把非 2xx HTTP status 視為錯誤；即使後端有回傳 response body，也會進入 error callback。
+ *
+ * 沒有登入時 /profile 通常是 route guard (requireAuth) 接住；token 過期時才比較可能是 apiClient response interceptor 接住。
+ * 若 request path 符合後端 publicPaths，例如 /api/v1/products/**，JWTTokenValidatorFilter.shouldNotFilter() 會跳過 JWT 驗證；因此即使 request 帶了過期 token，只要後端仍回 2xx，就不會進這個 response interceptor 的 error callback。
+ */
 
 export default apiClient;

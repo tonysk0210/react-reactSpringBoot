@@ -121,6 +121,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(e.getErrors(), HttpStatus.BAD_REQUEST); // 400
     }
 
+    // ResourceNotFoundException 異常處理：用於後端要查某個資料，但資料庫找不到時，主動丟出一個代表「資源不存在」的例外，最後回給前端 HTTP 404
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ExceptionResponseDto> handleResourceNotFoundException(ResourceNotFoundException exception,
                                                                                 WebRequest webRequest) {

@@ -24,7 +24,7 @@ public interface OrderRepo extends JpaRepository<Order, Long> {
     @Query("SELECT o FROM Order o WHERE o.orderStatus=?1")
     List<Order> findOrdersByStatus(String orderStatus);
 
-    /*自定義查詢 - 根據客戶查詢訂單 - 原生 SQL query ( 參照 Database table: orders) */
+    /* 自定義查詢 - 根據客戶查詢訂單 - 原生 SQL query ( 參照 Database table: orders) */
     @Query(value = "SELECT * FROM orders o WHERE o.customer_id=:customerId ORDER BY o.created_at DESC", nativeQuery = true)
     List<Order> findOrdersByCustomerWithNativeQuery(@Param("customerId") Long customerId);
 

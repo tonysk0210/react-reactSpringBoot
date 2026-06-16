@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class PaymentServiceImpl implements PaymentService {
 
+    // 回傳 clientSecret 讓前端用來確認這筆 PaymentIntent 的密鑰 (收款帳號由後端設定的 secret key 決定)
     @Override
     public PaymentResponseDto createPaymentIntent(PaymentRequestPayload paymentRequestPayload) {
         try {

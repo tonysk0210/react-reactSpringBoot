@@ -129,7 +129,7 @@ export default function CheckoutForm() {
 
     // 4. 創建付款意向
     try {
-      // 4.1 創建付款意向: 呼叫後端 PaymentController.createPaymentIntent API 請 Stripe 建立一筆 PaymentIntent
+      // 4.1 創建付款意向: 呼叫後端 PaymentController.createPaymentIntent API 請 Stripe 建立一筆 PaymentIntent 並回傳 clientSecret
       const response = await apiClient.post(
         "/payment/create-payment-intent", // Payload: 傳送給後端的資料
         {
@@ -149,7 +149,7 @@ export default function CheckoutForm() {
         {
           payment_method: {
             card: elements.getElement(CardNumberElement), // 4.3.2.1 信用卡號碼
-            // 4.3.2.2 信用卡其他資訊（到期日、CVC）會自動從 Stripe 提供的 CardNumberElement 中取得
+            // 4.3.2.2 到期日與 CVC 會由同一組 Stripe Elements 中的 CardExpiryElement / CardCvcElement 一起提供給 Stripe
             billing_details: {
               // 4.3.2.3 付款人帳單資料
               name: user.name,
