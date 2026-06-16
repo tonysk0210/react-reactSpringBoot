@@ -12,18 +12,18 @@ public interface ContactRepo extends JpaRepository<Contact, Long> {
     List<Contact> findByStatus(String status);
 
     /**
+     * NamedQuery & NamedNativeQuery
+     * <p>
      * 簡單規則：
      * Repo method: findByStatus
      * Spring 先找: Contact.findByStatus named query
      * 找得到 → 用 named query
      * 找不到 → 用 derived query
      */
-    /*　Named Queries - for demonstration purposes　*/
+    // 明確指定使用 Contact entity 上定義的 Contact.findByStatusNamedQuery named query
     @Query(name = "Contact.findByStatusNamedQuery")
-    // 這個 method 要使用 Contact.findByStatus 這個 named query
     List<Contact> fetchByStatus(String status);
 
-
-    // @Query 可以省，因為 method name 剛好匹配：Contact.findByStatusWithNativeQuery
+    // method name 剛好匹配 Contact.findByStatusWithNativeQuery，因此可自動使用 named native query 不需要再加 @Query
     List<Contact> findByStatusWithNativeQuery(String status);
 }
