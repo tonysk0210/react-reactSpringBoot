@@ -31,7 +31,12 @@ public class Role extends BaseEntity {
     @JoinColumn(name = "CUSTOMER_ID", nullable = false)
     private Customer customer;*/
 
-    @ManyToMany(mappedBy = "roles") //
+    @ManyToMany(mappedBy = "roles")
     private Set<Customer> customers = new LinkedHashSet<>();
+
+    /**
+     * mappedBy = "roles"： Role 告訴 JPA：「我不是負責維護關聯表的那一方，真正擁有這個關聯的是 Customer 裡面名叫 roles 的欄位。」
+     * owning side 不一定代表「那個 entity table 本身一定擁有 FK 欄位」。owning side 的意思是：哪一邊負責維護資料庫中的關聯資料。
+     */
 
 }

@@ -18,7 +18,19 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepo productRepo;
 
-    @Cacheable("products") // 代表這個方法的結果會被緩存，下次呼叫時會從緩存中返回
+    /**
+     * cache name: products
+     * key: SimpleKey.EMPTY
+     * value: List<ProductDto>
+     * <p>
+     * 也就是 products cache 裡只有一份 getProducts() 的結果。
+     * <p>
+     * products
+     * └── SimpleKey.EMPTY -> List<ProductDto>
+     */
+    
+    // 快取 getProducts() 的回傳結果；快取命中時直接回傳，不再查詢資料庫。此 cache 由 Caffeine 存在 JVM memory，30 分鐘後過期
+    @Cacheable("products")
     @Override
     public List<ProductDto> getProducts() {
 

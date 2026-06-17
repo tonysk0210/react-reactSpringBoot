@@ -12,21 +12,26 @@ import java.util.concurrent.TimeUnit;
 
 @Configuration
 public class CaffeineCacheConfig {
-
+    /**
+     * 建立 CaffeineCacheManager 來管理 CaffeineCache
+     */
     @Bean
     public CacheManager caffeineCacheManager() {
-        CaffeineCache productsCache = new CaffeineCache("products", // 建立 products Cache
+        // 1. 建立 products Cache
+        CaffeineCache productsCache = new CaffeineCache("products",
                 Caffeine.newBuilder()
                         .expireAfterWrite(30, TimeUnit.MINUTES)
-                        .maximumSize(1000)
+                        .maximumSize(1000) // 限制此 cache 最多保留 1000 個 cache entries；目前 getProducts() 無參數，通常只會使用其中 1 個 entry
                         .build());
 
-        CaffeineCache rolesCache = new CaffeineCache("roles", // 建立 roles Cache
+        // 2. 建立 roles Cache
+        CaffeineCache rolesCache = new CaffeineCache("roles",
                 Caffeine.newBuilder()
                         .expireAfterWrite(1, TimeUnit.DAYS)
                         .maximumSize(10)
                         .build());
 
+        // 3. 將 productsCache 與 rolesCache 加入 CacheManager
         SimpleCacheManager manager = new SimpleCacheManager();
         manager.setCaches(Arrays.asList(productsCache, rolesCache));
         return manager;

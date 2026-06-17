@@ -26,6 +26,7 @@ public class PaymentServiceImpl implements PaymentService {
 
             // 2. 呼叫 Stripe API 建立付款意圖 (Stripe Java SDK)
             PaymentIntent paymentIntent = PaymentIntent.create(params); // Stripe SDK 會使用已設定的 secret key 進行身份驗證
+            // PaymentIntent.create(params) 會透過 Stripe Java SDK 呼叫 Stripe API。這時 SDK 會使用前面已經設定好的：Stripe.apiKey
 
             // 3. 回傳付款意圖的客戶端密鑰 ( Stripe 伺服器產生 -> 回傳給你的 Spring Boot 後端 -> 前端使用 )
             return new PaymentResponseDto(paymentIntent.getClientSecret()); // paymentIntent.getClientSecret() 是從付款意圖的客戶端取得 secret key 密鑰
