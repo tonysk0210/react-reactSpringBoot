@@ -51,11 +51,13 @@ public class Customer extends BaseEntity {
     @JoinColumn(name = "customer_id", nullable = false) // ROLES 表裡面有一個 customer_id 欄位，用它來連回 CUSTOMERS。
     private Set<Role> roles = new LinkedHashSet<>(); // 不重複，而且保留加入順序*/
 
-    @ManyToMany(fetch = FetchType.EAGER) // CascadeType.REMOVE：如果刪除某個 customer 時連 ROLE_USER 也刪掉，就可能影響其他 customer。
-    @JoinTable( // owning side
-            name = "customer_roles", // 中間表名稱
-            joinColumns = @JoinColumn(name = "customer_id"), // 中間表裡面有一個 customer_id 欄位，用它來連回 CUSTOMERS。
-            inverseJoinColumns = @JoinColumn(name = "role_id")) // 中間表裡面有一個 role_id 欄位，用它來連回 ROLES。
+    // Customer 是 owning side，負責維護 customer_roles 中間表。
+    // Role 是共用權限資料，不要加 CascadeType.REMOVE，避免刪除 Customer 時誤刪 ROLE_USER / ROLE_ADMIN。
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "customer_roles",
+            joinColumns = @JoinColumn(name = "customer_id"), // customer_roles.customer_id -> CUSTOMERS.CUSTOMER_ID
+            inverseJoinColumns = @JoinColumn(name = "role_id")) // customer_roles.role_id -> ROLES.ROLE_ID
     private Set<Role> roles = new LinkedHashSet<>();
 
     /**
