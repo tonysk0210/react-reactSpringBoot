@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class ContactController {
 
     private final ContactService contactService;
-    private final ContactInfoDto contactInfoDto; // 聯繫信息 DTO 做 autowiring
+    private final ContactInfoDto contactInfoDto; // ContactInfoDto 已經透過這裡被註冊成 Spring bean：注入由 @ConfigurationProperties 綁定出的聯絡資訊設定
     
     @PostMapping("/contacts")
     public ResponseEntity<String> saveContact(@Valid @RequestBody ContactPayload contactPayload) {
