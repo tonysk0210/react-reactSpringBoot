@@ -115,6 +115,14 @@ src/main/resources/
 }
 ```
 
+`DuplicateFieldException`（`PUT /api/v1/profile`，email / 手機與其他帳號重複）：
+```json
+{
+  "email": ["此 Email： john@gmail.com 已被其他帳號使用"],
+  "mobileNumber": ["此手機號碼： 0912345678 已被其他帳號使用"]
+}
+```
+
 ## 資料庫 Schema
 
 - `CUSTOMERS`（PK: customer_id，UNIQUE: email、mobile_number）

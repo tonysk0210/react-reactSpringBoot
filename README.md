@@ -395,6 +395,15 @@ Entity → DTO 使用 `BeanUtils.copyProperties()`，對欄位名稱相同的屬
 }
 ```
 
+`PUT /api/v1/profile` 更新時 email / 手機號碼與其他帳號重複（`DuplicateFieldException`）：
+
+```json
+{
+  "email": ["此 Email： john@gmail.com 已被其他帳號使用"],
+  "mobileNumber": ["此手機號碼： 0912345678 已被其他帳號使用"]
+}
+```
+
 ### Caffeine 快取策略
 
 | 快取名稱 | TTL | 觸發條件 | 失效時機 |
@@ -623,6 +632,16 @@ npm run dev
 | 角色 | Email | 密碼 | 說明 |
 |------|-------|------|------|
 | ADMIN | admin@gmail.com | 1234 | Demo 帳號，可存取管理後台與 Swagger |
+
+### Stripe 測試刷卡資訊
+
+結帳頁面使用 Stripe 測試模式，請輸入以下測試卡號：
+
+| 欄位 | 值 |
+|------|----|
+| 卡號 | `4242 4242 4242 4242` |
+| 到期日 | 任意未來日期（例如 `12/34`）|
+| CVC | 任意三位數（例如 `123`）|
 
 ---
 
