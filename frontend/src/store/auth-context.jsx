@@ -73,6 +73,7 @@ export const AuthProvider = ({ children }) => {
   // 這是登入成功時的 action creator - 用於更新 auth 狀態
   const loginSuccess = (jwtToken, user) => {
     dispatch({ type: LOGIN_SUCCESS, payload: { jwtToken, user } }); // 由 Login.jsx 呼叫 /auth/login api，並帶入後端返回的 jwtToken 和 user 來更新前端 context
+    // payload 是 action 的載荷，用來傳遞數據
   };
 
   // 這是登出時的 action creator - 用於更新 auth 狀態，並清除 localStorage 和 sessionStorage 中的相關數據

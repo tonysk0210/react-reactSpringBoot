@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
@@ -7,12 +6,12 @@ import {
   selectCartItems,
   addToCart,
   removeFromCart,
-  clearCart,
 } from "../../store/cart-slice";
 
 export default function CartTable() {
-  const dispatch = useDispatch();
-  const cart = useSelector(selectCartItems);
+  // Redux hooks
+  const cart = useSelector(selectCartItems); // 使用 useSelector hook 來獲取購物車中的商品列表
+  const dispatch = useDispatch(); // 使用 useDispatch hook 來獲取 dispatch 函數
 
   // 計算購物車中商品的總價
   const subtotal = cart
@@ -28,9 +27,9 @@ export default function CartTable() {
   };
 
   // 清空購物車
-  const clearCartHandler = () => {
+  /* const clearCartHandler = () => {
     dispatch(clearCart());
-  };
+  }; */
 
   return (
     <div className="min-h-80 max-w-4xl mx-auto my-8 w-full font-brand">

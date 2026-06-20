@@ -134,7 +134,7 @@ createRoot(document.getElementById("root")).render(
     {/* Stripe Provider*/}
     <Elements stripe={stripePromise}>
       <AuthProvider>
-        {/* 使用 Provider 包裹 RouterProvider，這樣整個應用程式都能夠使用 Redux 的功能 */}
+        {/* 使用 Redux Provider 包裹 RouterProvider，讓所有路由元件都能透過 useSelector/useDispatch 存取 Redux store */}
         <Provider store={store}>
           <RouterProvider router={appRouter} />
         </Provider>

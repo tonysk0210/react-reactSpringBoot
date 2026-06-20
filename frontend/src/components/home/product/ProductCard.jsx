@@ -1,11 +1,10 @@
 import Price from "./Price";
 import { Link } from "react-router-dom";
-
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../../store/cart-slice";
 
 export default function ProductCard({ product }) {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); // 使用 useDispatch hook 來獲取 dispatch 函式，用於分發 action 到 Redux store
   return (
     <div className="product-card">
       {/* 點擊產品卡片會導航到 /products/:id 路由，這裡的 :id 是一個動態參數，會被替換成實際的產品 ID，例如：/products/123，這樣在 ProductDetail 組件中就可以使用 useParams 來獲取這個 ID 並顯示對應的產品詳細資訊。 */}
@@ -36,7 +35,7 @@ export default function ProductCard({ product }) {
             </div>
             <button
               type="button"
-              onClick={() => dispatch(addToCart({ product, quantity: 1 }))} // 當用戶點擊「加入購物車」按鈕時，就會調用 addToCart 方法，並且將當前的產品作為參數傳入，從而將產品添加到購物車中。
+              onClick={() => dispatch(addToCart({ product, quantity: 1 }))} // 當用戶點擊「加入購物車」按鈕時，就會調用 addToCart 方法，並且將當前的產品作為 payload 參數傳入，從而將產品添加到購物車中。
               className="text-sm font-semibold text-white bg-brand hover:bg-dark px-4 py-2 rounded-md transition"
             >
               加入購物車

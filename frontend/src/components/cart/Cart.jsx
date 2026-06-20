@@ -1,15 +1,11 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import PageTitle from "../home/PageTitle";
 import { Link, useNavigate } from "react-router-dom";
 import emptyCartImage from "../../assets/util/emptycart.png";
 import CartTable from "./CartTable"; // 引入 CartTable 組件；這個組件是用來渲染購物車表格的，當購物車不是空的時候，會渲染購物車表格，當購物車是空的時候，會渲染空購物車提示和返回商品按鈕。
 import { useAuth } from "../../store/auth-context"; // 引入 useAuth custom hook；這個 hook 是用來在組件中訪問 AuthContext 中的 user 屬性，這個屬性表示當前登入的用戶，可以用來在購物車頁面中顯示用戶的資訊。
-import { useSelector, useDispatch } from "react-redux";
-import {
-  selectCartItems,
-  addToCart,
-  removeFromCart,
-} from "../../store/cart-slice";
+import { useSelector } from "react-redux";
+import { selectCartItems } from "../../store/cart-slice";
 
 export default function Cart() {
   const navigate = useNavigate(); // useNavigate 與 Link 的差別在可程式化導航且可以傳遞狀態

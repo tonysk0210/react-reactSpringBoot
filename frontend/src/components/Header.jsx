@@ -43,6 +43,13 @@ export default function Header() {
     setMode(newMode);
   };
   const totalQuantity = useSelector(selectTotalQuantity); // 從 Redux store 中選擇購物車的總數量
+  // 類似 selectTotalQuantity(store.getState())，但實際由 useSelector 自動處理
+  /**
+   * useSelector 會從 React-Redux Provider 找到 Redux store，
+   * 取得目前完整 state，
+   * 再把 state 傳進 selectTotalQuantity，
+   * 最後把 selector 回傳值給 totalQuantity。
+   */
 
   // 從 useAuth custom hook 中取得認證狀態、登出函式和用戶資訊
   const { isAuthenticated, logout, user } = useAuth();

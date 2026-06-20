@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useAuth } from "../../store/auth-context";
 import apiClient from "../../api/apiClient";
 import { useCart } from "../../store/cart-context";
-import { useNavigate, useNavigation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import PageTitle from "../home/PageTitle";
 import { toast } from "react-toastify";
 

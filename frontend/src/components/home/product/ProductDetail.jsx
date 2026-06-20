@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { useParams, useLocation, useNavigate, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -22,7 +22,8 @@ export default function ProductDetail() {
 
   const [quantity, setQuantity] = useState(1); // 定義一個狀態來存儲產品的數量，默認值為 1，當用戶在產品詳細頁面中選擇數量時，可以使用 setQuantity 來更新這個狀態，從而在添加到購物車時可以獲取到正確的數量資訊。
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); // 使用 useDispatch hook 來獲取 dispatch 函式，用於分發 action 到 Redux store
+
   // 這是用來處理「加入購物車」按鈕點擊事件的函式，當用戶點擊「加入購物車」按鈕時，就會調用這個函式，並且將當前的產品和數量作為參數傳入，從而將產品添加到購物車中。
   const handleAddToCart = () => {
     if (quantity < 1) {

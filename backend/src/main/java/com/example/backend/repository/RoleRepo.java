@@ -7,9 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface RoleRepo extends JpaRepository<Role, Long> {
+    // 將 findByName 方法的回傳值加入 cache 中，cache 名稱為 "roles"，key = name
+    // value 和 key 是在描述「快取要放在哪裡」以及「用什麼名字找那筆快取」。
     @Cacheable(value = "roles", key = "#name")
-        // 將 findByName 方法的回傳值加入 cache 中，cache 名稱為 "roles"，key = name
-        // value 和 key 是在描述「快取要放在哪裡」以及「用什麼名字找那筆快取」。
     Optional<Role> findByName(String name);
 
     /**
