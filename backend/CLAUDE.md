@@ -65,7 +65,7 @@ src/main/resources/
 ├── application-prod.properties   # MySQL、ERROR log
 └── sql/
     ├── schema.sql                # DDL（H2 啟動時執行）
-    └── data.sql                  # 26 筆商品種子資料
+    └── data.sql                  # 30 筆商品種子資料
 ```
 
 ## 安全性架構
@@ -94,19 +94,26 @@ src/main/resources/
 
 **成功**：由各 DTO 定義（多為 Java records）
 
-**錯誤**（`ExceptionResponseDto`）：
-```json
-{ "uri": "/api/v1/...", "status": 400, "message": "...", "timestamp": "..." }
-```
+**錯誤**：
 
-**例外對應**：
-| 例外 | HTTP |
-|------|------|
-| `Exception`（未捕獲） | 500 |
-| `MethodArgumentNotValidException`（@Valid） | 400（含欄位錯誤） |
-| `ConstraintViolationException`（@RequestParam） | 400 |
-| `ResourceNotFoundException` | 404 |
-| JWT 相關（Filter 層） | 401（JSON，繞過 GlobalExceptionHandler） |
+| 例外 | HTTP | 回應格式 |
+|------|------|---------|
+| `Exception`（未捕獲）| 500 | `ExceptionResponseDto` |
+| `ResourceNotFoundException` | 404 | `ExceptionResponseDto` |
+| `MethodArgumentNotValidException`（`@Valid @RequestBody`）| 400 | `Map<String, List<String>>` |
+| `ConstraintViolationException`（`@RequestParam` / `@PathVariable`）| 400 | `Map<String, String>` |
+| `DuplicateFieldException` | 400 | `Map<String, List<String>>` |
+| JWT 相關（Filter 層）| 401 | JSON，繞過 GlobalExceptionHandler |
+
+`ExceptionResponseDto` 實際欄位（對應 `Exception` 與 `ResourceNotFoundException`）：
+```json
+{
+  "apiPath": "uri=/api/v1/profile",
+  "errorCode": "NOT_FOUND",
+  "errorMessage": "Customer not found with id: 42",
+  "errorTime": "2026-06-20T10:30:00"
+}
+```
 
 ## 資料庫 Schema
 

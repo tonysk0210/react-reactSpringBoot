@@ -55,7 +55,7 @@ public class JwtUtil {
                         .map(Role::getName)
                         .collect(Collectors.joining(",")))
                 .issuedAt(new java.util.Date())
-                .expiration(new java.util.Date(System.currentTimeMillis() + 1000L * 60 * 20)) // JWT 會在現在時間 + 10 分鐘後過期
+                .expiration(new java.util.Date(System.currentTimeMillis() + 1000L * 60 * 20)) // JWT 會在現在時間 + 20 分鐘後過期
                 .signWith(secretKey).compact(); // 使用剛剛建立的 secretKey 對 JWT 簽章。這一步會產生 JWT 的 signature，用來防止 token 被竄改。
         return jwt;
     }

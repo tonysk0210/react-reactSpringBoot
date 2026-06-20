@@ -269,7 +269,7 @@ backend/src/main/java/com/example/backend/
 | `ROLES` | ROLE_USER、ROLE_ADMIN |
 | `CUSTOMER_ROLES` | Junction table，CASCADE delete |
 | `ADDRESS` | PK: address_id，FK: customer_id（UNIQUE），CASCADE delete |
-| `PRODUCTS` | 26 筆種子資料 |
+| `PRODUCTS` | 30 筆種子資料 |
 | `ORDERS` | FK: customer_id，含 payment_id、payment_status、order_status |
 | `ORDER_ITEMS` | FK: order_id、product_id |
 | `CONTACTS` | 聯絡表單，status: OPEN/CLOSED |
@@ -295,7 +295,7 @@ backend/src/main/java/com/example/backend/
 
 ## 開發規範
 
-- 後端 API 錯誤回應格式：`{ uri, status, message, timestamp }`（`ExceptionResponseDto`）
+- 後端 API 錯誤回應格式（`ExceptionResponseDto`）：`{ apiPath, errorCode, errorMessage, errorTime }`；`@Valid` 驗證失敗回傳 `Map<String, List<String>>`（欄位名 → 錯誤訊息列表）
 - Entity 對 DTO 轉換：使用 `BeanUtils.copyProperties()`
 - 所有 Entity 繼承 `BaseEntity`（JPA Auditing 自動填入稽核欄位）
 - Service 層一律 interface + impl 分離；依賴注入用 `@RequiredArgsConstructor`（Constructor Injection）

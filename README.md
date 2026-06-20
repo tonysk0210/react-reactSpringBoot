@@ -25,7 +25,7 @@
 ## 功能總覽
 
 ### 一般使用者
-- 瀏覽 26 款貼紙商品，支援關鍵字搜尋與排序
+- 瀏覽 30 款貼紙商品，支援關鍵字搜尋與排序
 - 購物車管理（新增、刪除、數量調整），頁面刷新後狀態不遺失
 - Stripe 信用卡結帳，帶有即時卡號格式驗證與錯誤提示
 - 查看個人訂單歷史與狀態追蹤
@@ -357,14 +357,41 @@ Entity → DTO 使用 `BeanUtils.copyProperties()`，對欄位名稱相同的屬
 
 **統一錯誤回應**
 
-`GlobalExceptionHandler` 以 `@RestControllerAdvice` 攔截所有例外，統一回傳 `ExceptionResponseDto`：
+`GlobalExceptionHandler` 以 `@RestControllerAdvice` 攔截所有例外，依例外類型回傳不同格式：
+
+| 例外 | HTTP | 回應格式 |
+|------|------|---------|
+| `Exception`（未捕獲）| 500 | `ExceptionResponseDto` |
+| `ResourceNotFoundException` | 404 | `ExceptionResponseDto` |
+| `MethodArgumentNotValidException`（`@Valid @RequestBody`）| 400 | `Map<String, List<String>>` |
+| `ConstraintViolationException`（`@RequestParam` / `@PathVariable`）| 400 | `Map<String, String>` |
+| `DuplicateFieldException` | 400 | `Map<String, List<String>>` |
+
+`ExceptionResponseDto` 實際欄位（對應 `Exception` 與 `ResourceNotFoundException`）：
 
 ```json
 {
-  "uri": "/api/v1/profile",
-  "status": 404,
-  "message": "Customer not found with id: 42",
-  "timestamp": "2026-06-20T10:30:00Z"
+  "apiPath": "uri=/api/v1/profile",
+  "errorCode": "NOT_FOUND",
+  "errorMessage": "Customer not found with id: 42",
+  "errorTime": "2026-06-20T10:30:00"
+}
+```
+
+`@Valid` DTO 驗證失敗（`MethodArgumentNotValidException`）：
+
+```json
+{
+  "name": ["名字是必填的", "名字必須在 2 到 30 個字符之間"],
+  "email": ["無效的電子郵件地址"]
+}
+```
+
+`@RequestParam` / `@PathVariable` 驗證失敗（`ConstraintViolationException`）：
+
+```json
+{
+  "param.p": "p 長度必須介於 5 到 30 個字元"
 }
 ```
 
@@ -429,7 +456,7 @@ CONTACTS  （獨立資料表）
 | `ROLES` | role_id | name UNIQUE | ROLE_USER、ROLE_ADMIN |
 | `CUSTOMER_ROLES` | (customer_id, role_id) | CASCADE DELETE | 多對多關聯的 Junction Table |
 | `ADDRESS` | address_id | customer_id UNIQUE FK | 每位客戶最多一個地址，隨客戶刪除而刪除 |
-| `PRODUCTS` | product_id | name, price DECIMAL(10,2), popularity, image_url | 26 筆種子資料，存 popularity 欄位供前端排序 |
+| `PRODUCTS` | product_id | name, price DECIMAL(10,2), popularity, image_url | 30 筆種子資料，存 popularity 欄位供前端排序 |
 | `ORDERS` | order_id | customer_id FK, total_price, payment_id, payment_status, order_status | payment_id 為 Stripe PaymentIntent ID |
 | `ORDER_ITEMS` | order_item_id | order_id FK, product_id FK, quantity, price | 快照當下商品價格，與 PRODUCTS 解耦 |
 | `CONTACTS` | contact_id | status (OPEN/CLOSED) | 聯絡表單，管理員可標記為 CLOSED |
@@ -500,14 +527,25 @@ CONTACTS  （獨立資料表）
 | GET | `/actuator/health` | 公開 | 健康檢查（適用 K8s probe） |
 | GET | `/swagger-ui/index.html` | ADMIN | OpenAPI 互動式文件 |
 
-**統一錯誤回應格式**
+**錯誤回應格式**
+
+一般錯誤（`ExceptionResponseDto`，用於 4xx / 5xx）：
 
 ```json
 {
-  "uri": "/api/v1/orders",
-  "status": 403,
-  "message": "Access Denied",
-  "timestamp": "2026-06-20T10:30:00Z"
+  "apiPath": "uri=/api/v1/orders",
+  "errorCode": "FORBIDDEN",
+  "errorMessage": "Access Denied",
+  "errorTime": "2026-06-20T10:30:00"
+}
+```
+
+欄位驗證失敗（`@Valid @RequestBody`，`MethodArgumentNotValidException`）：
+
+```json
+{
+  "email": ["無效的電子郵件地址"],
+  "password": ["密碼不得為空"]
 }
 ```
 
@@ -520,7 +558,7 @@ CONTACTS  （獨立資料表）
 | 變數 | 預設值 | 說明 |
 |------|--------|------|
 | `JWT_SECRET` | `jxgEQeXHuPq8VdbyYFNkANdudQ53YUn4` | JWT 簽名密鑰，**生產環境必須替換** |
-| `STRIPE_API_KEY` | `sk_test_...` | Stripe 金鑰，設定於 `stripe.properties` |
+| `STRIPE_API_KEY` | 已內建測試金鑰於 `stripe.properties` | 正式環境替換為 live key |
 | `LOG_LEVEL` | `INFO` | Root logger 等級 |
 | `JPA_SHOW_SQL` | `true` | 是否輸出 SQL 至日誌 |
 | `HIBERNATE_FORMAT_SQL` | `true` | SQL 是否格式化輸出 |
@@ -558,15 +596,7 @@ git clone <repo-url>
 cd reactSpringBoot
 ```
 
-**2. 設定 Stripe API Key**
-
-建立或編輯 `backend/src/main/resources/stripe.properties`：
-
-```properties
-stripe.apiKey=sk_test_your_stripe_test_key_here
-```
-
-**3. 啟動後端**
+**2. 啟動後端**
 
 ```bash
 cd backend
@@ -575,7 +605,7 @@ mvn spring-boot:run
 
 伺服器啟動於 `http://localhost:8080`。首次啟動自動：
 - 從 `schema.sql` 建立所有資料表
-- 從 `data.sql` 植入 26 筆商品及預設角色與帳號
+- 從 `data.sql` 植入 30 筆商品及預設角色與帳號
 - H2 Web Console：`http://localhost:8080/h2-console`（JDBC URL：`jdbc:h2:file:./h2db/myDb`）
 
 **4. 啟動前端**
@@ -590,12 +620,9 @@ npm run dev
 
 ### 預設帳號
 
-初始化資料中包含以下帳號（詳見 `data.sql`）：
-
-| 角色 | Email | 說明 |
-|------|-------|------|
-| ADMIN | admin@example.com | 可存取管理後台與 Swagger |
-| USER | user@example.com | 一般購物功能 |
+| 角色 | Email | 密碼 | 說明 |
+|------|-------|------|------|
+| ADMIN | admin@gmail.com | 1234 | Demo 帳號，可存取管理後台與 Swagger |
 
 ---
 
