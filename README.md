@@ -476,7 +476,12 @@ CONTACTS  （獨立資料表）
 
 ## API 文件
 
-所有端點前綴為 `/api/v1`。完整互動式文件可在後端啟動後於 `http://localhost:8080/swagger-ui/index.html` 查閱（需 ADMIN 身份）。
+所有端點前綴為 `/api/v1`。後端啟動後可透過以下兩種方式查閱完整 API（均需 ADMIN 身份登入）：
+
+| 用途 | URL |
+|------|-----|
+| 互動式文件（Swagger UI） | `http://localhost:8080/swagger-ui/index.html` |
+| OpenAPI JSON Spec（可匯入 Postman / Insomnia）| `http://localhost:8080/v3/api-docs` |
 
 ### 認證（公開）
 
@@ -534,7 +539,8 @@ CONTACTS  （獨立資料表）
 |------|------|---------|------|
 | GET | `/csrf-token` | 公開 | 取得 CSRF token |
 | GET | `/actuator/health` | 公開 | 健康檢查（適用 K8s probe） |
-| GET | `/swagger-ui/index.html` | ADMIN | OpenAPI 互動式文件 |
+| GET | `/swagger-ui/index.html` | ADMIN | Swagger UI 互動式文件 |
+| GET | `/v3/api-docs` | ADMIN | OpenAPI JSON Spec（可匯入 Postman）|
 
 **錯誤回應格式**
 
