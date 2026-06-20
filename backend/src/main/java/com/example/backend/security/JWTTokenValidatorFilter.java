@@ -85,7 +85,7 @@ public class JWTTokenValidatorFilter extends OncePerRequestFilter { // extends O
                 // 7. 設定 Authentication 物件到 Security Context，告訴 Spring Security：這個 request 已經通過身份驗證了。
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
-                // 兩個異常處理：直接在 filter 處理，因為 @RestControllerAdvice 無法捕獲 filter 層的異常，ErrorPage.jsx 會顯示
+                // 兩個異常處理：直接在 filter 處理，因為 @RestControllerAdvice 無法捕獲 filter 層的異常，不走 globalExceptionHandler, ErrorPage.jsx 會顯示
             } catch (ExpiredJwtException exception) {
                 // JWT Token 已過期
                 log.warn("JWT Token 已過期: {}", exception.getMessage());

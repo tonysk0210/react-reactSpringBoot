@@ -57,6 +57,21 @@ public class MySecurityConfig {
         /**
          * Backend 不另外保存 CSRF token 紀錄；
          * CookieCsrfTokenRepository 讓 cookie 本身成為 token 的保存來源，後端驗證時比對 UI 帶回來的 cookie token 與 header token 是否一致。
+         *
+         * 前端送出 POST / PUT / DELETE ...
+         * ↓
+         * request 進入 Spring Security filter chain
+         * ↓
+         * CsrfFilter 攔截 request
+         * ↓
+         * CookieCsrfTokenRepository 從 cookie 讀取/載入 server 期待的 token
+         * ↓
+         * CsrfTokenRequestAttributeHandler / CSRF 機制從 request header 讀 X-XSRF-TOKEN
+         * ↓
+         * Spring Security 比對 cookie 裡的 token 和 header 裡的 token
+         * ↓
+         * 一致：放行 request
+         * 不一致或缺少：回 403 Forbidden
          */
 
         // 2. 在 Spring Security 中開啟 CORS，並指定它使用 corsConfigurationSource() 這份跨域設定。CORS：限制哪些網站可以存取我的 API。

@@ -32,7 +32,7 @@ apiClient.interceptors.request.use(
       if (!csrfToken) {
         // b. 如果 cookies 中沒有 CSRF token，則呼叫 api 從後端取得 CsrfController 提供的 CSRF token
         await axios.get(`${import.meta.env.VITE_API_BASE_URL}/csrf-token`, {
-          withCredentials: true, // Axios 設定：允許瀏覽器在跨域請求中帶 cookies，並接收後端的 Set-Cookie: XSRF-TOKEN=abc123; 瀏覽器收到後，自動把 XSRF-TOKEN 存進 cookie
+          withCredentials: true, // 讓這次跨域請求可以攜帶 cookie，也允許瀏覽器接受後端的 Set-Cookie。若後端回傳 Set-Cookie: XSRF-TOKEN=...，瀏覽器會依 cookie 規則自動保存，之後前端可用 js-cookie 讀取 XSRF-TOKEN。
         });
         // c. 從 cookies 中取得 CSRF token
         csrfToken = Cookies.get("XSRF-TOKEN");
@@ -41,7 +41,8 @@ apiClient.interceptors.request.use(
           throw new Error("無法取得 CSRF token");
         }
       }
-      // e. 將 CSRF token 加入 request header 供後端驗證
+      // e. 將 CSRF token 加入 request header 供後端驗證 ( 關鍵：Spring Security CSRF filter 會檢查這個 header)
+      // 惡意網站通常不能讀取你網站的 XSRF-TOKEN cookie 並放進自訂 header
       config.headers["X-XSRF-TOKEN"] = csrfToken;
     }
 
