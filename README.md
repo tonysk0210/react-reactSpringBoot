@@ -639,6 +639,16 @@ npm run dev
 |------|-------|------|------|
 | ADMIN | admin@gmail.com | 1234 | Demo 帳號，可存取管理後台與 Swagger |
 
+### H2 Console 登入資訊
+
+H2 Web Console 網址：`http://localhost:8080/h2-console`
+
+| 欄位 | 值 |
+|------|----|
+| JDBC URL | `jdbc:h2:file:./h2db/myDb` |
+| 帳號（Username） | `sa` |
+| 密碼（Password） | （空白，不填）|
+
 ### Stripe 測試刷卡資訊
 
 結帳頁面使用 Stripe 測試模式，請輸入以下測試卡號：
