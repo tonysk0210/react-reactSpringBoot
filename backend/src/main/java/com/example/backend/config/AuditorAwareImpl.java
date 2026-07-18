@@ -53,6 +53,8 @@ public class AuditorAwareImpl implements AuditorAware<String> {
         }
 
         log.info("AuditorAwareImpl 目前稽核操作者：{}", username);
+
+        // 2. 回傳 username
         return Optional.of(username);
     }
 }
