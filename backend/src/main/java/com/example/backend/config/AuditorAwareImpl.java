@@ -1,6 +1,7 @@
 package com.example.backend.config;
 
 import com.example.backend.entity.Customer;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component("auditorAwareImpl") // 這個註解會讓 Spring 自動掃描並註冊這個類為一個 Bean，名稱為 "auditorAwareImpl"
+@Slf4j
 public class AuditorAwareImpl implements AuditorAware<String> {
     // AuditorAware 「現在是誰在操作資料」提供「目前操作使用者是誰」專給 JPA auditing，用來自動填 createdBy / updatedBy
 
@@ -22,6 +24,7 @@ public class AuditorAwareImpl implements AuditorAware<String> {
         // 2. 如果沒有登入，或是 anonymousUser (Spring Security by default)，就回傳 "SYSTEM"；所以 createdBy 或 updatedBy 會被填成 "SYSTEM"
         if (authentication == null || !authentication.isAuthenticated() ||
                 authentication.getPrincipal().equals("anonymousUser")) {
+            log.info("AuditorAwareImpl 目前稽核操作者：SYSTEM");
             return Optional.of("SYSTEM");
         }
 
@@ -49,6 +52,7 @@ public class AuditorAwareImpl implements AuditorAware<String> {
              */
         }
 
+        log.info("AuditorAwareImpl 目前稽核操作者：{}", username);
         return Optional.of(username);
     }
 }
