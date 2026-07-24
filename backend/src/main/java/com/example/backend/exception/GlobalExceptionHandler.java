@@ -68,6 +68,8 @@ public class GlobalExceptionHandler {
 
     // ConstraintViolationException 主要處理「方法參數層級」的 Bean Validation，例如 @RequestParam、@PathVariable、@RequestHeader 上的 @Size、@Min、@NotBlank 等。
     // Controller 或方法通常需要加上 @Validated，這類參數驗證才會生效；@Valid @RequestBody DTO 驗證失敗通常會走 MethodArgumentNotValidException。
+    // Spring MVC 6.1+ 建議 Controller 移除類別層級的 @Validated，改用內建方法驗證並處理 HandlerMethodValidationException，
+    // 因為它會依 Controller 方法參數分組驗證錯誤，比 ConstraintViolationException 更適合辨識 @RequestParam、@PathVariable 等參數來源。
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<Map<String, String>> handleConstraintViolationException(ConstraintViolationException e) {
 
